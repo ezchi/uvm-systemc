@@ -1,0 +1,33 @@
+examples_TESTS += simple/trivial/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_trivial_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_trivial_H_FILES) \
+	$(simple_trivial_CXX_FILES) \
+	$(simple_trivial_BUILD) \
+	$(simple_trivial_EXTRA)
+
+simple_trivial_test_SOURCES = \
+	$(simple_trivial_H_FILES) \
+	$(simple_trivial_CXX_FILES)
+
+simple_trivial_CXX_FILES = \
+	simple/trivial/sc_main.cpp
+
+simple_trivial_H_FILES = \
+	simple/trivial/component.h
+
+simple_trivial_BUILD = 
+
+simple_trivial_EXTRA = 
+
+simple_trivial_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

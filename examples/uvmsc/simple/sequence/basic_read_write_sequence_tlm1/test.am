@@ -1,0 +1,38 @@
+examples_TESTS += simple/sequence/basic_read_write_sequence_tlm1/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_sequence_basic_read_write_sequence_tlm1_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_sequence_basic_read_write_sequence_tlm1_H_FILES) \
+	$(simple_sequence_basic_read_write_sequence_tlm1_CXX_FILES) \
+	$(simple_sequence_basic_read_write_sequence_tlm1_BUILD) \
+	$(simple_sequence_basic_read_write_sequence_tlm1_EXTRA)
+
+simple_sequence_basic_read_write_sequence_tlm1_test_SOURCES = \
+	$(simple_sequence_basic_read_write_sequence_tlm1_H_FILES) \
+	$(simple_sequence_basic_read_write_sequence_tlm1_CXX_FILES)
+
+simple_sequence_basic_read_write_sequence_tlm1_CXX_FILES = \
+	simple/sequence/basic_read_write_sequence_tlm1/sc_main.cpp
+
+simple_sequence_basic_read_write_sequence_tlm1_H_FILES = \
+	simple/sequence/basic_read_write_sequence_tlm1/bus_trans.h \
+	simple/sequence/basic_read_write_sequence_tlm1/constants.h \
+	simple/sequence/basic_read_write_sequence_tlm1/env.h \
+	simple/sequence/basic_read_write_sequence_tlm1/my_driver.h \
+	simple/sequence/basic_read_write_sequence_tlm1/my_sequencer.h \
+	simple/sequence/basic_read_write_sequence_tlm1/sequenceA.h
+
+simple_sequence_basic_read_write_sequence_tlm1_BUILD = 
+
+simple_sequence_basic_read_write_sequence_tlm1_EXTRA = 
+
+simple_sequence_basic_read_write_sequence_tlm1_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

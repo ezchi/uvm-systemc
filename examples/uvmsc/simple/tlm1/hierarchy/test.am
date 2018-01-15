@@ -1,0 +1,33 @@
+examples_TESTS += simple/tlm1/hierarchy/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_tlm1_hierarchy_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_tlm1_hierarchy_H_FILES) \
+	$(simple_tlm1_hierarchy_CXX_FILES) \
+	$(simple_tlm1_hierarchy_BUILD) \
+	$(simple_tlm1_hierarchy_EXTRA)
+
+simple_tlm1_hierarchy_test_SOURCES = \
+	$(simple_tlm1_hierarchy_H_FILES) \
+	$(simple_tlm1_hierarchy_CXX_FILES)
+
+simple_tlm1_hierarchy_CXX_FILES = \
+	simple/tlm1/hierarchy/sc_main.cpp
+
+simple_tlm1_hierarchy_H_FILES = \
+	simple/tlm1/hierarchy/hierarchy.h
+
+simple_tlm1_hierarchy_BUILD = 
+
+simple_tlm1_hierarchy_EXTRA = 
+
+simple_tlm1_hierarchy_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

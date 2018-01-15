@@ -1,0 +1,38 @@
+examples_TESTS += simple/callbacks/basic/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_callbacks_basic_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_callbacks_basic_H_FILES) \
+	$(simple_callbacks_basic_CXX_FILES) \
+	$(simple_callbacks_basic_BUILD) \
+	$(simple_callbacks_basic_EXTRA)
+
+simple_callbacks_basic_test_SOURCES = \
+	$(simple_callbacks_basic_H_FILES) \
+	$(simple_callbacks_basic_CXX_FILES)
+
+simple_callbacks_basic_CXX_FILES = \
+	simple/callbacks/basic/sc_main.cpp
+
+simple_callbacks_basic_H_FILES = \
+	simple/callbacks/basic/bus_driver_cb.h \
+	simple/callbacks/basic/bus_driver.h \
+	simple/callbacks/basic/bus_tr.h \
+	simple/callbacks/basic/my_bus_driver_cb.h \
+	simple/callbacks/basic/my_bus_driver_cb2.h \
+	simple/callbacks/basic/top.h
+
+simple_callbacks_basic_BUILD = 
+
+simple_callbacks_basic_EXTRA = 
+
+simple_callbacks_basic_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

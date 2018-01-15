@@ -1,0 +1,51 @@
+## --------------------------------------------------------------------------
+##
+##   Copyright 2014 Université Pierre et Marie Curie, Paris
+##   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
+##                  der angewandten Forschung e.V.
+##   Copyright 2007-2011 Mentor Graphics Corporation
+##   Copyright 2007-2011 Cadence Design Systems, Inc.
+##   Copyright 2010-2011 Synopsys, Inc.
+##   All Rights Reserved Worldwide
+##
+##   Licensed under the Apache License, Version 2.0 (the "License");
+##   you may not use this file except in compliance with the License.
+##   You may obtain a copy of the License at
+##
+##       http://www.apache.org/licenses/LICENSE-2.0
+##
+##   Unless required by applicable law or agreed to in writing, software
+##   distributed under the License is distributed on an "AS IS" BASIS,
+##   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+##   See the License for the specific language governing permissions and
+##   limitations under the License.
+##
+## --------------------------------------------------------------------------
+##
+##   uvm-systemc.pc --
+##   pkg-config definition file for UVM-SystemC
+##
+##   Original Author: Thomas Uhle, Fraunhofer IIS / EAS Dresden
+##   Created on: 2014-11-14
+##
+## --------------------------------------------------------------------------
+##
+##   SVN Version       :  $Revision: 502 $
+##   SVN last checkin  :  $Date: 2014-11-14 20:42:52 +0100 (Fri, 14 Nov 2014) $
+##   SVN checkin by    :  $Author: thomasu $
+##   SVN Id            :  $Id: uvm-systemc.pc.in 502 2014-11-14 19:42:52Z thomasu $
+##
+## --------------------------------------------------------------------------
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: UVM-SystemC
+Description: Accellera UVM-SystemC proof-of-concept library
+Version: @PACKAGE_VERSION@
+URL: @PACKAGE_URL@
+Requires: systemc >= 2.3.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -luvm
+Libs.private: @LIBS@

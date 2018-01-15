@@ -1,0 +1,36 @@
+examples_TESTS += simple/registers/models/aliasing/test
+
+examples_XFAIL_TESTS +=
+
+examples_BUILD += \
+	$(simple_registers_models_aliasing_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_registers_models_aliasing_H_FILES) \
+	$(simple_registers_models_aliasing_CXX_FILES) \
+	$(simple_registers_models_aliasing_BUILD) \
+	$(simple_registers_models_aliasing_EXTRA)
+
+simple_registers_models_aliasing_test_SOURCES = \
+	$(simple_registers_models_aliasing_H_FILES) \
+	$(simple_registers_models_aliasing_CXX_FILES)
+
+simple_registers_models_aliasing_CXX_FILES = \
+	simple/registers/models/aliasing/sc_main.cpp
+
+simple_registers_models_aliasing_H_FILES = \
+	simple/registers/models/aliasing/reg_agent.h \
+	simple/registers/models/aliasing/regmodel.h \
+	simple/registers/models/aliasing/tb_env.h \
+	simple/registers/models/aliasing/tb_test.h
+
+simple_registers_models_aliasing_BUILD = 
+
+simple_registers_models_aliasing_EXTRA = 
+
+simple_registers_models_aliasing_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

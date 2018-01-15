@@ -1,0 +1,36 @@
+examples_TESTS += simple/registers/models/ro_wo_same_addr/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_registers_models_ro_wo_same_addr_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_registers_models_ro_wo_same_addr_H_FILES) \
+	$(simple_registers_models_ro_wo_same_addr_CXX_FILES) \
+	$(simple_registers_models_ro_wo_same_addr_BUILD) \
+	$(simple_registers_models_ro_wo_same_addr_EXTRA)
+
+simple_registers_models_ro_wo_same_addr_test_SOURCES = \
+	$(simple_registers_models_ro_wo_same_addr_H_FILES) \
+	$(simple_registers_models_ro_wo_same_addr_CXX_FILES)
+
+simple_registers_models_ro_wo_same_addr_CXX_FILES = \
+	simple/registers/models/ro_wo_same_addr/sc_main.cpp
+
+simple_registers_models_ro_wo_same_addr_H_FILES = \
+	simple/registers/models/ro_wo_same_addr/reg_agent.h \
+	simple/registers/models/ro_wo_same_addr/regmodel.h \
+	simple/registers/models/ro_wo_same_addr/tb_env.h \
+	simple/registers/models/ro_wo_same_addr/tb_test.h
+
+simple_registers_models_ro_wo_same_addr_BUILD = 
+
+simple_registers_models_ro_wo_same_addr_EXTRA = 
+
+simple_registers_models_ro_wo_same_addr_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

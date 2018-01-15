@@ -1,0 +1,32 @@
+examples_TESTS += simple/phases/jump/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_phases_jump_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_phases_jump_H_FILES) \
+	$(simple_phases_jump_CXX_FILES) \
+	$(simple_phases_jump_BUILD) \
+	$(simple_phases_jump_EXTRA)
+
+simple_phases_jump_test_SOURCES = \
+	$(simple_phases_jump_H_FILES) \
+	$(simple_phases_jump_CXX_FILES)
+
+simple_phases_jump_CXX_FILES = \
+	simple/phases/jump/test.cpp
+
+simple_phases_jump_H_FILES = 
+
+simple_phases_jump_BUILD = 
+
+simple_phases_jump_EXTRA = 
+
+simple_phases_jump_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

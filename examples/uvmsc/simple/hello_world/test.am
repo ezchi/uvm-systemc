@@ -1,0 +1,36 @@
+examples_TESTS += simple/hello_world/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_hello_world_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_hello_world_H_FILES) \
+	$(simple_hello_world_CXX_FILES) \
+	$(simple_hello_world_BUILD) \
+	$(simple_hello_world_EXTRA)
+
+simple_hello_world_test_SOURCES = \
+	$(simple_hello_world_H_FILES) \
+	$(simple_hello_world_CXX_FILES)
+
+simple_hello_world_CXX_FILES = \
+	simple/hello_world/hello_world.cpp
+
+simple_hello_world_H_FILES = \
+	simple/hello_world/consumer.h \
+	simple/hello_world/packet.h \
+	simple/hello_world/producer.h \
+	simple/hello_world/top.h
+
+simple_hello_world_BUILD = 
+
+simple_hello_world_EXTRA = 
+
+simple_hello_world_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

@@ -1,0 +1,32 @@
+examples_TESTS += simple/phases/basic/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_phases_basic_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_phases_basic_H_FILES) \
+	$(simple_phases_basic_CXX_FILES) \
+	$(simple_phases_basic_BUILD) \
+	$(simple_phases_basic_EXTRA)
+
+simple_phases_basic_test_SOURCES = \
+	$(simple_phases_basic_H_FILES) \
+	$(simple_phases_basic_CXX_FILES)
+
+simple_phases_basic_CXX_FILES = \
+	simple/phases/basic/test.cpp
+
+simple_phases_basic_H_FILES = 
+
+simple_phases_basic_BUILD = 
+
+simple_phases_basic_EXTRA = 
+
+simple_phases_basic_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

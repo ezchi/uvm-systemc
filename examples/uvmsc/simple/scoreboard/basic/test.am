@@ -1,0 +1,46 @@
+examples_TESTS += simple/scoreboard/basic/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_scoreboard_basic_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_scoreboard_basic_H_FILES) \
+	$(simple_scoreboard_basic_CXX_FILES) \
+	$(simple_scoreboard_basic_BUILD) \
+	$(simple_scoreboard_basic_EXTRA)
+
+simple_scoreboard_basic_test_SOURCES = \
+	$(simple_scoreboard_basic_H_FILES) \
+	$(simple_scoreboard_basic_CXX_FILES)
+
+simple_scoreboard_basic_CXX_FILES = \
+	simple/scoreboard/basic/sc_main.cpp \
+	simple/scoreboard/basic/rcv_subscriber.cpp \
+	simple/scoreboard/basic/xmt_subscriber.cpp
+
+simple_scoreboard_basic_H_FILES = \
+	simple/scoreboard/basic/dut.h \
+	simple/scoreboard/basic/rcv_subscriber.h \
+	simple/scoreboard/basic/scoreboard.h \
+	simple/scoreboard/basic/sequence.h \
+	simple/scoreboard/basic/testbench.h \
+	simple/scoreboard/basic/xmt_subscriber.h \
+	simple/scoreboard/basic/vip_agent.h \
+	simple/scoreboard/basic/vip_driver.h \
+	simple/scoreboard/basic/vip_if.h \
+	simple/scoreboard/basic/vip_monitor.h \
+	simple/scoreboard/basic/vip_packet.h \
+	simple/scoreboard/basic/vip_sequencer.h
+
+simple_scoreboard_basic_BUILD = 
+
+simple_scoreboard_basic_EXTRA = 
+
+simple_scoreboard_basic_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

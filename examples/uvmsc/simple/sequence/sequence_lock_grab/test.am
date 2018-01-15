@@ -1,0 +1,40 @@
+examples_TESTS += simple/sequence/sequence_lock_grab/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_sequence_sequence_lock_grab_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_sequence_sequence_lock_grab_H_FILES) \
+	$(simple_sequence_sequence_lock_grab_CXX_FILES) \
+	$(simple_sequence_sequence_lock_grab_BUILD) \
+	$(simple_sequence_sequence_lock_grab_EXTRA)
+
+simple_sequence_sequence_lock_grab_test_SOURCES = \
+	$(simple_sequence_sequence_lock_grab_H_FILES) \
+	$(simple_sequence_sequence_lock_grab_CXX_FILES)
+
+simple_sequence_sequence_lock_grab_CXX_FILES = \
+	simple/sequence/sequence_lock_grab/sc_main.cpp
+
+simple_sequence_sequence_lock_grab_H_FILES = \
+	simple/sequence/sequence_lock_grab/arb_example_seq.h \
+	simple/sequence/sequence_lock_grab/arb_seq.h \
+	simple/sequence/sequence_lock_grab/arb_test.h \
+	simple/sequence/sequence_lock_grab/grab_seq.h \
+	simple/sequence/sequence_lock_grab/lock_seq.h \
+	simple/sequence/sequence_lock_grab/seq_arb_driver.h \
+	simple/sequence/sequence_lock_grab/seq_arb_item.h \
+	simple/sequence/sequence_lock_grab/seq_arb_sequencer.h
+
+simple_sequence_sequence_lock_grab_BUILD = 
+
+simple_sequence_sequence_lock_grab_EXTRA = 
+
+simple_sequence_sequence_lock_grab_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

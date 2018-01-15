@@ -1,0 +1,34 @@
+examples_TESTS += simple/phases/timeout/test
+
+examples_XFAIL_TESTS += simple/phases/timeout/test
+
+examples_BUILD += \
+	$(simple_phases_timeout_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_phases_timeout_H_FILES) \
+	$(simple_phases_timeout_CXX_FILES) \
+	$(simple_phases_timeout_BUILD) \
+	$(simple_phases_timeout_EXTRA)
+
+simple_phases_timeout_test_SOURCES = \
+	$(simple_phases_timeout_H_FILES) \
+	$(simple_phases_timeout_CXX_FILES)
+
+simple_phases_timeout_CXX_FILES = \
+	simple/phases/timeout/test.cpp
+
+simple_phases_timeout_H_FILES = \
+	simple/phases/timeout/tb_env.h \
+	simple/phases/timeout/tb_timer.h
+
+simple_phases_timeout_BUILD = 
+
+simple_phases_timeout_EXTRA = 
+
+simple_phases_timeout_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

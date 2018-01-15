@@ -1,0 +1,38 @@
+examples_TESTS += simple/sequence/basic_read_write_sequence/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_sequence_basic_read_write_sequence_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_sequence_basic_read_write_sequence_H_FILES) \
+	$(simple_sequence_basic_read_write_sequence_CXX_FILES) \
+	$(simple_sequence_basic_read_write_sequence_BUILD) \
+	$(simple_sequence_basic_read_write_sequence_EXTRA)
+
+simple_sequence_basic_read_write_sequence_test_SOURCES = \
+	$(simple_sequence_basic_read_write_sequence_H_FILES) \
+	$(simple_sequence_basic_read_write_sequence_CXX_FILES)
+
+simple_sequence_basic_read_write_sequence_CXX_FILES = \
+	simple/sequence/basic_read_write_sequence/sc_main.cpp
+
+simple_sequence_basic_read_write_sequence_H_FILES = \
+	simple/sequence/basic_read_write_sequence/bus_trans.h \
+	simple/sequence/basic_read_write_sequence/constants.h \
+	simple/sequence/basic_read_write_sequence/env.h \
+	simple/sequence/basic_read_write_sequence/my_driver.h \
+	simple/sequence/basic_read_write_sequence/my_sequencer.h \
+	simple/sequence/basic_read_write_sequence/sequenceA.h
+
+simple_sequence_basic_read_write_sequence_BUILD = 
+
+simple_sequence_basic_read_write_sequence_EXTRA = 
+
+simple_sequence_basic_read_write_sequence_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

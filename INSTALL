@@ -1,0 +1,445 @@
+DISCLAIMER - THIS SOFTWARE IS IN ALPHA PHASE AND IS HIGHLY EXPERIMENTAL; USE 
+AT YOUR OWN RISK. THIS SOFTWARE SHALL BE SOLELY USED FOR STUDY PURPOSES AND 
+SHALL NOT BE USED IN ANY PRODUCTION ENVIRONMENT.
+
+
+          INSTALL NOTES FOR UVM-SystemC
+
+Contents:
+
+        1. Installation Notes for Linux
+         
+        2. Installation Notes for Windows
+
+
+1. Installation Notes for Linux
+--------------------------------------------
+
+
+System Requirements
+===================
+
+UVM-SystemC was tested on the following Linux platform:
+
+    o 64-bit Linux (x86_64) (RedHat Enterprise Linux 6) with
+      GNU C++ compiler versions gcc-4.4.7 and gcc-4.8.1
+    o 64-bit Linux (x86_64) (CentOS 6.7) with
+      GNU C++ compiler version gcc-4.4.7
+    o 64-bit Linux (x86_64) (Ubuntu 14.04) with
+      GNU C++ compiler version gcc-4.8.4
+    o 64-bit Linux (x86_64) (Ubuntu 15.04) with
+      GNU C++ compiler version gcc-4.9.2
+    o 64-bit Linux (x86_64) (Ubuntu 15.10) with
+      GNU C++ compiler version gcc-5.2.1
+
+An installation of UVM-SystemC on other, related platforms may be
+possible as well.
+
+
+Sources for Compilers and Related Tools
+=======================================
+
+To build, install, and use UVM-SystemC on UNIX platforms, you need
+the following tools:
+
+  1. GNU C++ compiler, version 4.4.7 (other versions as well as Clang are not tested)
+
+  2. GNU Make (gmake)
+
+  3. Accellera Systems Initiative SystemC reference implementation version 2.3.0 or 2.3.1 
+     (formerly known as OSCI reference implementation)
+  
+GCC, Clang, and gmake are free software that you can
+obtain from the following sources:
+
+  GCC           http://www.gnu.org/software/gcc/gcc.html
+
+  Clang         http://clang.llvm.org/
+
+  gmake         http://www.gnu.org/software/make/make.html
+
+The SystemC reference implementations are available under SystemC Open Source License
+and can be obtained from the following location:
+
+  SystemC 2.3.0 or 2.3.1   http://www.accellera.org/downloads/standards/systemc
+  
+Note: Various EDA vendors natively support SystemC. Please consult your EDA vendors
+      to make use of the build-in SystemC capabilities of their simulation
+      framework.  
+
+
+Basic UVM-SystemC Installation
+==============================
+
+To install UVM-SystemC on a Linux system, do the following steps:
+
+  1. Change to the top level directory
+
+  2. Create a temporary directory, e.g.,
+
+        > mkdir objdir
+
+  3. Change to the temporary directory, e.g.,
+
+        > cd objdir
+
+  4. Set the following environment variable(s):
+
+     For gcc compilers on Linux:
+
+        > setenv CXX g++
+
+     You can also specify an absolute path to the compiler of your choice.
+
+  5. Configure the package for your system, e.g.,
+     (The configure script is explained below.)
+
+        > ../configure
+
+     While the 'configure' script is running, which takes a few moments, 
+     it prints messages to inform you of the features it is checking.
+     It also detects the platform.
+
+     As UVM-SystemC relies on the availability of a SystemC installation 
+     directory, the configure script will automatically check this. In case 
+     the configure script cannot find SystemC, it will stop. You can specify 
+     the path to the SystemC installation directory as follows:
+
+        > ../configure --with-systemc=/path/to/your/systemc-2.3.1  
+
+     Note for System V users: 
+     If you are using `csh' on an older version of System V, you might 
+     need to use the `sh ../configure' command instead of '../configure'.
+     Otherwise, `csh' will attempt to `configure' itself.
+
+     In case you want to install the package in another place than the
+     top level directory, configure the package e.g. as
+     follows:
+
+        > ../configure --prefix=/usr/local/uvm-systemc
+
+     Note: make sure you have created the target directory before installing
+           the package. Do _not_ use /usr/local as a prefix.
+
+     See the section on the general usage of the configure script and
+     "../configure --help" for more information.
+
+     Note: if you change the configuration after having compiled the
+           package already, you should run a "gmake clean" before
+           recompiling.
+
+  6. Compile the package.
+
+        > gmake
+
+     Note: The explicit gmake targets "opt" and "debug", etc. have
+           been removed in this package.  Use the corresponding
+           options to the configure script instead.
+
+  7. Install the package.
+
+        > gmake install
+  
+  8. At this point you may wish to verify the installation by 
+     testing the example suite.
+
+        > gmake check
+
+     this will compile and run the examples in the subdirectory
+     examples.
+
+  9. You can now remove the temporary directory, .e.g,
+
+        > cd ..
+        > rm -rf objdir
+
+     Alternatively, you can keep the temporary directory to allow
+     you to:
+
+     a) Experiment with the examples.
+
+     b) Later uninstall the package. To clean up the temporary 
+        directory, enter:
+
+            > gmake clean
+
+        To uninstall the package, enter:
+
+            > gmake uninstall
+
+
+Running the Examples
+====================
+
+The UVM-SystemC examples reside in the directory 'examples', within
+the temporary directory which was used for the installation 
+(e.g. objdir). 
+
+Use the makefiles provided in the 'examples' directory as templates 
+for makefiles you need for compiling your own examples. In order to
+run these example, the environment variable SYSTEMC_HOME should be 
+set beforehand. The examples can be executed by using 'make check'. 
+
+     
+Using the Configure Script
+==========================
+ 
+The `configure' shell script tries to determine the correct values for
+various system-dependent variables used during compilation. It uses
+these values to create a `Makefile' in each directory of the package.
+It also creates one or more `.h' files containing system-dependent
+definitions if needed. Then, it creates the following files:
+
+  config.status         A shell script that you can run at another time to
+                        recreate the current configuration.
+
+  config.cache          A file in which the configure test results are
+                        saved to speed up reconfiguration.
+
+                        Data is appended to the config.cache file. 
+                        You can remove unwanted data.
+
+  config.log            A file in which compiler output is saved.
+                        This is used to debug the configure script.
+
+If you need to use other commands to successfully compile the package
+on your system, please try to determine if the configure script can be used 
+for these commands. Then, send either a diff file or instructions about
+the commands you used to the email address provided in the README file.
+This information will be used to improve the installation process in
+the next release.
+
+The `configure.in' file is provided in case you want to change or regenerate
+the `configure' script, for example to use a newer version of `autoconf'. 
+The `configure.in' file is used by the `autoconf' program to create the
+`configure' script.
+
+Note for developers:
+
+  In case you have changed the `configure.in' file or one of the
+  `Makefile.am' files:
+
+  - Use the `config/distclean' script to remove the generated `configure'
+    script, the generated `aclocal.m4' file and the generated `Makefile.in'
+    files.
+
+  - Use the `config/bootstrap' script to generate the `configure' script
+    and the necessary `Makefile.in' files. This script makes use of the
+    GNU auto-tools `aclocal', `automake', and `autoconf'.
+
+
+Compilation and Linking Options
+===============================
+
+Some systems require compilation or linking options that the `configure'
+script does not define. You can define the initial values for these
+options by setting them in your environment before running the
+`configure' script.
+
+Using a Bourne-compatible shell, the command line entry might be:
+
+        > CC=c89 CFLAGS=-O2 LIBS=-lposix ../configure
+
+Or, on systems that have the `env' program, the command line entry might be:
+
+        > env CPPFLAGS=-I/usr/local/include LDFLAGS=-s ../configure
+
+
+Specifying the System Type
+==========================
+
+Some features cannot be automatically determined by `configure' unless
+it can detect the host type on which the package will run.
+If it prints a message that it cannot determine the host type, 
+use the `--host=TYPE' option to define it. TYPE can either be a 
+short system name, such as `sun4', or a canonical name with three fields:
+
+     CPU-COMPANY-SYSTEM
+
+See the `config.sub' file for details about the values of each field. If
+the `config.sub' file is not included in the package, the package does not
+need to know the host type.
+
+If you are building compiler tools for cross-compiling, you can also
+use the `--target=TYPE' option to select the type of system for which
+the code is produced and the `--build=TYPE' option to select the type of
+system on which you are compiling the package.
+
+
+Sharing Defaults
+================
+
+You can set the default values that `configure' scripts share by
+creating a site shell script called `config.site'. This file contains the
+default values for variables like `CC', `cache_file', and `prefix'.
+The `configure' script looks for the `config.site' file in the following 
+search precedence:
+
+  1. PREFIX/share/config.site
+
+  2. PREFIX/etc/config.site
+
+Alternatively, you can set the `CONFIG_SITE' environment variable to the
+site script path.
+
+Note: The `configure' script for some systems does not look for a site script.
+
+
+Operation Controls
+==================
+
+The `configure' script recognizes the following options to control its
+operation:
+
+`--cache-file=FILE'
+        Use and save the test results in FILE instead of
+        `./config.cache'. Set FILE to `/dev/null' to disable caching
+        when debugging `configure'.
+
+`--help'
+        Print a summary of `configure' options and exit.
+
+`--quiet'
+`--silent'
+`-q'
+        Do not print messages about checks being made.
+        To suppress all normal output, redirect it to `/dev/null'.
+        Error messages continue to print.
+
+`--srcdir=DIR'
+        Look for the package's source code in directory DIR.
+        Typically `configure' determines the directory automatically.
+
+`--version'
+        Print the version of `autoconf' used to generate the `configure'
+        script and exit.
+
+Other options that are rarely used are available in the `configure' script.
+Use the `--help' option to print a list.
+
+
+2. Installation Notes for Windows
+---------------------------------
+
+System Requirements
+===================
+
+UVM-SystemC was tested on the following Windows platforms:
+
+    o Windows 7 SP1, Microsoft Visual C++ 2008 SP1 (9.0)
+    o Windows 7 SP1, Microsoft Visual C++ 2010 SP1 (10.0)
+    
+An installation of UVM-SystemC on other, related platforms may be
+possible as well.
+    
+Set the following environment variable(s) under Windows:
+
+     Variable: SYSTEMC
+     Value   : c:\my\path\to\systemc-2.3.1\msvc80
+     
+     Variable: UVMSYSTEMC
+     Value   : c:\my\path\to\uvm-systemc-1.0-beta1\msvc80
+
+
+Microsoft Visual C++ 2005 (compiler version 8.0) or later
+=========================================================
+
+The root directory contains two subdirectories: 'msvc80' and
+'examples'.
+     
+The 'msvc80' subdirectory 'uvmsc' contains the project and workspace files to
+compile the 'uvm-systemc.lib' library. Double-click on the 'uvm-systemc.sln'
+file to launch Visual C++ 2005 with the workspace file. The workspace file
+will have the proper switches set to compile for Visual C++ 2005.
+Select 'Build uvm-systemc' under the Build menu or press F7 to build
+`uvm-systemc.lib'.
+
+
+Running the Examples in Microsoft Visual C++
+============================================
+
+The UVM-SystemC examples reside in the directory 'examples' at the 
+highest level of the installation. 
+
+Each examples contain the project and workspace files in the subdirectory 
+'msvc80'. Go to one of these examples subdirectories and double-click on 
+the .vcproj file to launch Visual C++ with the workspace file. The 
+workspace file will have the proper switches set to compile for Visual 
+C++ 2005. Select 'Build <example>.exe' under the Build menu or press F7 
+to build the example executable.
+
+
+Creating UVM-Systemc Applications in Microsoft Visual C++
+=========================================================
+
+1. Start Visual Studio. From the Start Page select New Project and Win32 
+   Console Project. Type the project name and select a suitable location 
+   then click OK.
+
+2. Select the Application Settings page of the Win32 Application Wizard 
+   and make sure the 'Empty project' box is ticked. Click 'Finish' to 
+   complete the wizard.
+   
+3. Add new/existing C++ files to the project and edit code.
+
+4. Display the project Property Pages by selecting 'Properties...' from 
+   the Project menu. 
+   
+5. From the C/C++ tab, select the General properties and set 
+   'Detect 64-bit Portability Issues' to No
+
+6. From the C/C++ tab, select the Language properties and set 
+   'Enable Run-Time Type Info' to Yes
+
+7. From the C/C++ tab, select the Command Line properties and add /vmg
+   to the 'Additional Options:' box.
+
+8. From the Linker tab, select the Input properties and add 'systemc.lib'
+   and 'uvm-systemc.lib' in the 'Additional Dependencies' box.
+
+9. Click OK
+
+
+Also make sure that the compiler and linker can find the SystemC and 
+UVM-SystemC header and library files respectively. There are two ways 
+to do this:
+
+To update the include file and library directory search paths for all
+projects:
+
+1. Select Tools -> Options... and the Projects -> VC++ Directories tab
+   
+2. Select show directories for: Library files
+
+3. Select the 'New' icon and select the following: 
+   
+   c:\my\path\to\systemc-2.3.1\msvc80\SystemC\Debug (or Release)
+   c:\my\path\to\uvm-systemc\msvc80\uvmsc\Debug (or Release)
+
+4. Select show directories for: Include files
+
+5. Select the 'New' icon and select the following
+
+   c:\my\path\to\systemc-2.3.1\src
+   c:\my\path\to\uvm-systemc\src
+
+
+To add the include file and library directory search paths for the current
+project only:
+
+1. Display the project Property Pages by selecting 'Properties...' from 
+   the Project menu. 
+  
+2. From the C/C++ tab, select the General properties and type the path to the 
+   SystemC 'src' and UVM-SystemC 'src' directories in the text entry field labeled
+  'Additional include directories' (e.g. the examples use '..\..\..\src').
+
+3. From the Linker tab, select the General properties and type the path to 
+   the SystemC and UVM-SystemC libraries:
+   
+   c:\my\path\to\systemc-2.3.1\msvc80\SystemC\Debug (or Release)
+   c:\my\path\to\uvm-systemc\msvc80\uvmsc\Debug (or Release)
+   
+   in the 'Additional Library Directories:' box.
+
+9. Click OK

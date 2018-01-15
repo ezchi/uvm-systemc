@@ -1,0 +1,38 @@
+examples_TESTS += simple/producer_consumer/override/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_producer_consumer_override_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_producer_consumer_override_H_FILES) \
+	$(simple_producer_consumer_override_CXX_FILES) \
+	$(simple_producer_consumer_override_BUILD) \
+	$(simple_producer_consumer_override_EXTRA)
+
+simple_producer_consumer_override_test_SOURCES = \
+	$(simple_producer_consumer_override_H_FILES) \
+	$(simple_producer_consumer_override_CXX_FILES)
+
+simple_producer_consumer_override_CXX_FILES = \
+	simple/producer_consumer/override/sc_main.cpp
+
+simple_producer_consumer_override_H_FILES = \
+	simple/producer_consumer/override/consumer.h \
+	simple/producer_consumer/override/fifo_consumer.h \
+	simple/producer_consumer/override/packet.h \
+	simple/producer_consumer/override/producer.h \
+	simple/producer_consumer/override/parent_component.h \
+	simple/producer_consumer/override/top.h
+
+simple_producer_consumer_override_BUILD = 
+
+simple_producer_consumer_override_EXTRA = 
+
+simple_producer_consumer_override_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

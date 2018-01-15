@@ -1,0 +1,32 @@
+examples_TESTS += simple/reporting/info/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_reporting_info_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_reporting_info_H_FILES) \
+	$(simple_reporting_info_CXX_FILES) \
+	$(simple_reporting_info_BUILD) \
+	$(simple_reporting_info_EXTRA)
+
+simple_reporting_info_test_SOURCES = \
+	$(simple_reporting_info_H_FILES) \
+	$(simple_reporting_info_CXX_FILES)
+
+simple_reporting_info_CXX_FILES = \
+	simple/reporting/info/sc_main.cpp
+
+simple_reporting_info_H_FILES = 
+
+simple_reporting_info_BUILD = 
+
+simple_reporting_info_EXTRA = 
+
+simple_reporting_info_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

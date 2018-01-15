@@ -1,0 +1,33 @@
+examples_TESTS += simple/tlm1/bidir/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_tlm1_bidir_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_tlm1_bidir_H_FILES) \
+	$(simple_tlm1_bidir_CXX_FILES) \
+	$(simple_tlm1_bidir_BUILD) \
+	$(simple_tlm1_bidir_EXTRA)
+
+simple_tlm1_bidir_test_SOURCES = \
+	$(simple_tlm1_bidir_H_FILES) \
+	$(simple_tlm1_bidir_CXX_FILES)
+
+simple_tlm1_bidir_CXX_FILES = \
+	simple/tlm1/bidir/sc_main.cpp
+
+simple_tlm1_bidir_H_FILES = \
+	simple/tlm1/bidir/bidir.h
+
+simple_tlm1_bidir_BUILD = 
+
+simple_tlm1_bidir_EXTRA = 
+
+simple_tlm1_bidir_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!

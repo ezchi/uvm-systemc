@@ -1,0 +1,33 @@
+examples_TESTS += simple/tlm1/producer_consumer/test
+
+examples_XFAIL_TESTS += 
+
+examples_BUILD += \
+	$(simple_tlm1_producer_consumer_BUILD)
+
+examples_CLEAN += 
+
+examples_FILES += \
+	$(simple_tlm1_producer_consumer_H_FILES) \
+	$(simple_tlm1_producer_consumer_CXX_FILES) \
+	$(simple_tlm1_producer_consumer_BUILD) \
+	$(simple_tlm1_producer_consumer_EXTRA)
+
+simple_tlm1_producer_consumer_test_SOURCES = \
+	$(simple_tlm1_producer_consumer_H_FILES) \
+	$(simple_tlm1_producer_consumer_CXX_FILES)
+
+simple_tlm1_producer_consumer_CXX_FILES = \
+	simple/tlm1/producer_consumer/sc_main.cpp
+
+simple_tlm1_producer_consumer_H_FILES = \
+	simple/tlm1/producer_consumer/fifo.h
+
+simple_tlm1_producer_consumer_BUILD = 
+
+simple_tlm1_producer_consumer_EXTRA = 
+
+simple_tlm1_producer_consumer_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
+
+
+## Taf!
