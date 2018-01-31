@@ -1,0 +1,15 @@
+# - Config file for the UVM-SystemC package
+# It defines the following variables:
+#  UVMSC_TARGET_ARCH - Target architecture according to the Accellera SystemC conventions
+#  UVMSC_CXX_STANDARD - Preferred C++ standard
+#  UVMSC_CXX_STANDARD_REQUIRED - Determine whether the selected C++ standard is a requirement
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+include ("${CMAKE_CURRENT_LIST_DIR}/UVMSCTargets.cmake")
+
+set (UVMSC_TARGET_ARCH @UVMSC_TARGET_ARCH@)
+set (UVMSC_CXX_STANDARD @CMAKE_CXX_STANDARD@)
+set (UVMSC_CXX_STANDARD_REQUIRED @CMAKE_CXX_STANDARD_REQUIRED@)
