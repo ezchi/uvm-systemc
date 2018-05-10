@@ -265,18 +265,19 @@ endif (APPLE)
 
 target_link_libraries (uvm-systemc PUBLIC SystemC::systemc)
 
-set_target_properties (uvm-systemc
-    PROPERTIES
-    LINKER_LANGUAGE CXX
-    VERSION ${UVM_VERSION}
-    INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR})
+# set_target_properties (uvm-systemc
+#     PROPERTIES
+#     LINKER_LANGUAGE CXX
+#     VERSION ${UVM_VERSION}
+#     INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR})
 
 
 ###############################################################################
 # Install rules for UVM-SystemC library
 ###############################################################################
 
-install (TARGETS uvm-systemc EXPORT UVMSCTargets
+install (TARGETS uvm-systemc
+    EXPORT ${TARGETS_EXPORT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -1,9 +1,11 @@
 cmake_minimum_required (VERSION 3.1)
 cmake_policy(SET CMP0001 NEW)
 
-project (uvm-systemc CXX C)
+project (UVMSystemC VERSION 0.1.0)
 
-set(CMAKE_PREFIX_PATH $ENV{SYSTEMC_HOME})
+set(SYSTEMC_HOME $ENV{SYSTEMC_HOME})
+
+set(CMAKE_PREFIX_PATH ${SYSTEMC_HOME})
 
 find_package(SystemCLanguage CONFIG REQUIRED)
 
@@ -11,18 +13,6 @@ set (CMAKE_CXX_STANDARD ${SystemC_CXX_STANDARD} CACHE STRING
   "C++ standard to build all targets. Supported values are 98, 11, and 14.")
 set (CMAKE_CXX_STANDARD_REQUIRED ${SystemC_CXX_STANDARD_REQUIRED} CACHE BOOL
     "The with CMAKE_CXX_STANDARD selected C++ standard is a requirement.")
-
-set(UVM_VERSION_FILE "${PROJECT_SOURCE_DIR}/src/uvmsc/base/uvm_version.h")
-if(EXISTS ${UVM_VERSION_FILE})
-    file(READ ${UVM_VERSION_FILE} UVM_VERSION_FILE_CONTENT)
-    string(REGEX MATCH "UVM_VERSION[ \t]+\"([0-9]+)\\.([0-9]+)-([a-z0-9]+\)\"" UVM_VERSION ${UVM_VERSION_FILE_CONTENT})
-    string(REGEX MATCH "([0-9]+)([-.a-z0-9]+)" UVM_VERSION ${UVM_VERSION})
-    string(REGEX MATCH "UVM_RELEASE_DATE[ \t]+\"([0-9-]+)\"" UVM_RELEASE_DATE ${UVM_VERSION_FILE_CONTENT})
-    string(REGEX MATCH "([0-9-]+)" UVM_RELEASE_DATE ${UVM_RELEASE_DATE})
-    message("UVM_RELEASE_DATE: " ${UVM_RELEASE_DATE})
-else(EXISTS ${UVM_VERSION_FILE})
-    message (FATAL_ERROR "Unable to read UVM-SystemC version file")
-endif(EXISTS ${UVM_VERSION_FILE})
 
 ###############################################################################
 # Build options
@@ -199,61 +189,95 @@ endif (NOT UVMSC_TARGET_ARCH)
 ###############################################################################
 # Set the installation paths
 ###############################################################################
+include (GNUInstallDirs)
 
-if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    if (IS_ABSOLUTE $ENV{UVMSC_HOME})
-        set (_CMAKE_INSTALL_PREFIX $ENV{UVMSC_HOME})
-    elseif (UNIX)
-        set (_CMAKE_INSTALL_PREFIX "/opt/uvmsc")
-    elseif (WIN32)
-        file (TO_CMAKE_PATH $ENV{ProgramFiles} _WIN32_INSTALL_PREFIX)
-        set (_CMAKE_INSTALL_PREFIX "${_WIN32_INSTALL_PREFIX}/uvmsc")
-        unset (_WIN32_INSTALL_PREFIX)
-    else (EXISTS $ENV{SYSTEMC_ROOT_DIR})
-        set (_CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/uvmsc")
-    endif (IS_ABSOLUTE $ENV{UVMSC_HOME})
-    set (CMAKE_INSTALL_PREFIX ${_CMAKE_INSTALL_PREFIX} CACHE PATH "Installation root directory" FORCE)
-    unset (_CMAKE_INSTALL_PREFIX)
-endif (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# Layout. This works for all platforms:
+#   * <prefix>/lib*/cmake/<PROJECT-NAME>
+#   * <prefix>/lib*/
+#   * <prefix>/include/
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+
+set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+
+# Configuration
+set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+set(TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
+set(namespace "${PROJECT_NAME}::")
+
+# Include module with fuction 'write_basic_package_version_file'
+include(CMakePackageConfigHelpers)
+
+# Configure '<PROJECT-NAME>ConfigVersion.cmake'
+# Use:
+#   * PROJECT_VERSION
+write_basic_package_version_file(
+    "${version_config}" COMPATIBILITY SameMajorVersion
+)
+
+# Configure '<PROJECT-NAME>Config.cmake'
+# Use variables:
+#   * TARGETS_EXPORT_NAME
+#   * PROJECT_NAME
+configure_package_config_file(
+    "cmake/Config.cmake.in"
+    "${project_config}"
+    INSTALL_DESTINATION "${config_install_dir}"
+)
+
+# if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+#     if (IS_ABSOLUTE $ENV{UVMSC_HOME})
+#         set (_CMAKE_INSTALL_PREFIX $ENV{UVMSC_HOME})
+#     elseif (UNIX)
+#         set (_CMAKE_INSTALL_PREFIX "/opt/uvmsc")
+#     elseif (WIN32)
+#         file (TO_CMAKE_PATH $ENV{ProgramFiles} _WIN32_INSTALL_PREFIX)
+#         set (_CMAKE_INSTALL_PREFIX "${_WIN32_INSTALL_PREFIX}/uvmsc")
+#         unset (_WIN32_INSTALL_PREFIX)
+#     else (EXISTS $ENV{SYSTEMC_ROOT_DIR})
+#         set (_CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/uvmsc")
+#     endif (IS_ABSOLUTE $ENV{UVMSC_HOME})
+#     set (CMAKE_INSTALL_PREFIX ${_CMAKE_INSTALL_PREFIX} CACHE PATH "Installation root directory" FORCE)
+#     unset (_CMAKE_INSTALL_PREFIX)
+# endif (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 # Set the installation paths for headers, libraries, and documentation.
 set (CMAKE_INSTALL_DOCDIR "share/doc/uvmsc" CACHE PATH
     "Documentation installation directory") # otherwise mixed-case
-if (INSTALL_TO_LIB_BUILD_TYPE_DIR)
-    # Install libraries to lib-${CMAKE_BUILD_TYPE} so that different build variants
-    # of the library can be installed in parallel to the same UVM-SystemC root
-    # directory. The find_package() mechanism in config-mode of CMake will then
-    # automatically find the correct libraries matching the chosen
-    # ${CMAKE_BUILD_TYPE}.
-    set (_INSTALL_LIBDIR lib-${CMAKE_BUILD_TYPE})
-    string (TOLOWER ${_INSTALL_LIBDIR} _INSTALL_LIBDIR)
-    set (CMAKE_INSTALL_LIBDIR ${_INSTALL_LIBDIR} CACHE PATH
-        "Object code libraries installation directory" FORCE)
-    unset (_INSTALL_LIBDIR)
-elseif (INSTALL_TO_LIB_TARGET_ARCH_DIR)
-    # Some build systems assume to find UVM-SystemC in lib-<target-arch>
-    set (CMAKE_INSTALL_LIBDIR lib-${UVMSC_TARGET_ARCH} CACHE PATH
-        "Object code libraries installation directory" FORCE)
-endif (INSTALL_TO_LIB_BUILD_TYPE_DIR)
-include (GNUInstallDirs)
+# if (INSTALL_TO_LIB_BUILD_TYPE_DIR)
+#     # Install libraries to lib-${CMAKE_BUILD_TYPE} so that different build variants
+#     # of the library can be installed in parallel to the same UVM-SystemC root
+#     # directory. The find_package() mechanism in config-mode of CMake will then
+#     # automatically find the correct libraries matching the chosen
+#     # ${CMAKE_BUILD_TYPE}.
+#     set (_INSTALL_LIBDIR lib-${CMAKE_BUILD_TYPE})
+#     string (TOLOWER ${_INSTALL_LIBDIR} _INSTALL_LIBDIR)
+#     set (CMAKE_INSTALL_LIBDIR ${_INSTALL_LIBDIR} CACHE PATH
+#         "Object code libraries installation directory" FORCE)
+#     unset (_INSTALL_LIBDIR)
+# elseif (INSTALL_TO_LIB_TARGET_ARCH_DIR)
+#     # Some build systems assume to find UVM-SystemC in lib-<target-arch>
+#     set (CMAKE_INSTALL_LIBDIR lib-${UVMSC_TARGET_ARCH} CACHE PATH
+#         "Object code libraries installation directory" FORCE)
+# endif (INSTALL_TO_LIB_BUILD_TYPE_DIR)
 
-# Install symlink lib-<target-arch> to lib-${CMAKE_BUILD_TYPE}
-if (INSTALL_LIB_TARGET_ARCH_SYMLINK AND CMAKE_HOST_UNIX)
-    install (CODE "
-    EXECUTE_PROCESS(COMMAND cmake -E create_symlink ${CMAKE_INSTALL_LIBDIR} lib-${UVMSC_TARGET_ARCH}
-                    WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX})
-  ")
-endif (INSTALL_LIB_TARGET_ARCH_SYMLINK AND CMAKE_HOST_UNIX)
+# # Install symlink lib-<target-arch> to lib-${CMAKE_BUILD_TYPE}
+# if (INSTALL_LIB_TARGET_ARCH_SYMLINK AND CMAKE_HOST_UNIX)
+#     install (CODE "
+#     EXECUTE_PROCESS(COMMAND cmake -E create_symlink ${CMAKE_INSTALL_LIBDIR} lib-${UVMSC_TARGET_ARCH}
+#                     WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX})
+#   ")
+# endif (INSTALL_LIB_TARGET_ARCH_SYMLINK AND CMAKE_HOST_UNIX)
 
-if (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
-    set (UVMSC_INSTALL_CMAKEDIR share/cmake/UVMSC CACHE PATH
-        "CMake package configuration installation directory" FORCE)
-else (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
-  set (UVMSC_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/UVMSC CACHE PATH
-      "CMake package configuration installation directory for the UVM-SystemC package.")
-endif (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
-mark_as_advanced(UVMSC_INSTALL_CMAKEDIR)
-set(UVMSC_INSTALL_FULL_CMAKEDIR "${CMAKE_INSTALL_PREFIX}/${UVMSC_INSTALL_CMAKEDIR}")
+# if (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
+#     set (UVMSC_INSTALL_CMAKEDIR share/cmake/UVMSC CACHE PATH
+#         "CMake package configuration installation directory" FORCE)
+# else (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
+#   set (UVMSC_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/UVMSC CACHE PATH
+#       "CMake package configuration installation directory for the UVM-SystemC package.")
+# endif (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
+# mark_as_advanced(UVMSC_INSTALL_CMAKEDIR)
+# set(UVMSC_INSTALL_FULL_CMAKEDIR "${CMAKE_INSTALL_PREFIX}/${UVMSC_INSTALL_CMAKEDIR}")
 
 
 ###############################################################################
@@ -319,7 +343,7 @@ message (STATUS "CMAKE_INSTALL_BINDIR = ${CMAKE_INSTALL_BINDIR}")
 message (STATUS "CMAKE_INSTALL_DOCDIR = ${CMAKE_INSTALL_DOCDIR}")
 message (STATUS "CMAKE_INSTALL_INCLUDEDIR = ${CMAKE_INSTALL_INCLUDEDIR}")
 message (STATUS "CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
-message (STATUS "INSTALL_CMAKEDIR = ${INSTALL_CMAKEDIR}")
+# message (STATUS "INSTALL_CMAKEDIR = ${INSTALL_CMAKEDIR}")
 message (STATUS "========================================================================")
 
 
@@ -354,32 +378,48 @@ install (FILES AUTHORS
 
 # Export the UVM-SystemC library target for usage by other programs
 # ... to local build tree
-export (TARGETS uvm-systemc
-        NAMESPACE UVMSC::
-        FILE UVMSCTargets.cmake)
-# ... to installation tree
-install (EXPORT UVMSCTargets
-         NAMESPACE UVMSC::
-         DESTINATION ${UVMSC_INSTALL_CMAKEDIR}
-         COMPONENT dev)
+# export (TARGETS uvm-systemc
+#         NAMESPACE UVMSC::
+#         FILE UVMSCTargets.cmake)
+# # ... to installation tree
+# install (EXPORT UVMSCTargets
+#          NAMESPACE UVMSC::
+#          DESTINATION ${UVMSC_INSTALL_CMAKEDIR}
+#          COMPONENT dev)
 
 # Register the UVM-SystemC package for use from the build tree. (This registers
 # the build tree with the global CMake-registry.)
-export (PACKAGE UVMSC)
+export (PACKAGE ${PROJECT_NAME})
 
-# Create the <Package>Config.cmake and <Package>ConfigVersion files
-include(CMakePackageConfigHelpers)
-configure_package_config_file(cmake/UVMSCConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/UVMSCConfig.cmake
-  INSTALL_DESTINATION ${UVMSC_INSTALL_CMAKEDIR})
-write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/UVMSCConfigVersion.cmake"
-  VERSION ${UVM_VERSION}.${UVM_RELEASE_DATE}
-  COMPATIBILITY AnyNewerVersion
+# # Create the <Package>Config.cmake and <Package>ConfigVersion files
+# include(CMakePackageConfigHelpers)
+# configure_package_config_file(cmake/UVMSCConfig.cmake.in
+#   ${CMAKE_CURRENT_BINARY_DIR}/UVMSCConfig.cmake
+#   INSTALL_DESTINATION ${UVMSC_INSTALL_CMAKEDIR})
+# write_basic_package_version_file(
+#   "${CMAKE_CURRENT_BINARY_DIR}/UVMSCConfigVersion.cmake"
+#   VERSION ${UVM_VERSION}.${UVM_RELEASE_DATE}
+#   COMPATIBILITY AnyNewerVersion
+# )
+
+# # Install the <Package>Config.cmake and <Package>ConfigVersion.cmake
+# install(FILES "${PROJECT_BINARY_DIR}/UVMSCConfig.cmake"
+#               "${PROJECT_BINARY_DIR}/UVMSCConfigVersion.cmake"
+#         DESTINATION "${UVMSC_INSTALL_CMAKEDIR}"
+#         COMPONENT dev)
+
+# Config
+#   * <prefix>/lib/cmake/Foo/FooConfig.cmake
+#   * <prefix>/lib/cmake/Foo/FooConfigVersion.cmake
+install(
+    FILES "${project_config}" "${version_config}"
+    DESTINATION "${config_install_dir}"
 )
 
-# Install the <Package>Config.cmake and <Package>ConfigVersion.cmake
-install(FILES "${PROJECT_BINARY_DIR}/UVMSCConfig.cmake"
-              "${PROJECT_BINARY_DIR}/UVMSCConfigVersion.cmake"
-        DESTINATION "${UVMSC_INSTALL_CMAKEDIR}"
-        COMPONENT dev)
+# Config
+#   * <prefix>/lib/cmake/Foo/FooTargets.cmake
+install(
+    EXPORT "${TARGETS_EXPORT_NAME}"
+    NAMESPACE "${namespace}"
+    DESTINATION "${config_install_dir}"
+)
