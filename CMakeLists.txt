@@ -12,6 +12,7 @@ set (CMAKE_CXX_STANDARD ${SystemC_CXX_STANDARD} CACHE STRING
   "C++ standard to build all targets. Supported values are 98, 11, and 14.")
 set (CMAKE_CXX_STANDARD_REQUIRED ${SystemC_CXX_STANDARD_REQUIRED} CACHE BOOL
     "The with CMAKE_CXX_STANDARD selected C++ standard is a requirement.")
+mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
 
 ###############################################################################
 # Build options
@@ -23,12 +24,12 @@ if (NOT CMAKE_BUILD_TYPE)
         FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
-mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
 
 option (BUILD_SHARED_LIBS "Build shared libraries." OFF)
 
 option (BUILD_SOURCE_DOCUMENTATION "Build source documentation with Doxygen." ON)
 option (DISABLE_COPYRIGHT_MESSAGE "Do not print the copyright message when starting the application." ON)
+mark_as_advanced(DISABLE_COPYRIGHT_MESSAGE)
 
 option (INSTALL_TO_LIB_BUILD_TYPE_DIR
     "Install the libraries to lib-${CMAKE_BUILD_TYPE} to enable parallel installation of the different build variants. (default: OFF)"
@@ -46,7 +47,6 @@ else (CMAKE_HOST_UNIX AND NOT INSTALL_TO_LIB_TARGET_ARCH_DIR)
     unset (INSTALL_LIB_TARGET_ARCH_SYMLINK CACHE)
 endif (CMAKE_HOST_UNIX AND NOT INSTALL_TO_LIB_TARGET_ARCH_DIR)
 
-mark_as_advanced(DISABLE_COPYRIGHT_MESSAGE)
 
 ###############################################################################
 # Set UVMSC_TARGET_ARCH depending on OS and processor type
@@ -64,9 +64,7 @@ if (NOT APPLE OR (APPLE AND (N_OSX_ARCHITECTURES LESS 2)))
             message (STATUS "The target architecture will be passed explicitly to the Apple compiler.")
             set (CMAKE_REQUIRED_FLAGS "-arch ${CMAKE_OSX_ARCHITECTURES}")
         endif (N_OSX_ARCHITECTURES EQUAL 1)
-        unset (HAS__i386_DEFINED CACHE)
         unset (HAS__x86_64__DEFINED CACHE)
-        unset (HAS__ppc__DEFINED CACHE)
     endif (APPLE)
     include (CheckSymbolExists)
     check_symbol_exists (__x86_64__ "" HAS__x86_64__DEFINED)
@@ -173,7 +171,7 @@ endif ("${isSystemDir}" STREQUAL "-1")
 ###############################################################################
 
 message (STATUS "========================================================================")
-message (STATUS "Settings to build UVM-SystemC ${UVM_VERSION} (${UVM_RELEASE_DATE})")
+message (STATUS "Settings to build UVM-SystemC")
 message (STATUS "------------------------------------------------------------------------")
 message (STATUS "BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
 message (STATUS "BUILD_SOURCE_DOCUMENTATION = ${BUILD_SOURCE_DOCUMENTATION}")

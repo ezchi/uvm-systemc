@@ -229,7 +229,7 @@ add_library (uvm-systemc
     uvmsc/policy/uvm_comparer.h
     )
 
-add_library (UVMSC::uvm-systemc ALIAS uvm-systemc)
+# add_library (UVMSC::uvm-systemc ALIAS uvm-systemc)
 
 target_compile_definitions (
     uvm-systemc
