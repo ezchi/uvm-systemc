@@ -1,7 +1,7 @@
 UVM-SystemC Release Notes
 =========================
 
-December 7, 2017
+October 24, 2018
 
 License
 -------
@@ -52,17 +52,9 @@ standard.
 What's new in this release?
 ===========================
 
-Compared to the 1.0-alpha1 release, this release has the following new items and bug fixes:
-  - HDL path API implementation
-  - Update finish on completion mechanism
-  - Generate unique names for forked processes
-  - Remove usage of uvm_pool
-  - Support uvm_reg_data_t with sizes larger than 64 bit
-  - Update LRM
-  - Add uvm backdoor for SystemC dummy registers uvm_sc_reg
-  - Fix immediate notification during elaboration
-  - Align reporting API with UVM 1.2
-  - Fix uvm_default_comparer
+Compared to the 1.0-beta1 release, this release has the following new items and bug fixes:
+  - SystemC 2.3.3 support
+  - Compiler support updated
   - General clean-up
   - Minor improvements
 

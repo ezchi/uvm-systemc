@@ -29,9 +29,9 @@ class packet
   int addr;
   std::string name_;
 
-  std::ostream& operator<<(std::ostream& x) { x << name_ ; return x; };
+  std::ostream& operator<<(std::ostream& x) { x << name_ ; return x; }
 };
 
-std::ostream& operator<<(std::ostream& s, const packet& x) { s << x.name_; return s; };
+std::ostream& operator<<(std::ostream& s, const packet& x) { s << x.name_; return s; }
 
 #endif /* PACKET_H_ */

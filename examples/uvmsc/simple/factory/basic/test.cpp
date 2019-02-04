@@ -36,5 +36,7 @@ int sc_main(int, char*[])
 
   uvm::run_test();
 
+  delete test_top;
+
   return 0;
 }

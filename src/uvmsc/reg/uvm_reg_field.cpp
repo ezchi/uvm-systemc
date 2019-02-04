@@ -1497,7 +1497,7 @@ void uvm_reg_field::do_write( uvm_reg_item* rw )
   uvm_reg_data_t value_adjust;
   uvm_reg_map_info* map_info;
   std::vector<uvm_reg_field*> fields;
-  bool bad_side_effect;
+  bool bad_side_effect = false;
 
   m_parent->m_atomic_check_lock(true);
   m_fname  = rw->fname;
@@ -1628,7 +1628,7 @@ void uvm_reg_field::do_write( uvm_reg_item* rw )
 void uvm_reg_field::do_read( uvm_reg_item* rw )
 {
   uvm_reg_map_info* map_info;
-  bool bad_side_effect;
+  bool bad_side_effect = false;
 
   m_parent->m_atomic_check_lock(true);
   m_fname  = rw->fname;

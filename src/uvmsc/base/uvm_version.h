@@ -28,26 +28,19 @@ namespace uvm {
 
 /* UVM SystemC Release Date */
 #ifndef UVM_RELEASE_DATE
-#define UVM_RELEASE_DATE "2017-12-07"
+#define UVM_RELEASE_DATE "2018-10-24"
 #endif
 
 /* UVM SystemC Version */
 #ifndef UVM_VERSION
-#define UVM_VERSION "1.0-beta1"
+#define UVM_VERSION "1.0-beta2"
 #endif
 
 // compatible with UVM 1.1.d
 #ifndef UVM_VERSION_STRING
-#define UVM_VERSION_STRING "1.0-beta1"
+#define UVM_VERSION_STRING "1.0-beta2"
 #endif
 
-extern const std::string uvm_nxp_copyright;
-extern const std::string uvm_fhg_copyright;
-extern const std::string uvm_upmc_copyright;
-extern const std::string uvm_mgc_copyright;
-extern const std::string uvm_cdn_copyright;
-extern const std::string uvm_snps_copyright;
-extern const std::string uvm_cy_copyright;
 extern const std::string uvm_revision;
 
 std::string uvm_revision_string();

@@ -61,7 +61,7 @@ class bus_trans : public uvm::uvm_sequence_item
     op = rhs_->op;
   }
 
-  virtual bool do_compare( const uvm::uvm_object& rhs, const uvm::uvm_comparer* comparer )
+  virtual bool do_compare( const uvm::uvm_object& rhs, const uvm::uvm_comparer* comparer ) const
   {
     const bus_trans* rhs_;
     rhs_ = dynamic_cast<const bus_trans*>(&rhs);
@@ -78,7 +78,7 @@ class bus_trans : public uvm::uvm_sequence_item
     printer.print_field_int("data", data);
   }
 
-  std::string convert2string()
+  std::string convert2string() const
   {
     std::ostringstream str;
     str << "op " << (op ? "BUS_WRITE":"BUS_READ");
@@ -89,8 +89,9 @@ class bus_trans : public uvm::uvm_sequence_item
 
   // data members
  public:
-  int addr;
-  int data;
+  // TODO: check types with UVM/SV original
+  unsigned int addr;
+  unsigned int data;
   bus_op_t op;
 };
 
@@ -131,7 +132,7 @@ class bus_rsp : public bus_trans
     status = rhs_->status;
   }
 
-  std::string convert2string()
+  std::string convert2string() const
   {
     std::string statusstr;
 

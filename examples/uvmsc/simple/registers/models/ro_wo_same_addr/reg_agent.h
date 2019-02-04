@@ -48,7 +48,7 @@ class reg_rw : public uvm::uvm_sequence_item
    `uvm_object_utils_end
    */
 
-  std::string convert2string()
+  std::string convert2string() const
   {
     std::ostringstream str;
     str << "reg_rw: "

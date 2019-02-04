@@ -47,5 +47,7 @@ int sc_main(int, char*[])
 
   uvm::run_test();
 
+  delete topenv;
+
   return 0;
 }

@@ -35,7 +35,7 @@ class vip_packet : public uvm::uvm_sequence_item
   vip_packet(int i) { data = i; }
   virtual ~vip_packet() { }
 
-  virtual void do_print(const uvm::uvm_printer& printer)
+  virtual void do_print(const uvm::uvm_printer& printer) const
   {
     printer.print_field_int("data", data);
   }
@@ -57,7 +57,7 @@ class vip_packet : public uvm::uvm_sequence_item
     data = drhs->data;
   }
 
-  virtual bool do_compare(const uvm_object& rhs) const
+  virtual bool do_compare(const uvm_object& rhs, const uvm::uvm_comparer*) const
   {
     const vip_packet* drhs = dynamic_cast<const vip_packet*>(&rhs);
     if (!drhs) { std::cerr << "ERROR in do_compare" << std::endl; return true; }

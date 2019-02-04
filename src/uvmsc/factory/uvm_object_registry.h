@@ -102,8 +102,6 @@ class uvm_object_registry : public uvm_object_wrapper
   static const std::string m_type_name_prop();
 
   // data members
-  static const std::string type_name;
-
   static uvm_object_registry<T>* me;
 
   std::vector<T* > m_obj_t_list;
@@ -114,9 +112,6 @@ class uvm_object_registry : public uvm_object_wrapper
 //----------------------------------------------------------------------
 // definition of static members outside class definition
 //----------------------------------------------------------------------
-
-template <typename T>
-const std::string uvm_object_registry<T>::type_name = m_type_name_prop();
 
 template <typename T>
 uvm_object_registry<T>* uvm_object_registry<T>::me = get();
@@ -174,7 +169,7 @@ uvm_object* uvm_object_registry<T>::create_object( const std::string& name )
 template <typename T>
 const std::string uvm_object_registry<T>::get_type_name() const
 {
-  return uvm_object_registry<T>::type_name;
+  return uvm_object_registry<T>::m_type_name_prop();
 }
 
 //----------------------------------------------------------------------
@@ -187,15 +182,12 @@ const std::string uvm_object_registry<T>::get_type_name() const
 template <typename T>
 uvm_object_registry<T>* uvm_object_registry<T>::get()
 {
-  if (type_name.empty())
-    m_type_name_prop();
-
   if (me == NULL)
   {
     uvm_coreservice_t* cs = uvm_coreservice_t::get();
     uvm_factory* f = cs->get_factory();
 
-    me = new uvm_object_registry<T>("objrgy_" + type_name);
+    me = new uvm_object_registry<T>("objrgy_" + m_type_name_prop());
     f->do_register(me);
   }
   return me;
@@ -229,11 +221,10 @@ T* uvm_object_registry<T>::create( const std::string& name,
   if (robj == NULL)
   {
     std::ostringstream msg;
-    msg << "Factory did not return an object of type '" << type_name
-        << "'. A component of type '" << ( (obj == NULL) ? "null" : obj->get_type_name() )
+    msg << "Factory did not return an object of type '" << m_type_name_prop() << "'."
+        << " A object of type '" << ( (obj == NULL) ? "null" : obj->get_type_name() )
         << "' was returned instead. Name=" << name << " Parent="
-        << ( (parent == NULL) ? "NULL" : parent->get_type_name() )
-        << " contxt=" << l_contxt;
+        << ( (parent == NULL) ? "NULL" : parent->get_type_name() ) << " contxt=" << l_contxt;
 
     uvm_report_fatal("FCTTYP", msg.str(), UVM_NONE);
   }

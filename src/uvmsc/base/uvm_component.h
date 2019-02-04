@@ -328,6 +328,9 @@ class uvm_component : public sc_core::sc_module,
   // SystemC compatibility
   virtual const char* kind() const;
 
+  // avoid ambiguity with sc_object::print
+  using uvm_report_object::print;
+
  private:
 
   void print_config_settings( const std::string& field = "",

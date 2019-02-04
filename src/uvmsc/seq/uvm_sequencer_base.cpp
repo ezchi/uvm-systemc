@@ -1202,18 +1202,6 @@ void uvm_sequencer_base::do_print( const uvm_printer& printer ) const
 }
 
 //----------------------------------------------------------------------
-// member function: print (virtual)
-//
-// Implementation-defined member function
-//----------------------------------------------------------------------
-
-void uvm_sequencer_base::print( uvm_printer* printer ) const
-{
-  uvm_object::print(printer);
-  return;
-}
-
-//----------------------------------------------------------------------
 // member function: m_lock_req
 //
 // Implementation defined.

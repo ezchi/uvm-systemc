@@ -68,6 +68,7 @@ add_library (uvm-systemc
     uvmsc/base/uvm_root.cpp
     uvmsc/base/uvm_coreservice_t.cpp
     uvmsc/base/uvm_object.cpp
+    uvmsc/base/uvm_mutex.cpp
     uvmsc/base/uvm_transaction.cpp
     uvmsc/base/uvm_globals.cpp
     uvmsc/base/uvm_default_coreservice_t.cpp

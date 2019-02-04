@@ -23,4 +23,4 @@
 #define UVM_STRING_QUEUE_STREAMING_PACK(q) \
   uvm::uvm_string_queue_join(q)
 
-#endif
+#endif /* UVM_STRING_DEFINES_H */

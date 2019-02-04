@@ -1,4 +1,5 @@
 //----------------------------------------------------------------------
+//   Copyright 2018 COSEDA Technologies GmbH
 //   Copyright 2012-2014 NXP B.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
@@ -197,7 +198,7 @@ std::string uvm_glob_to_re( const std::string& s );
 
 const char* uvm_glob_to_re_char(const char *glob);
 
-int uvm_re_match( const std::string& re,  const std::string& str);
+bool uvm_re_match( const std::string& re,  const std::string& str);
 
 int uvm_re_match_char(const char * re, const char *str);
 

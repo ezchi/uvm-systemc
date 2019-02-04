@@ -33,6 +33,7 @@ namespace uvm {
 //----------------------------------------------------------------------
 
 uvm_reg_item::uvm_reg_item( const std::string& name ) : uvm_sequence_item(name)
+  , value(1)
 {
   element = NULL;
   local_map = NULL;

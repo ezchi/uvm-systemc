@@ -85,5 +85,7 @@ int sc_main(int, char*[])
 
   run_test();
 
+  delete comp_a1;
+
   return 0;
 }

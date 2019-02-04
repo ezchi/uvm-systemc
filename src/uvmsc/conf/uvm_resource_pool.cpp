@@ -193,8 +193,9 @@ void uvm_resource_pool::set( uvm_resource_base* rsrc,
 
  void uvm_resource_pool::set_override( uvm_resource_base* rsrc )
  {
-   // TODO check correctness of bitwise or, changed to logic OR
-   set( rsrc, (uvm_resource_types::NAME_OVERRIDE || uvm_resource_types::TYPE_OVERRIDE) );
+   // logic or will set value to 1 --> only TYPE_OVERRIDE; changed back to bitwise or (solves also warning with gcc 8.2)
+   // TODO should this be split in set_name_override and set_type_override calls?
+   set( rsrc, (uvm_resource_types::NAME_OVERRIDE | uvm_resource_types::TYPE_OVERRIDE) );
  }
 
 //----------------------------------------------------------------------

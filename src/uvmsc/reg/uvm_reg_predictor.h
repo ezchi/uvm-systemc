@@ -188,7 +188,7 @@ void uvm_reg_predictor<BUSTYPE>::write( const BUSTYPE& tr )
 
   if (rg != NULL)
   {
-    bool found;
+    bool found = false;
     uvm_reg_item* reg_item;
     uvm_reg_map* local_map;
     uvm_reg_map_info* map_info;

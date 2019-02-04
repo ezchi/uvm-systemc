@@ -85,7 +85,7 @@ public:
                            uvm_predict_e     kind = UVM_PREDICT_DIRECT,
                            uvm_reg_byte_en_t be = -1 );
 
-  virtual uvm_reg_map* get_local_map( uvm_reg_map* map, const std::string& caller = "" ) const;
+  virtual uvm_reg_map* get_local_map( const uvm_reg_map* map, const std::string& caller = "" ) const;
 
   virtual void add_field( uvm_reg_field* field );
 
