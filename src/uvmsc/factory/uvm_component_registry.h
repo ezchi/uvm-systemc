@@ -105,8 +105,6 @@ class uvm_component_registry : public uvm_object_wrapper
 
   // data members
 
-  static const std::string type_name;
-
   static uvm_component_registry<T>* me;
 
   std::vector<T* > m_comp_t_list;
@@ -117,9 +115,6 @@ class uvm_component_registry : public uvm_object_wrapper
 //----------------------------------------------------------------------
 // definition of static members outside class definition
 //----------------------------------------------------------------------
-
-template <typename T>
-const std::string uvm_component_registry<T>::type_name = m_type_name_prop();
 
 template <typename T>
 uvm_component_registry<T>* uvm_component_registry<T>::me = get();
@@ -162,7 +157,7 @@ uvm_component* uvm_component_registry<T>::create_component( const std::string& n
 template <typename T>
 const std::string uvm_component_registry<T>::get_type_name() const
 {
-  return uvm_component_registry<T>::type_name;
+  return uvm_component_registry<T>::m_type_name_prop();
 }
 
 //----------------------------------------------------------------------
@@ -175,14 +170,11 @@ const std::string uvm_component_registry<T>::get_type_name() const
 template <typename T>
 uvm_component_registry<T>* uvm_component_registry<T>::get()
 {
-  if (type_name.empty())
-    m_type_name_prop();
-
   if (me == NULL)
   {
     uvm_coreservice_t* cs = uvm_coreservice_t::get();
     uvm_factory* f = cs->get_factory();
-    me = new uvm_component_registry<T>("comprgy_" + type_name);
+    me = new uvm_component_registry<T>("comprgy_" + m_type_name_prop());
     f->do_register(me);
   }
   return me;
@@ -216,7 +208,7 @@ T* uvm_component_registry<T>::create( const std::string& name,
   if (robj == NULL)
   {
     std::ostringstream msg;
-    msg << "Factory did not return a component of type '" << type_name << "'."
+    msg << "Factory did not return a component of type '" << m_type_name_prop() << "'."
         << " A component of type '" << ((obj == NULL) ? "NULL" : obj->get_type_name() )
         << "' was returned instead. Name=" << name << " Parent="
         << ((parent == NULL) ? "NULL" : parent->get_type_name()) << " contxt=" << l_contxt;

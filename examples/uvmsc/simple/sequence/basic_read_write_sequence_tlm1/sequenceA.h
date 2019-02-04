@@ -42,7 +42,6 @@ class sequenceA : public uvm::uvm_sequence<REQ,RSP>
   void body()
   {
     std::string prstring;
-    int  ret_data;
     REQ* req;
     RSP* rsp;
     rsp = new RSP();
@@ -83,12 +82,14 @@ class sequenceA : public uvm::uvm_sequence<REQ,RSP>
   }
 
  private:
-  static int g_my_id;
-  int my_id;
+  // TODO: check types with UVM/SV original
+  static unsigned int g_my_id;
+  unsigned int my_id;
 };
 
+// TODO: check types with UVM/SV original
 template <typename REQ, typename RSP>
-int sequenceA<REQ,RSP>::g_my_id = 1;
+unsigned int sequenceA<REQ,RSP>::g_my_id = 1;
 
 
 #endif /* SEQUENCEA_H_ */

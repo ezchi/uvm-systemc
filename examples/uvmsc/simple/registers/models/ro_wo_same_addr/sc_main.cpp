@@ -46,5 +46,8 @@ int sc_main(int, char*[])
 
   uvm::run_test();
 
+  delete env;
+  delete test;
+
   return 0;
 }

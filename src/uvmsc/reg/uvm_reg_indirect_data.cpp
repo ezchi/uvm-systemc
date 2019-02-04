@@ -186,7 +186,7 @@ void uvm_reg_indirect_data::do_predict( uvm_reg_item* rw,
 // Implementation defined
 //-----------------------------------------------------------------------------
 
-uvm_reg_map* uvm_reg_indirect_data::get_local_map( uvm_reg_map* map,
+uvm_reg_map* uvm_reg_indirect_data::get_local_map( const uvm_reg_map* map,
                                                    const std::string& caller ) const
 {
   return m_idx->get_local_map(map,caller);

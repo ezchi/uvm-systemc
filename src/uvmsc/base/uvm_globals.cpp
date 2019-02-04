@@ -1,5 +1,6 @@
 //----------------------------------------------------------------------
-//   Copyright 2014 Université Pierre et Marie Curie, Paris
+//   Copyright 2018 COSEDA Technologies GmbH
+//   Copyright 2014 Universitï¿½ Pierre et Marie Curie, Paris
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
@@ -42,7 +43,6 @@
 #if !defined(_MSC_VER)
 #include "config.h"
 #endif
-
 #if defined(_MSC_VER) && (_MSC_VER >= 1500)
 #define HAVE_CXX11_REGEX
 #endif
@@ -348,9 +348,8 @@ const char* uvm_glob_to_re_char(const char *glob)
     // Convert the glob to a true regular expression (Posix syntax)
     len = 0;
 
-#if !defined(_MSC_VER)
+    // UVM marks all regular expressions with a '/' (user can deciced to use globs or regular expressions)
 	uvm_re[len++] = uvm_re_bracket_char;
-#endif
 
     // ^ goes at the beginning...
     if (*glob != '^')
@@ -415,9 +414,8 @@ const char* uvm_glob_to_re_char(const char *glob)
   if (uvm_re[len-1] != '$')
     uvm_re[len++] = '$';
 
-#if !defined(_MSC_VER)
+  // UVM marks all regular expressions with a '/' (user can deciced to use globs or regular expressions)
   uvm_re[len++] = uvm_re_bracket_char;
-#endif
 
   uvm_re[len++] = '\0';
 
@@ -434,25 +432,30 @@ const char* uvm_glob_to_re_char(const char *glob)
 // matching is done using regexec().
 //--------------------------------------------------------------------
 
-int uvm_re_match( const std::string& re, const std::string& str )
+bool uvm_re_match( const std::string& re, const std::string& str )
 {
-  int err;
-
+  bool err;
 #if defined(HAVE_CXX11_REGEX)
-  int match;
+  bool match;
+  std::string rex;
+  // UVM marks all regular expressions with a '/' (user can deciced to use globs or regular expressions)
+  // these have to be removed before doing regex match
+  if (( re.length() > 1) && (re.front() == uvm_re_bracket_char) && re.back()== uvm_re_bracket_char) {
+	  rex = re.substr(1, re.length()-2);
+  } else
+	  rex = re;
 #if defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1700)
   // MSVC 2008 and 2010: regex is in nested namespace std::tr1
-  std::tr1::regex regex(re, std::tr1::regex::extended);
+  std::tr1::regex regex(rex, std::tr1::regex::extended);
   match = std::tr1::regex_match(str.begin(), str.end(), regex);
 #else
-  std::regex regex(re, std::regex::extended);
+  std::regex regex(rex, std::regex::extended);
   match = std::regex_match(str.begin(), str.end(), regex);
 #endif
   err = !match;
 #else
-  err = uvm_re_match_char(re.c_str(), str.c_str() );
+  err = (uvm_re_match_char(re.c_str(), str.c_str()) == 0) ? (false) : (true);
 #endif
-
   return err;
 }
 
@@ -596,13 +599,9 @@ std::vector<std::string> uvm_re_match2(const std::string& expr, const std::strin
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1700)
   // MSVC 2008 and 2010: regex is in nested namespace std::tr1
-  using namespace std::tr1::regex;
-  using namespace std::tr1::smatch;
-  using namespace std::tr1::regex_match
+  using namespace std::tr1;
 #else
-  using namespace std::regex;
-  using namespace std::smatch;
-  using namespace std::regex_match
+  using namespace std;
 #endif
   regex expression(expr);
   smatch result;
@@ -613,11 +612,12 @@ std::vector<std::string> uvm_re_match2(const std::string& expr, const std::strin
     return str;
   };
 
-  for (int i = 0; i < result.size(); i++)
+  for (const auto& i : result)
   {
-    //std::cout << "result " << i << ": " << result.str(i) << std::endl;
-    if (!result(i).empty())
-      str.push_back(result(i));
+    if (!(i.str().empty())) {
+      // result contains all matches
+      str.push_back(i.str());
+    }
   }
 
 #else // fallback to POSIX regex

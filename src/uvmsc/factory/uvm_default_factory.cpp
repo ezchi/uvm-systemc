@@ -1041,7 +1041,7 @@ void uvm_default_factory::print( int all_types )
   qs.push_back("\n#### Print Factory Configuration (*)\n\n");
 
   // print instance overrides
-  if( !m_type_overrides.size() ) //&& !sorted_override_queues.size() )
+  if( !m_type_overrides.size() && !sorted_override_queues.size() )
     qs.push_back("No instance or type overrides are registered with this factory\n");
   else
   {

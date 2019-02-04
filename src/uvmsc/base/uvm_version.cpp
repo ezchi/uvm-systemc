@@ -23,13 +23,6 @@
 
 namespace uvm {
 
-const std::string uvm_nxp_copyright  = "(C) 2012-2015 NXP B.V.";
-const std::string uvm_fhg_copyright  = "(C) 2012-2014 Fraunhofer IIS/EAS";
-const std::string uvm_upmc_copyright = "(C) 2012-2014 University Pierre et Marie Curie";
-const std::string uvm_mgc_copyright  = "(C) 2007-2013 Mentor Graphics Corporation";
-const std::string uvm_cdn_copyright  = "(C) 2007-2013 Cadence Design Systems, Inc.";
-const std::string uvm_snps_copyright = "(C) 2006-2013 Synopsys, Inc.";
-const std::string uvm_cy_copyright   = "(C) 2011-2013 Cypress Semiconductor Corp.";
 const std::string uvm_revision = UVM_VERSION_STRING;
 
 std::string uvm_revision_string()

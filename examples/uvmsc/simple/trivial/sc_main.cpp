@@ -31,5 +31,7 @@ int sc_main(int, char*[])
 
   uvm::run_test();
 
+  delete component;
+
   return 0;
 }

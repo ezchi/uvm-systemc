@@ -43,5 +43,10 @@ int sc_main(int, char*[])
 
   uvm::run_test();
 
+  delete my_dut;
+  delete tb;
+  delete dut_if_in;
+  delete dut_if_out;
+
   return 0;
 }

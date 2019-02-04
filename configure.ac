@@ -1,12 +1,13 @@
 ##                            -*- Autoconf -*-
 ## --------------------------------------------------------------------------
 ##
-##   Copyright 2014 Université Pierre et Marie Curie, Paris
-##   Copyright 2014-2017 Fraunhofer-Gesellschaft zur Foerderung
+##   Copyright 2014 Universitï¿½ Pierre et Marie Curie, Paris
+##   Copyright 2014-2018 Fraunhofer-Gesellschaft zur Foerderung
 ##                  der angewandten Forschung e.V.
 ##   Copyright 2007-2011 Mentor Graphics Corporation
 ##   Copyright 2007-2011 Cadence Design Systems, Inc.
 ##   Copyright 2010-2011 Synopsys, Inc.
+##   Copyright 2018 Robert Bosch GmbH
 ##   All Rights Reserved Worldwide
 ##
 ##   Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +42,7 @@
 AC_PREREQ(2.61)
 
 AC_INIT([UVM-SystemC],
-        [1.0-beta1],
+        [1.0-beta2],
         [uvm-systemc-feedback@lists.accellera.org],
         [uvm-systemc],
         [Download-URL],
@@ -56,7 +57,7 @@ AC_DEFINE_UNQUOTED(CONFIGURE_DATE, "`sh -c date`", [Date of configure])
 AC_SUBST(CONFIGURE_DATE)
 
 AC_DEFINE_UNQUOTED(UVM_VERSION, "${PACKAGE_VERSION}", [UVM SystemC Version])
-AC_DEFINE_UNQUOTED(UVM_RELEASE_DATE, "2017-12-07", [UVM SystemC Release Date])
+AC_DEFINE_UNQUOTED(UVM_RELEASE_DATE, "2018-10-24", [UVM SystemC Release Date])
 AC_SUBST(UVM_VERSION)
 AC_SUBST(UVM_RELEASE_DATE)
 
@@ -458,8 +459,8 @@ case "$want_regex" in
     AC_TRY_RUN([#include<regex>
       int main()
       {
-        std::regex rx("xabcy", std::regex::extended);
-        if( !std::regex_match("abc", rx) ) exit(1);
+        std::regex rx("[(ab)]+", std::regex::extended);
+        if( !std::regex_match("abababab", rx) ) exit(1);
         exit(0);
         return 0;
       }],

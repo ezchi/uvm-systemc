@@ -270,7 +270,8 @@ private:
    unsigned int        m_n_bytes;
    uvm_endianness_e    m_endian;
    bool                m_byte_addressing;
-   uvm_object_wrapper* m_sequence_wrapper;
+   // TODO: unused
+   /* uvm_object_wrapper* m_sequence_wrapper;*/
    uvm_reg_adapter*    m_adapter;
    uvm_sequencer_base* m_sequencer;
    bool                m_auto_predict;

@@ -86,8 +86,9 @@ class bus_trans : public uvm::uvm_sequence_item
 
   // data members
  public:
-  int addr;
-  int data;
+  // TODO: check types with UVM/SV original
+  unsigned int addr;
+  unsigned int data;
   bus_op_t op;
 };
 

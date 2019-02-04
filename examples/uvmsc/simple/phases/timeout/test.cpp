@@ -72,5 +72,7 @@ int sc_main(int, char*[])
 
   run_test("test");
 
+  delete env;
+
   return 0;
 }

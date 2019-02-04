@@ -92,5 +92,11 @@ int sc_main(int, char*[])
 
   run_test();
 
+  delete comp_a1;
+  delete comp_a2;
+  delete comp_a3;
+  delete comp_a4;
+  delete comp_a5;
+
   return 0;
 }

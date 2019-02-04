@@ -1,9 +1,8 @@
 cmake_minimum_required (VERSION 3.1)
-cmake_policy(SET CMP0001 NEW)
 
 project (UVMSystemC VERSION 0.1.0)
 
-set(SYSTEMC_HOME $ENV{SYSTEMC_HOME})
+option(SYSTEMC_HOME "SystemC home directory" $ENV{SYSTEMC_HOME})
 
 set(CMAKE_PREFIX_PATH ${SYSTEMC_HOME})
 
@@ -13,6 +12,7 @@ set (CMAKE_CXX_STANDARD ${SystemC_CXX_STANDARD} CACHE STRING
   "C++ standard to build all targets. Supported values are 98, 11, and 14.")
 set (CMAKE_CXX_STANDARD_REQUIRED ${SystemC_CXX_STANDARD_REQUIRED} CACHE BOOL
     "The with CMAKE_CXX_STANDARD selected C++ standard is a requirement.")
+mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
 
 ###############################################################################
 # Build options
@@ -24,21 +24,12 @@ if (NOT CMAKE_BUILD_TYPE)
         FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
-mark_as_advanced (CMAKE_CXX_STANDARD_REQUIRED)
 
-if (NOT (WIN32 OR CYGWIN))
-    option (BUILD_SHARED_LIBS "Build shared libraries." ON)
-else (NOT (WIN32 OR CYGWIN))
-    option (BUILD_SHARED_LIBS "Build shared libraries." OFF)
-endif (NOT (WIN32 OR CYGWIN))
-if (BUILD_SHARED_LIBS AND (WIN32 OR CYGWIN))
-    message (WARNING "The compilation of UVM-SystemC as a DLL on Windows is currently not supported!")
-    set (BUILD_SHARED_LIBS CACHE BOOL "Build shared libraries." OFF FORCE)
-endif (BUILD_SHARED_LIBS AND (WIN32 OR CYGWIN))
+option (BUILD_SHARED_LIBS "Build shared libraries." OFF)
 
-option (BUILD_SOURCE_DOCUMENTATION "Build source documentation with Doxygen." OFF)
-
-option (DISABLE_COPYRIGHT_MESSAGE "Do not print the copyright message when starting the application." OFF)
+option (BUILD_SOURCE_DOCUMENTATION "Build source documentation with Doxygen." ON)
+option (DISABLE_COPYRIGHT_MESSAGE "Do not print the copyright message when starting the application." ON)
+mark_as_advanced(DISABLE_COPYRIGHT_MESSAGE)
 
 option (INSTALL_TO_LIB_BUILD_TYPE_DIR
     "Install the libraries to lib-${CMAKE_BUILD_TYPE} to enable parallel installation of the different build variants. (default: OFF)"
@@ -56,7 +47,6 @@ else (CMAKE_HOST_UNIX AND NOT INSTALL_TO_LIB_TARGET_ARCH_DIR)
     unset (INSTALL_LIB_TARGET_ARCH_SYMLINK CACHE)
 endif (CMAKE_HOST_UNIX AND NOT INSTALL_TO_LIB_TARGET_ARCH_DIR)
 
-mark_as_advanced(DISABLE_COPYRIGHT_MESSAGE)
 
 ###############################################################################
 # Set UVMSC_TARGET_ARCH depending on OS and processor type
@@ -74,20 +64,10 @@ if (NOT APPLE OR (APPLE AND (N_OSX_ARCHITECTURES LESS 2)))
             message (STATUS "The target architecture will be passed explicitly to the Apple compiler.")
             set (CMAKE_REQUIRED_FLAGS "-arch ${CMAKE_OSX_ARCHITECTURES}")
         endif (N_OSX_ARCHITECTURES EQUAL 1)
-        unset (HAS__i386_DEFINED CACHE)
         unset (HAS__x86_64__DEFINED CACHE)
-        unset (HAS__ppc__DEFINED CACHE)
     endif (APPLE)
     include (CheckSymbolExists)
-    check_symbol_exists (__LP64__ "" HAS__LP64__DEFINED)
-    check_symbol_exists (__sparc "" HAS__sparc_DEFINED)
-    check_symbol_exists (__sparc__ "" HAS__sparc__DEFINED)
-    check_symbol_exists (__hppa "" HAS__hppa_DEFINED)
     check_symbol_exists (__x86_64__ "" HAS__x86_64__DEFINED)
-    check_symbol_exists (__i386 "" HAS__i386_DEFINED)
-    check_symbol_exists (__aarch64__ "" HAS__aarch64__DEFINED)
-    check_symbol_exists (__ppc__ "" HAS__ppc__DEFINED)
-    check_symbol_exists (__powerpc "" HAS__powerpc_DEFINED)
 endif (NOT APPLE OR (APPLE AND (N_OSX_ARCHITECTURES LESS 2)))
 
 
@@ -100,83 +80,13 @@ if (NOT UVMSC_TARGET_ARCH)
     elseif (APPLE)
         if (N_OSX_ARCHITECTURES GREATER 1)
             set (_TARGET_ARCH "macosxuniversal")
-        elseif (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "macosx")
         elseif (HAS__x86_64__DEFINED)
             set (_TARGET_ARCH "macosx64")
-        elseif (HAS__ppc__DEFINED)
-            set (_TARGET_ARCH "macosxppc")
-        elseif (HAS__ppc64__DEFINED)
-            set (_TARGET_ARCH "macosxppc64")
-        else (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "macosxunknown")
         endif (N_OSX_ARCHITECTURES GREATER 1)
     elseif (UNIX AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
-        if (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "linux")
-        elseif (HAS__x86_64__DEFINED)
+        if (HAS__x86_64__DEFINED)
             set (_TARGET_ARCH "linux64")
-        elseif (HAS__aarch64__DEFINED)
-            set (_TARGET_ARCH "linuxaarch64")
-        elseif (HAS__powerpc_DEFINED)
-            # Untested platform.
-            set (_TARGET_ARCH "linuxppc")
-        elseif (HAS__sparc_DEFINED OR HAS__sparc__DEFINED)
-            # Untested platform.
-            set (_TARGET_ARCH "linuxsparc")
-        else (HAS__i386_DEFINED)
-            # Untested platform.
-            set (_TARGET_ARCH "linuxunknown")
-        endif (HAS__i386_DEFINED)
-    elseif (UNIX AND CMAKE_SYSTEM_NAME MATCHES ".*BSD")
-        if (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "bsd")
-        elseif (HAS__x86_64__DEFINED)
-            set (_TARGET_ARCH "bsd64")
-        else (HAS__i386_DEFINED)
-            # Untested platform.
-            set (_TARGET_ARCH "bsdunknown")
-        endif (HAS__i386_DEFINED)
-    elseif (UNIX AND CMAKE_SYSTEM_NAME STREQUAL "SunOS"
-            AND (HAS__sparc_DEFINED OR HAS__sparc__DEFINED))
-        # Untested platform.
-        set (_TARGET_ARCH "sparcOS5")
-        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-            set (_TARGET_ARCH "gcc${_TARGET_ARCH}")
-        endif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    elseif (UNIX AND CMAKE_SYSTEM_NAME STREQUAL "HP-UX" AND HAS__hppa_DEFINED)
-        # Untested platform.
-        set (_TARGET_ARCH "hpux11")
-        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-            set (_TARGET_ARCH "gcc${_TARGET_ARCH}")
-        endif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        if (HAS__LP64__DEFINED)
-            set (_TARGET_ARCH "${_TARGET_ARCH}64")
-        endif (HAS__LP64__DEFINED)
-    elseif (MSVC)
-        set (_TARGET_ARCH "msvc")
-        if (CMAKE_CL_64)
-            set (_TARGET_ARCH "${_TARGET_ARCH}64")
-        endif (CMAKE_CL_64)
-    elseif (CYGWIN)
-        if (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "cygwin")
-        elseif (HAS__x86_64__DEFINED)
-            set (_TARGET_ARCH "cygwin64")
-        else (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "cygwinunknown")
-        endif (HAS__i386_DEFINED)
-    elseif (WIN32
-            AND ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-                OR (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")))
-        # MinGW platform, as CYGWIN already has been handled
-        if (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "mingw")
-        elseif (HAS__x86_64__DEFINED)
-            set (_TARGET_ARCH "mingw64")
-        else (HAS__i386_DEFINED)
-            set (_TARGET_ARCH "mingwunknown")
-        endif (HAS__i386_DEFINED)
+        endif (HAS__x86_64__DEFINED)
     else ($ENV{UVMSC_TARGET_ARCH})
         # Unknown platform, so guess a UVM-SystemC target architecture value.
         string (TOLOWER "${CMAKE_SYSTEM_NAME}${CMAKE_PROCESSOR_NAME}" _TARGET_ARCH)
@@ -225,60 +135,9 @@ configure_package_config_file(
     INSTALL_DESTINATION "${config_install_dir}"
 )
 
-# if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-#     if (IS_ABSOLUTE $ENV{UVMSC_HOME})
-#         set (_CMAKE_INSTALL_PREFIX $ENV{UVMSC_HOME})
-#     elseif (UNIX)
-#         set (_CMAKE_INSTALL_PREFIX "/opt/uvmsc")
-#     elseif (WIN32)
-#         file (TO_CMAKE_PATH $ENV{ProgramFiles} _WIN32_INSTALL_PREFIX)
-#         set (_CMAKE_INSTALL_PREFIX "${_WIN32_INSTALL_PREFIX}/uvmsc")
-#         unset (_WIN32_INSTALL_PREFIX)
-#     else (EXISTS $ENV{SYSTEMC_ROOT_DIR})
-#         set (_CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/uvmsc")
-#     endif (IS_ABSOLUTE $ENV{UVMSC_HOME})
-#     set (CMAKE_INSTALL_PREFIX ${_CMAKE_INSTALL_PREFIX} CACHE PATH "Installation root directory" FORCE)
-#     unset (_CMAKE_INSTALL_PREFIX)
-# endif (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-
 # Set the installation paths for headers, libraries, and documentation.
 set (CMAKE_INSTALL_DOCDIR "share/doc/uvmsc" CACHE PATH
     "Documentation installation directory") # otherwise mixed-case
-# if (INSTALL_TO_LIB_BUILD_TYPE_DIR)
-#     # Install libraries to lib-${CMAKE_BUILD_TYPE} so that different build variants
-#     # of the library can be installed in parallel to the same UVM-SystemC root
-#     # directory. The find_package() mechanism in config-mode of CMake will then
-#     # automatically find the correct libraries matching the chosen
-#     # ${CMAKE_BUILD_TYPE}.
-#     set (_INSTALL_LIBDIR lib-${CMAKE_BUILD_TYPE})
-#     string (TOLOWER ${_INSTALL_LIBDIR} _INSTALL_LIBDIR)
-#     set (CMAKE_INSTALL_LIBDIR ${_INSTALL_LIBDIR} CACHE PATH
-#         "Object code libraries installation directory" FORCE)
-#     unset (_INSTALL_LIBDIR)
-# elseif (INSTALL_TO_LIB_TARGET_ARCH_DIR)
-#     # Some build systems assume to find UVM-SystemC in lib-<target-arch>
-#     set (CMAKE_INSTALL_LIBDIR lib-${UVMSC_TARGET_ARCH} CACHE PATH
-#         "Object code libraries installation directory" FORCE)
-# endif (INSTALL_TO_LIB_BUILD_TYPE_DIR)
-
-# # Install symlink lib-<target-arch> to lib-${CMAKE_BUILD_TYPE}
-# if (INSTALL_LIB_TARGET_ARCH_SYMLINK AND CMAKE_HOST_UNIX)
-#     install (CODE "
-#     EXECUTE_PROCESS(COMMAND cmake -E create_symlink ${CMAKE_INSTALL_LIBDIR} lib-${UVMSC_TARGET_ARCH}
-#                     WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX})
-#   ")
-# endif (INSTALL_LIB_TARGET_ARCH_SYMLINK AND CMAKE_HOST_UNIX)
-
-# if (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
-#     set (UVMSC_INSTALL_CMAKEDIR share/cmake/UVMSC CACHE PATH
-#         "CMake package configuration installation directory" FORCE)
-# else (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
-#   set (UVMSC_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/UVMSC CACHE PATH
-#       "CMake package configuration installation directory for the UVM-SystemC package.")
-# endif (INSTALL_TO_LIB_BUILD_TYPE_DIR OR INSTALL_TO_LIB_TARGET_ARCH_DIR)
-# mark_as_advanced(UVMSC_INSTALL_CMAKEDIR)
-# set(UVMSC_INSTALL_FULL_CMAKEDIR "${CMAKE_INSTALL_PREFIX}/${UVMSC_INSTALL_CMAKEDIR}")
-
 
 ###############################################################################
 # Configure RPATH so that all targets find the libraries they link to
@@ -312,7 +171,7 @@ endif ("${isSystemDir}" STREQUAL "-1")
 ###############################################################################
 
 message (STATUS "========================================================================")
-message (STATUS "Settings to build UVM-SystemC ${UVM_VERSION} (${UVM_RELEASE_DATE})")
+message (STATUS "Settings to build UVM-SystemC")
 message (STATUS "------------------------------------------------------------------------")
 message (STATUS "BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
 message (STATUS "BUILD_SOURCE_DOCUMENTATION = ${BUILD_SOURCE_DOCUMENTATION}")
@@ -372,52 +231,20 @@ install (FILES AUTHORS
          COMPONENT doc)
 
 
-###############################################################################
-# Provide package of the UVM-SystemC library to other programs using CMake
-###############################################################################
-
-# Export the UVM-SystemC library target for usage by other programs
-# ... to local build tree
-# export (TARGETS uvm-systemc
-#         NAMESPACE UVMSC::
-#         FILE UVMSCTargets.cmake)
-# # ... to installation tree
-# install (EXPORT UVMSCTargets
-#          NAMESPACE UVMSC::
-#          DESTINATION ${UVMSC_INSTALL_CMAKEDIR}
-#          COMPONENT dev)
-
 # Register the UVM-SystemC package for use from the build tree. (This registers
 # the build tree with the global CMake-registry.)
 export (PACKAGE ${PROJECT_NAME})
 
-# # Create the <Package>Config.cmake and <Package>ConfigVersion files
-# include(CMakePackageConfigHelpers)
-# configure_package_config_file(cmake/UVMSCConfig.cmake.in
-#   ${CMAKE_CURRENT_BINARY_DIR}/UVMSCConfig.cmake
-#   INSTALL_DESTINATION ${UVMSC_INSTALL_CMAKEDIR})
-# write_basic_package_version_file(
-#   "${CMAKE_CURRENT_BINARY_DIR}/UVMSCConfigVersion.cmake"
-#   VERSION ${UVM_VERSION}.${UVM_RELEASE_DATE}
-#   COMPATIBILITY AnyNewerVersion
-# )
-
-# # Install the <Package>Config.cmake and <Package>ConfigVersion.cmake
-# install(FILES "${PROJECT_BINARY_DIR}/UVMSCConfig.cmake"
-#               "${PROJECT_BINARY_DIR}/UVMSCConfigVersion.cmake"
-#         DESTINATION "${UVMSC_INSTALL_CMAKEDIR}"
-#         COMPONENT dev)
-
 # Config
-#   * <prefix>/lib/cmake/Foo/FooConfig.cmake
-#   * <prefix>/lib/cmake/Foo/FooConfigVersion.cmake
+#   * <prefix>/lib/cmake/<ProjectName>/<ProjectName>Config.cmake
+#   * <prefix>/lib/cmake/<ProjectName>/<ProjectName>ConfigVersion.cmake
 install(
     FILES "${project_config}" "${version_config}"
     DESTINATION "${config_install_dir}"
 )
 
 # Config
-#   * <prefix>/lib/cmake/Foo/FooTargets.cmake
+#   * <prefix>/lib/cmake/<ProjectName>/<ProjectName>Targets.cmake
 install(
     EXPORT "${TARGETS_EXPORT_NAME}"
     NAMESPACE "${namespace}"

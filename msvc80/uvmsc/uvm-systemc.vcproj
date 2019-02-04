@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_component_name.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\uvmsc\conf\uvm_config_db_options.cpp"
 				>
 			</File>
@@ -199,11 +203,43 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\uvmsc\factory\uvm_factory.cpp"
+				RelativePath="..\..\src\uvmsc\base\uvm_event_callback.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_coreservice_t.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_mutex.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_default_coreservice_t.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\factory\uvm_default_factory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\report\uvm_default_report_server.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\factory\uvm_factory_override.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\factory\uvm_default_factory.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\uvmsc\base\uvm_globals.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\misc\uvm_status_container.cpp"
 				>
 			</File>
 			<File
@@ -327,6 +363,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\uvmsc\report\uvm_report_message.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\uvmsc\report\uvm_report_catcher_data.cpp"
 				>
 			</File>
@@ -425,7 +465,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\src\uvmsc\uvm.h"
+				RelativePath="..\..\src\uvm.h"
 				>
 			</File>
 			<File
@@ -433,11 +473,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\uvmsc\tlm1\uvm_analysis_export.h"
+				RelativePath="..\..\src\uvmsc\tlm1\uvm_analysis_export.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\uvmsc\tlm1\uvm_analysis_imp.h"
+				RelativePath="..\..\src\uvmsc\tlm1\uvm_analysis_imp.h"
 				>
 			</File>
 			<File
@@ -537,6 +577,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_event_callback.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\uvmsc\base\uvm_export_base.h"
 				>
 			</File>
@@ -553,7 +597,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\uvmsc\factory\uvm_factory_override.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\factory\uvm_object_wrapper.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\uvmsc\base\uvm_globals.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_port_base.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\tlm1\uvm_ports.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\conf\uvm_queue.h"
 				>
 			</File>
 			<File
@@ -581,11 +645,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\uvmsc\reg\sequences\uvm_reg_bit_bash_seq.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\reg\sequences\uvm_reg_mem_hdl_paths_seq.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\macros\uvm_reg_defines.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\uvmsc\reg\uvm_mem_mam.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\uvmsc\reg\uvm_mem_mam_cfg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\report\uvm_report_message.h"
 				>
 			</File>
 			<File
@@ -613,7 +693,31 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_coreservice_t.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_mutex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\factory\uvm_default_factory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\report\uvm_default_report_server.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\base\uvm_default_coreservice_t.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\uvmsc\macros\uvm_object_defines.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\macros\uvm_callback_defines.h"
 				>
 			</File>
 			<File
@@ -674,10 +778,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\uvmsc\phasing\uvm_process_phase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\uvmsc\phasing\uvm_queue.h"
 				>
 			</File>
 			<File
@@ -833,11 +933,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\uvmsc\report\uvm_root_report_handler.h"
+				RelativePath="..\..\src\uvmsc\phasing\uvm_runtime_phases.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\uvmsc\phasing\uvm_runtime_phases.h"
+				RelativePath="..\..\src\uvmsc\macros\uvm_string_defines.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\uvmsc\reg\uvm_sc_reg.h"
 				>
 			</File>
 			<File
@@ -885,7 +989,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\uvmsc\tlm1\uvm_sqr_connections.h"
+				RelativePath="..\..\src\uvmsc\tlm1\uvm_sqr_connections.h"
 				>
 			</File>
 			<File
@@ -909,7 +1013,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\uvmsc\tlm1\uvm_tlm_req_rsp_channel.h"
+				RelativePath="..\..\src\uvmsc\tlm1\uvm_tlm_req_rsp_channel.h"
 				>
 			</File>
 			<File

@@ -68,6 +68,7 @@ add_library (uvm-systemc
     uvmsc/base/uvm_root.cpp
     uvmsc/base/uvm_coreservice_t.cpp
     uvmsc/base/uvm_object.cpp
+    uvmsc/base/uvm_mutex.cpp
     uvmsc/base/uvm_transaction.cpp
     uvmsc/base/uvm_globals.cpp
     uvmsc/base/uvm_default_coreservice_t.cpp
@@ -229,7 +230,7 @@ add_library (uvm-systemc
     uvmsc/policy/uvm_comparer.h
     )
 
-add_library (UVMSC::uvm-systemc ALIAS uvm-systemc)
+# add_library (UVMSC::uvm-systemc ALIAS uvm-systemc)
 
 target_compile_definitions (
     uvm-systemc

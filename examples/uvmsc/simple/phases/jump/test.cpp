@@ -571,5 +571,7 @@ int sc_main(int, char*[])
 
   run_test();
 
+  delete t1;
+
   return 0;
 }
