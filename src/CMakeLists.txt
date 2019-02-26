@@ -79,20 +79,7 @@ add_library (uvm-systemc
     uvmsc/policy/uvm_comparer.cpp
     )
 
-target_compile_definitions (
-    uvm-systemc
-    PRIVATE
-    UVM_BUILD
-    UVM_INCLUDE_FX
-    $<$<BOOL:${DEBUG_UVM}>:DEBUG_UVM>
-    $<$<BOOL:${DISABLE_COPYRIGHT_MESSAGE}>:UVM_DISABLE_COPYRIGHT_MESSAGE>
-    )
-
-# target_compile_options(
-#     uvm-systemc
-#     PRIVATE
-#     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wall -Wextra -Wno-unused-parameter -Wno-unused-variable>
-#     )
+add_dependencies(uvm-systemc config_h)
 
 target_include_directories(
     uvm-systemc
@@ -106,13 +93,6 @@ if (APPLE)
 endif (APPLE)
 
 target_link_libraries (uvm-systemc PUBLIC SystemC::systemc)
-
-# set_target_properties (uvm-systemc
-#     PROPERTIES
-#     LINKER_LANGUAGE CXX
-#     VERSION ${UVM_VERSION}
-#     INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR})
-
 
 ###############################################################################
 # Install rules for UVM-SystemC library

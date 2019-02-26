@@ -14,6 +14,19 @@ set (CMAKE_CXX_STANDARD_REQUIRED ${SystemC_CXX_STANDARD_REQUIRED} CACHE BOOL
     "The with CMAKE_CXX_STANDARD selected C++ standard is a requirement.")
 mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
 
+message(STATUS "top level CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h
+    COMMAND ./configure
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    # DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.in
+    VERBATIM
+    )
+
+add_custom_target(config_h
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
+
 ###############################################################################
 # Build options
 ###############################################################################
@@ -28,8 +41,6 @@ endif (NOT CMAKE_BUILD_TYPE)
 option (BUILD_SHARED_LIBS "Build shared libraries." OFF)
 
 option (BUILD_SOURCE_DOCUMENTATION "Build source documentation with Doxygen." ON)
-option (DISABLE_COPYRIGHT_MESSAGE "Do not print the copyright message when starting the application." ON)
-mark_as_advanced(DISABLE_COPYRIGHT_MESSAGE)
 
 option (INSTALL_TO_LIB_BUILD_TYPE_DIR
     "Install the libraries to lib-${CMAKE_BUILD_TYPE} to enable parallel installation of the different build variants. (default: OFF)"
@@ -176,7 +187,6 @@ message (STATUS "---------------------------------------------------------------
 message (STATUS "BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
 message (STATUS "BUILD_SOURCE_DOCUMENTATION = ${BUILD_SOURCE_DOCUMENTATION}")
 message (STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
-message (STATUS "DISABLE_COPYRIGHT_MESSAGE = ${DISABLE_COPYRIGHT_MESSAGE}")
 message (STATUS "UVMSC_TARGET_ARCH = ${UVMSC_TARGET_ARCH}")
 message (STATUS "UVM_VERSION = ${UVM_VERSION}")
 message (STATUS "INSTALL_TO_LIB_BUILD_TYPE_DIR = ${INSTALL_TO_LIB_BUILD_TYPE_DIR}")
