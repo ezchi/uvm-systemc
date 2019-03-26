@@ -2,9 +2,9 @@ cmake_minimum_required (VERSION 3.1)
 
 project (UVMSystemC VERSION 0.1.2 LANGUAGES CXX)
 
-option(SYSTEMC_HOME "SystemC home directory" $ENV{SYSTEMC_HOME})
+set(SYSTEMC_HOME $ENV{SYSTEMC_HOME})
 
-set(CMAKE_PREFIX_PATH ${SYSTEMC_HOME})
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${SYSTEMC_HOME})
 
 find_package(SystemCLanguage CONFIG REQUIRED)
 
