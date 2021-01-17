@@ -88,7 +88,7 @@ class write_also_to_F : public uvm::uvm_reg_cbs
 
   virtual void post_predict( uvm::uvm_reg_field*  fld,
                              uvm::uvm_reg_data_t  previous,
-                             uvm::uvm_reg_data_t  value,
+                             uvm::uvm_reg_data_t& value,
                              uvm::uvm_predict_e   kind,
                              uvm::uvm_path_e      path,
                              uvm::uvm_reg_map*    map )
@@ -116,22 +116,30 @@ class alias_RaRb : public uvm::uvm_object
 
    void configure(reg_Ra* Ra, reg_Rb* Rb)
    {
-      write_also_to_F* F2F;
-
       m_Ra = Ra;
       m_Rb = Rb;
       
-      F2F = new write_also_to_F(Ra->F1);
-      uvm::uvm_reg_field_cb::add(Rb->F1, F2F);
-      F2F = new write_also_to_F(Ra->F2);
-      uvm::uvm_reg_field_cb::add(Rb->F2, F2F);
-      F2F = new write_also_to_F(Rb->F1);
-      uvm::uvm_reg_field_cb::add(Ra->F1, F2F);
+      F2F1 = new write_also_to_F(Ra->F1);
+      uvm::uvm_reg_field_cb::add(Rb->F1, F2F1);
+      F2F2 = new write_also_to_F(Ra->F2);
+      uvm::uvm_reg_field_cb::add(Rb->F2, F2F2);
+      F2F3 = new write_also_to_F(Rb->F1);
+      uvm::uvm_reg_field_cb::add(Ra->F1, F2F3);
+   }
+
+   virtual ~alias_RaRb()
+   {
+      delete F2F1;
+      delete F2F2;
+      delete F2F3;
    }
 
  protected:
    reg_Ra* m_Ra;
    reg_Rb* m_Rb;
+   write_also_to_F* F2F1;
+   write_also_to_F* F2F2;
+   write_also_to_F* F2F3;
 
 }; // class alias_RaRb
 

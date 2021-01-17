@@ -36,5 +36,7 @@
 #include "uvmsc/cb/uvm_cbs.h"
 #include "uvmsc/reg/uvm_reg_layer.h"
 #include "uvmsc/dpi/uvm_hdl.h"
+#include "uvmsc/dap/uvm_dap.h"
+
 
 #endif /* UVM_INCLUDED */

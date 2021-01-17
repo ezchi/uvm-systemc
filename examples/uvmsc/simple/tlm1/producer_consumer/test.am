@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/tlm1/producer_consumer
+
 examples_FILES += \
 	$(simple_tlm1_producer_consumer_H_FILES) \
 	$(simple_tlm1_producer_consumer_CXX_FILES) \
@@ -26,8 +28,5 @@ simple_tlm1_producer_consumer_H_FILES = \
 simple_tlm1_producer_consumer_BUILD = 
 
 simple_tlm1_producer_consumer_EXTRA = 
-
-simple_tlm1_producer_consumer_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

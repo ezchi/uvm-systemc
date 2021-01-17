@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/objections/basic
+
 examples_FILES += \
 	$(simple_objections_basic_H_FILES) \
 	$(simple_objections_basic_CXX_FILES) \
@@ -25,8 +27,5 @@ simple_objections_basic_H_FILES =
 simple_objections_basic_BUILD = 
 
 simple_objections_basic_EXTRA = 
-
-simple_objections_basic_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

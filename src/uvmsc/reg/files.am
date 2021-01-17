@@ -1,0 +1,63 @@
+H_FILES += \
+	reg/uvm_hdl_path_concat.h \
+	reg/uvm_mem.h \
+	reg/uvm_mem_mam.h \
+	reg/uvm_mem_mam_cfg.h \
+	reg/uvm_mem_mam_policy.h \
+	reg/uvm_mem_region.h \
+	reg/uvm_reg.h \
+	reg/uvm_reg_adapter.h \
+	reg/uvm_reg_backdoor.h \
+	reg/uvm_reg_block.h \
+	reg/uvm_reg_bus_op.h \
+	reg/uvm_reg_cbs.h \
+	reg/uvm_reg_cbs_types.h \
+	reg/uvm_reg_field.h \
+	reg/uvm_reg_fifo.h \
+	reg/uvm_reg_file.h \
+	reg/uvm_reg_frontdoor.h \
+	reg/uvm_reg_indirect_data.h \
+	reg/uvm_reg_indirect_ftdr_seq.h \
+	reg/uvm_reg_item.h \
+	reg/uvm_reg_layer.h \
+	reg/uvm_reg_map.h \
+	reg/uvm_reg_model.h \
+	reg/uvm_reg_predictor.h \
+	reg/uvm_reg_read_only_cbs.h \
+	reg/uvm_reg_sequence.h \
+	reg/uvm_reg_tlm_adapter.h \
+	reg/uvm_reg_write_only_cbs.h \
+	reg/uvm_sc_reg.h \
+	reg/uvm_vreg.h \
+	reg/uvm_vreg_cbs.h \
+	reg/uvm_vreg_field.h \
+	reg/uvm_vreg_field_cbs.h \
+    reg/sequences/uvm_reg_bit_bash_seq.h \
+    reg/sequences/uvm_reg_mem_hdl_paths_seq.h
+
+CXX_FILES += \
+	reg/uvm_mem.cpp \
+	reg/uvm_mem_mam.cpp \
+	reg/uvm_mem_region.cpp \
+	reg/uvm_reg.cpp \
+	reg/uvm_reg_adapter.cpp \
+	reg/uvm_reg_backdoor.cpp \
+	reg/uvm_reg_block.cpp \
+	reg/uvm_reg_field.cpp \
+	reg/uvm_reg_fifo.cpp \
+	reg/uvm_reg_file.cpp \
+	reg/uvm_reg_indirect_data.cpp \
+	reg/uvm_reg_indirect_ftdr_seq.cpp \
+	reg/uvm_reg_item.cpp \
+	reg/uvm_reg_map.cpp \
+	reg/uvm_reg_model.cpp \
+	reg/uvm_reg_read_only_cbs.cpp \
+	reg/uvm_reg_tlm_adapter.cpp \
+	reg/uvm_reg_write_only_cbs.cpp \
+	reg/uvm_vreg.cpp \
+	reg/uvm_vreg_field.cpp \
+	reg/uvm_vreg_field_cbs.cpp
+
+INCDIRS += reg/sequences reg
+
+## Taf!

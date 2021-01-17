@@ -32,6 +32,7 @@
 #define UVM_SQR_CONNECTIONS_H_
 
 #include "uvmsc/base/uvm_port_base.h"
+#include "uvmsc/base/uvm_export_base.h"
 #include "uvmsc/seq/uvm_sequencer_ifs.h"
 
 namespace uvm {
@@ -88,10 +89,10 @@ class uvm_seq_item_pull_port : public uvm_port_base< uvm_sqr_if_base<REQ, RSP> >
 //-----------------------------------------------------------------------------
 
 template <typename REQ = int, typename RSP = REQ>
-class uvm_seq_item_pull_export : public uvm_port_base<uvm_sqr_if_base<REQ, RSP> >
+class uvm_seq_item_pull_export : public uvm_export_base<uvm_sqr_if_base<REQ, RSP> >
 {
-  uvm_seq_item_pull_export() : uvm_port_base< uvm_sqr_if_base<REQ, RSP> >() {}
-  uvm_seq_item_pull_export( const char *nm ) : uvm_port_base< uvm_sqr_if_base<REQ, RSP> >(nm) {}
+  uvm_seq_item_pull_export() : uvm_export_base< uvm_sqr_if_base<REQ, RSP> >() {}
+  uvm_seq_item_pull_export( const char *nm ) : uvm_export_base< uvm_sqr_if_base<REQ, RSP> >(nm) {}
   virtual ~uvm_seq_item_pull_export(){}
 
   virtual const std::string get_type_name() const
@@ -111,11 +112,11 @@ class uvm_seq_item_pull_export : public uvm_port_base<uvm_sqr_if_base<REQ, RSP> 
 //-----------------------------------------------------------------------------
 
 template <typename REQ = int, typename RSP = REQ, typename IMP = int>
-class uvm_seq_item_pull_imp : public uvm_port_base<uvm_sqr_if_base<REQ, RSP> >
+class uvm_seq_item_pull_imp : public uvm_export_base<uvm_sqr_if_base<REQ, RSP> >
 {
  public:
-  uvm_seq_item_pull_imp() : uvm_port_base< uvm_sqr_if_base<REQ, RSP> >() {}
-  uvm_seq_item_pull_imp( const char *nm ) : uvm_port_base< uvm_sqr_if_base<REQ, RSP> >(nm) {}
+  uvm_seq_item_pull_imp() : uvm_export_base< uvm_sqr_if_base<REQ, RSP> >() {}
+  uvm_seq_item_pull_imp( const char *nm ) : uvm_export_base< uvm_sqr_if_base<REQ, RSP> >(nm) {}
   virtual ~uvm_seq_item_pull_imp(){}
 
   virtual const std::string get_type_name() const

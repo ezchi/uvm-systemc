@@ -1,4 +1,5 @@
 //----------------------------------------------------------------------
+//   Copyright 2019 COSEDA Technologies GmbH
 //   Copyright 2012-2016 NXP B.V.
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
@@ -50,31 +51,18 @@ namespace uvm {
 // Global function: uvm_vector_to_string
 //
 //! Implementation defined
-//! Convert integer value in a string using formatting based on radix
+//! Convert integral value in a string using formatting based on radix
 //----------------------------------------------------------------------
 
-std::string uvm_vector_to_string( int value,
+std::string uvm_vector_to_string(const uvm_integral_t& val,
                              int size,
                              uvm_radix_enum radix,
                              const std::string& radix_str )
 {
-  // sign extend & don't show radix for negative values
-
-  /* TODO only use when we use uvm_bitstream_t
-  if (radix == UVM_DEC && value[size-1] == 1)
-  {
-    std::ostringstream str;
-    str << value;
-    return str.str();
-  }
-
-  value &= (1 << size)-1;
-  */
-
+  sc_dt::sc_uint_base reduced_value (val, size);
+  int value = reduced_value;
   std::ostringstream rstr;
-
-  switch(radix)
-  {
+  switch(radix) {
     case UVM_BIN:      // format "%0s%0b"
     {
       rstr << radix_str << std::bitset<16>(value);
@@ -121,28 +109,17 @@ std::string uvm_vector_to_string( int value,
 //! formatting based on radix
 //----------------------------------------------------------------------
 
-std::string uvm_vector_to_string( uvm_bitstream_t value,
+std::string uvm_vector_to_string( const uvm_bitstream_t& val,
                              	  int size,
                              	  uvm_radix_enum radix,
                              	  const std::string& radix_str )
 {
-  // sign extend & don't show radix for negative values
-
-  /* TODO only use when we use uvm_bitstream_t
-  if (radix == UVM_DEC && value[size-1] == 1)
-  {
-    std::ostringstream str;
-    str << value;
-    return str.str();
-  }
-
-  value &= (1 << size)-1;
-  */
-
+  // Copy over the contents over to the underlying data structure
+  sc_dt::sc_unsigned value (size);
+  value = val;
   std::ostringstream rstr;
 
-  switch(radix)
-  {
+  switch(radix) {
     case UVM_BIN:      // format "%0s%0b"
     {
       rstr << radix_str << value.to_string(sc_dt::SC_BIN_US, false); // TODO no prefix?

@@ -61,6 +61,11 @@ class test : public uvm_test
     wait(100, SC_US);
     phase.drop_objection(this);
   }
+  
+  virtual ~test()
+  {
+    tb_timer::destroy();
+  }
 };
 
 

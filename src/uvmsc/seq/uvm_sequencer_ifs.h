@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2012-2014 NXP B.V.
+//   Copyright 2012-2019 NXP B.V.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -37,7 +37,7 @@ class uvm_sqr_if_base : public virtual sc_core::sc_interface //: public tlm::tlm
 {
  public:
 
-  virtual REQ get_next_item( tlm::tlm_tag<REQ> *req = NULL ) = 0;
+  virtual REQ get_next_item( REQ *req = NULL ) = 0;
   virtual void get_next_item( REQ& req ) { req = get_next_item(); }
 
   virtual bool try_next_item( REQ& req ) = 0;
@@ -47,10 +47,10 @@ class uvm_sqr_if_base : public virtual sc_core::sc_interface //: public tlm::tlm
 
   virtual void put( const RSP& rsp ) = 0;
 
-  virtual REQ get( tlm::tlm_tag<REQ> *req = NULL ) = 0;
+  virtual REQ get( REQ *req = NULL ) = 0;
   virtual void get( REQ& req ) { req = get(); }
 
-  virtual REQ peek( tlm::tlm_tag<REQ> *req = NULL ) = 0; // FIXME in SystemC TLM1 this is a const method.
+  virtual REQ peek( REQ *req = NULL ) = 0; // FIXME in SystemC TLM1 this is a const method.
   virtual void peek( REQ& req ) { req = peek(); }   // FIXME in SystemC TLM1 this is a const method.
 
   // TODO - do we need these at all?

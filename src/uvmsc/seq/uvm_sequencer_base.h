@@ -2,7 +2,8 @@
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
+//   Copyright 2018 Intel Corp.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -168,6 +169,7 @@ public:
   static int g_sequence_id;
   static int g_request_id;
 
+  uvm_sequence_item* m_current_sequence_item;
 };
 
 //------------------------------------------------------------------------------

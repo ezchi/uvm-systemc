@@ -66,6 +66,9 @@ class producer : public uvm::uvm_component
       //if ((uvm::uvm_verbosity)recording_detail != uvm::UVM_NONE)
       //  p.enable_recording("packet_stream");
       //  p.randomize();
+	
+      // fill address field with dummy value
+      p.addr = 0x100 + count;
 
       UVM_INFO(get_name(), "Sending " + p.get_name(), uvm::UVM_MEDIUM);
 

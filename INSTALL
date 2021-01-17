@@ -21,27 +21,31 @@ System Requirements
 
 UVM-SystemC was tested on the following Linux 64-bit platforms:
 
-             | RHEL  | Debian | SLES | Ubuntu LTS
-             | 6 | 7 | 8 | 9  | 11   | 16 | 18
- ------------+-------+--------+------+------------
- GCC 4.3.4   |       |        |  X   |
- GCC 4.4.7   | X     |        |      |
- GCC 4.8.2   | x   X |     x  |  x   | x
- GCC 4.9.2   | x     | X   x  |  x   | x
- GCC 5.4.0   | x     |     x  |  x   | X
- GCC 6.3.0   | x   x |     X  |  x   | x
- GCC 7.3.0   | x     |     x  |  x   | x    X
- GCC 8.2.0   | x     |     x  |  x   | x    x
- ------------+-------+--------+------+------------
- Clang 3.9.0 | x     |        |      |
- Clang 6.0.1 |       |     x  |      |
+             | RHEL  | CentOS    | Debian | Ubuntu LTS
+             | 6 | 7 | 6 | 7 | 8 | 9 | 10 | 16 | 18
+ ------------+-------+-----------+--------+------------
+ GCC 4.8.5   |     X |           |        |
+ GCC 4.9.4   | x     | x   x     |        |
+ GCC 5.4.0   |       |           |        |  X
+ GCC 6.3.0   | x   x |           | X      |
+ GCC 7.4.0   |       |           |      x |
+ GCC 7.5.0   |       |           |        |       X
+ GCC 8.3.0   |       |           |      X |
+ GCC 8.3.1   |       |         X |        |
+ GCC 9.1.0   | x   x |           |        |
+ ------------+-------+-----------+--------+------------
+ Clang 3.7.0 |     x |           |        |
+ Clang 4.0.1 |     x |           |        |
+ Clang 8.0.1 |       |         x |        |
 
  x = successfully ran "make check" and regression tests
  X = same as 'x' but denotes that this is the default system compiler
- 
+
 SystemC 2.3.2 or later is required for GCC 6.* or later releases.
 An installation of UVM-SystemC on other, related platforms and not explictly
-tested compiler combinations may be possible.
+tested compiler combinations may be possible. Please note that while the
+library still builds with non-C++11 compilers no further effort is spend to
+avoid C++11 constructs.
 
 
 Sources for Compilers and Related Tools
@@ -50,13 +54,13 @@ Sources for Compilers and Related Tools
 To build, install, and use UVM-SystemC on UNIX platforms, you need
 the following tools:
 
-  1. GNU C++ compiler, version 4.3.4 (other versions may work as well as documented
-     above, Clang is not tested yet)
+  1. GNU C++ compiler, version 4.8.5 (other versions may work as well as documented
+     above) or Clang compiler, version 3.7.0
 
   2. GNU Make (gmake)
 
   3. Accellera Systems Initiative SystemC reference implementation
-     version 2.3.0 or later (formerly known as OSCI reference implementation)
+     version 2.3.0a or later (formerly known as OSCI reference implementation)
 
 GCC, Clang, and gmake are free software that you can
 obtain from the following sources:
@@ -327,67 +331,63 @@ Other options that are rarely used are available in the `configure' script.
 Use the `--help' option to print a list.
 
 
-2. Installation Notes for Windows
----------------------------------
+2. Installation Notes for Windows 10
+------------------------------------
 
 System Requirements
 ===================
 
 UVM-SystemC was tested on the following Windows platforms:
 
-            | VS    | VS    | GCC   | GCC
- Platform   | 2008  | 2010  | 4.9.3 | 6.3.0
+            | VS    | GCC   | GCC   | GCC
+ Platform   | 2015  | 4.9.4 | 7.4.0 | 10.1
  -------------------------------------------
- Windows 7  |   y   |       |       |
- Windows 10 |       |   y   |       |
- Cygwin     |       |       |       |
- MinGW-w64  |       |       |  y    |  y*
+ Windows 10 |   x   |       |       |
+ Cygwin     |       |       |   x   |
+ MinGW-w64  |       |   x   |       |  x
 
- Remarks: *  only SystemC 2.3.2 tested as GCC 6.3.* is not compatible with
-             previous SystemC versions.
-
-An installation of UVM-SystemC on other, related platforms may be
-possible as well.
+SystemC 2.3.2 or later is required for GCC 6.* or later releases. An
+installation of UVM-SystemC on other, related platforms may be possible as
+well.
 
 Set the following environment variable(s) under Windows:
 
      Variable: SYSTEMC
-     Value   : c:\my\path\to\systemc\msvc80
+     Value   : c:\my\path\to\systemc\msvc10
 
      Variable: UVMSYSTEMC
-     Value   : c:\my\path\to\uvm-systemc\msvc80
+     Value   : c:\my\path\to\uvm-systemc\msvc14
 
 
-Microsoft Visual C++ 2005 (compiler version 8.0) or later
+Microsoft Visual Studio C++ 2015 or later
 =========================================================
 
-The root directory contains two subdirectories: 'msvc80' and
-'examples'.
+The root directory contains two subdirectories: 'msvc14' and 'examples'.
 
-The 'msvc80' subdirectory 'uvmsc' contains the project and workspace files to
+The 'msvc14' subdirectory 'uvmsc' contains the project and workspace files to
 compile the 'uvm-systemc.lib' library. Double-click on the 'uvm-systemc.sln'
-file to launch Visual C++ 2005 with the workspace file. The workspace file
-will have the proper switches set to compile for Visual C++ 2005.
+file to launch Visual Studio C++ 2015 with the workspace file. The workspace file
+will have the proper switches set to compile for Visual Studio C++ 2015.
 Select 'Build uvm-systemc' under the Build menu or press F7 to build
 `uvm-systemc.lib'.
 
 
-Running the Examples in Microsoft Visual C++
-============================================
+Running the Examples in Microsoft Visual Studio C++
+===================================================
 
 The UVM-SystemC examples reside in the directory 'examples' at the
 highest level of the installation.
 
 Each examples contain the project and workspace files in the subdirectory
-'msvc80'. Go to one of these examples subdirectories and double-click on
-the .vcproj file to launch Visual C++ with the workspace file. The
+'msvc14'. Go to one of these examples subdirectories and double-click on
+the .vcxproj file to launch Visual Studio C++ with the workspace file. The
 workspace file will have the proper switches set to compile for Visual
-C++ 2005. Select 'Build <example>.exe' under the Build menu or press F7
+Studio C++ 2015. Select 'Build <example>.exe' under the Build menu or press F7
 to build the example executable.
 
 
-Creating UVM-Systemc Applications in Microsoft Visual C++
-=========================================================
+Creating UVM-SystemC Applications in Microsoft Visual Studio C++
+================================================================
 
 1. Start Visual Studio. From the Start Page select New Project and Win32
    Console Project. Type the project name and select a suitable location
@@ -402,61 +402,38 @@ Creating UVM-Systemc Applications in Microsoft Visual C++
 4. Display the project Property Pages by selecting 'Properties...' from
    the Project menu.
 
-5. From the C/C++ tab, select the General properties and set
+5. Select in Configuration to set the properties for Debug or Release
+   
+6. From the C/C++ tab, select the General properties and set
    'Detect 64-bit Portability Issues' to No
 
-6. From the C/C++ tab, select the Language properties and set
-   'Enable Run-Time Type Info' to Yes
+7. From the C/C++ tab, select the General properties and add to
+   'Additional Include Directories' the path 
+   '$(UVMSYSTEMC)\..\src;$(SYSTEMC)\..\src;'
+   
+8. From the C/C++ tab, select the Code Generation and set
+   'Runtime Library' to 'Multi-threaded DLL (/MD)' in case of a Release 
+   Configuration or 'Multi-threaded Debug DLL (/MDd)' in case of a Debug 
+   Configuration
 
-7. From the C/C++ tab, select the Command Line properties and add /vmg
-   to the 'Additional Options:' box.
+9. From the C/C++ tab, select the Language properties and set
+   'Enable Run-Time Type Info' to Yes (/GR)
 
-8. From the Linker tab, select the Input properties and add 'systemc.lib'
-   and 'uvm-systemc.lib' in the 'Additional Dependencies' box.
+10. From the C/C++ tab, select the Command Line properties and add /vmg
+    to the 'Additional Options:' box.
 
-9. Click OK
+11. From the Linjer tab, select the General properties and add to 
+    'Additional Library Directories' the path 
+    '$(SYSTEMC)\SystemC\Release;$(UVMSYSTEMC)\uvmsc\Release;'
+    
+12. From the Linker tab, select the Input properties and add to 
+    'Additional Dependencies' the files 'systemc.lib;uvm-systemc.lib;'
 
+13. From the Linker tab, select the System properties and set 
+    'Subsystem' to 'Console (/SUBSYSTEM:CONSOLE)'
 
-Also make sure that the compiler and linker can find the SystemC and
-UVM-SystemC header and library files respectively. There are two ways
-to do this:
+14. Click OK. If necessary repeat the same steps for Configuration Debug 
+    or Release
 
-To update the include file and library directory search paths for all
-projects:
-
-1. Select Tools -> Options... and the Projects -> VC++ Directories tab
-
-2. Select show directories for: Library files
-
-3. Select the 'New' icon and select the following:
-
-   c:\my\path\to\systemc\msvc80\SystemC\Debug (or Release)
-   c:\my\path\to\uvm-systemc\msvc80\uvmsc\Debug (or Release)
-
-4. Select show directories for: Include files
-
-5. Select the 'New' icon and select the following
-
-   c:\my\path\to\systemc\src
-   c:\my\path\to\uvm-systemc\src
-
-
-To add the include file and library directory search paths for the current
-project only:
-
-1. Display the project Property Pages by selecting 'Properties...' from
-   the Project menu.
-
-2. From the C/C++ tab, select the General properties and type the path to the
-   SystemC 'src' and UVM-SystemC 'src' directories in the text entry field labeled
-  'Additional include directories' (e.g. the examples use '..\..\..\src').
-
-3. From the Linker tab, select the General properties and type the path to
-   the SystemC and UVM-SystemC libraries:
-
-   c:\my\path\to\systemc\msvc80\SystemC\Debug (or Release)
-   c:\my\path\to\uvm-systemc\msvc80\uvmsc\Debug (or Release)
-
-   in the 'Additional Library Directories:' box.
-
-9. Click OK
+Also make sure that the Windows environment variables SYSTEMC and UVMSYSTEMC 
+are set, see section above.

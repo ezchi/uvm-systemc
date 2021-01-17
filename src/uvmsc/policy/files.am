@@ -1,0 +1,14 @@
+H_FILES += \
+	policy/uvm_comparer.h \
+	policy/uvm_packer.h \
+	policy/uvm_policy.h \
+	policy/uvm_recorder.h
+
+CXX_FILES += \
+	policy/uvm_comparer.cpp \
+	policy/uvm_packer.cpp \
+	policy/uvm_recorder.cpp
+
+INCDIRS += policy
+
+## Taf!

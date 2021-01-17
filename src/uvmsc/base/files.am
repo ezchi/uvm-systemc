@@ -1,0 +1,37 @@
+H_FILES += \
+	base/uvm_base.h \
+	base/uvm_component.h \
+	base/uvm_component_name.h \
+	base/uvm_coreservice_t.h \
+	base/uvm_default_coreservice_t.h \
+	base/uvm_event_callback.h \
+	base/uvm_event.h \
+	base/uvm_export_base.h \
+	base/uvm_globals.h \
+	base/uvm_mutex.h \
+	base/uvm_object.h \
+	base/uvm_object_globals.h \
+	base/uvm_port_base.h \
+	base/uvm_root.h \
+	base/uvm_transaction.h \
+	base/uvm_void.h \
+	base/uvm_version.h
+
+CXX_FILES += \
+	base/uvm_component.cpp \
+	base/uvm_component_name.cpp \
+	base/uvm_coreservice_t.cpp \
+	base/uvm_default_coreservice_t.cpp \
+	base/uvm_event_callback.cpp \
+	base/uvm_event.cpp \
+	base/uvm_globals.cpp \
+	base/uvm_mutex.cpp \
+	base/uvm_object.cpp \
+	base/uvm_object_globals.cpp \
+	base/uvm_root.cpp \
+	base/uvm_transaction.cpp \
+	base/uvm_version.cpp
+
+INCDIRS += base
+
+## Taf!

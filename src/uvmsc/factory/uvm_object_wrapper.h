@@ -24,6 +24,7 @@
 #define UVM_OBJECT_WRAPPER_H_
 
 #include <string>
+#include <map>
 
 //////////////////////
 

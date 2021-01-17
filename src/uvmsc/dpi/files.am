@@ -1,0 +1,9 @@
+H_FILES += \
+	dpi/uvm_hdl.h
+
+CXX_FILES += \
+	dpi/uvm_hdl.cpp
+
+INCDIRS += dpi
+
+## Taf!

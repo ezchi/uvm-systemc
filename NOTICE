@@ -1,25 +1,15 @@
 =========================================================================
-==  NOTICE file corresponding to section 4(d) of the Apache License,   ==
-==  Version 2.0, in this case for the Apache Geronimo distribution.    ==
+==  NOTICE file corresponding to section 4 d of the Apache License,    ==
+==  Version 2.0, in this case for the UVM-SystemC reference            ==
+==  implementation                                                     ==
 =========================================================================
 
 
 =========================================================================
-==  UVM Mentor Graphics Notice                                         ==
+==  Cadence Design Systems Notice                                      ==
 =========================================================================
 
-Portions of the UVM Reference Library were developed by
-Mentor Graphics Corporation.
-
-Copyright (c) 2007-2012, Mentor Graphics Corporation
-All rights reserved.
-
-
-=========================================================================
-==  UVM Cadence Design Systems Notice                                  ==
-=========================================================================
-
-Portions of the UVM Reference Library were developed by
+Portions of the UVM-SystemC reference implementation were developed by
 Cadence Design Systems, Inc.
 
 Copyright (c) 2007-2012, Cadence Design Systems, Inc.
@@ -27,21 +17,21 @@ All rights reserved.
 
 
 =========================================================================
-==  UVM Synopsys Notice                                                ==
+==  COSEDA GmbH Notice                                                 ==
 =========================================================================
 
-Portions of the UVM Reference Library were developed by
-Synopsys, Inc.
+Portions of the UVM-SystemC reference implementation were developed by
+COSEDA GmbH
 
-Copyright (c) 2006-2012, Synopsys, Inc.
+Copyright (c) 2018-2020, COSEDA GmbH
 All rights reserved.
 
 
 =========================================================================
-==  UVM Cypress Semiconductor Notice                                   ==
+==  Cypress Semiconductor Notice                                       ==
 =========================================================================
 
-Portions of the UVM Reference Library were developed by
+Portions of the UVM-SystemC reference implementation were developed by
 Cypress Semiconductor Corp.
 
 Copyright (c) 2012, Cypress Semiconductor Corp.
@@ -49,21 +39,10 @@ All rights reserved.
 
 
 =========================================================================
-==  UVM NXP B.V. Notice                                                ==
+==  Fraunhofer IIS/EAS Notice                                          ==
 =========================================================================
 
-Portions of the UVM Reference Library were developed by
-NXP B.V.
-
-Copyright (c) 2012-2018, NXP B.V.
-All rights reserved.
-
-
-=========================================================================
-==  UVM Copyright Fraunhofer IIS/EAS Notice                     	   ==
-=========================================================================
-
-Portions of the UVM Reference Library were developed by
+Portions of the UVM-SystemC reference implementation were developed by
 Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e.V.
 
 Copyright (c) 2012-2018, Fraunhofer-Gesellschaft zur Foerderung der 
@@ -72,31 +51,77 @@ All rights reserved.
 
 
 =========================================================================
-==  UVM Copyright Université Pierre et Marie Curie, Paris Notice       ==
+==  Intel Corp. Notice                                                 ==
 =========================================================================
 
-Portions of the UVM Reference Library were developed by
+Portions of the UVM-SystemC reference implementation were developed by
+Intel Corp.
+
+Copyright (c) 2017-2019, Intel Corp.
+All rights reserved.
+
+
+=========================================================================
+==  Mentor Graphics Notice                                             ==
+=========================================================================
+
+Portions of the UVM-SystemC reference implementation were developed by
+Mentor Graphics Corporation.
+
+Copyright (c) 2007-2012, Mentor Graphics Corporation
+All rights reserved.
+
+
+=========================================================================
+==  NVIDIA Corporation Notice                                          ==
+=========================================================================
+
+Portions of the UVM-SystemC reference implementation were developed by
+2014 NVIDIA Corporation
+
+Copyright 2013-2014 NVIDIA Corporation
+All rights reserved.
+
+
+=========================================================================
+==  NXP B.V. Notice                                                    ==
+=========================================================================
+
+Portions of the UVM-SystemC reference implementation were developed by
+NXP B.V.
+
+Copyright (c) 2012-2020, NXP B.V.
+All rights reserved.
+
+
+=========================================================================
+==  Robert Bosch GmbH Notice                                           ==
+=========================================================================
+
+Portions of the UVM-SystemC reference implementation were developed by
+Robert Bosch GmbH
+
+Copyright (c) 2018-2020, Robert Bosch GmbH
+All rights reserved.
+
+
+=========================================================================
+==  Synopsys Notice                                                    ==
+=========================================================================
+
+Portions of the UVM-SystemC reference implementation were developed by
+Synopsys, Inc.
+
+Copyright (c) 2006-2012, Synopsys, Inc.
+All rights reserved.
+
+
+=========================================================================
+==  Université Pierre et Marie Curie, Paris Notice                     ==
+=========================================================================
+
+Portions of the UVM-SystemC reference implementation were developed by
 Université Pierre et Marie Curie, Paris
 
 Copyright (c) 2014, Université Pierre et Marie Curie, Paris
-All rights reserved.
-
-=========================================================================
-==  UVM COSEDA GmbH Notice                                             ==
-=========================================================================
-
-Portions of the UVM Reference Library were developed by
-COSEDA GmbH
-
-Copyright (c) 2018, COSEDA GmbH
-All rights reserved.
-
-=========================================================================
-==  UVM Robert Bosch GmbH Notice                                             ==
-=========================================================================
-
-Portions of the UVM Reference Library were developed by
-Robert Bosch GmbH
-
-Copyright (c) 2018, Robert Bosch GmbH
 All rights reserved.

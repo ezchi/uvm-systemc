@@ -1,4 +1,5 @@
 //----------------------------------------------------------------------
+//   Copyright 2019 COSEDA Technologies GmbH
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2012-2015 NXP B.V.
@@ -155,7 +156,7 @@ void uvm_printer::print_field_int( const std::string& name,
   if(radix == UVM_NORADIX)
     radix = knobs.default_radix;
 
-  val_str = uvm_vector_to_string( value.to_int(), size, radix,
+  val_str = uvm_vector_to_string( value, size, radix,
                                   knobs.get_radix_str(radix));
 
   row_info.level = m_scope.depth();
