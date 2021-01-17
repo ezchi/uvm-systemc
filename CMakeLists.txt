@@ -1,10 +1,10 @@
 cmake_minimum_required (VERSION 3.1)
 
-project (UVMSystemC VERSION 0.1.0)
+project (UVMSystemC VERSION 0.1.2 LANGUAGES CXX)
 
-option(SYSTEMC_HOME "SystemC home directory" $ENV{SYSTEMC_HOME})
+set(SYSTEMC_HOME $ENV{SYSTEMC_HOME})
 
-set(CMAKE_PREFIX_PATH ${SYSTEMC_HOME})
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${SYSTEMC_HOME})
 
 find_package(SystemCLanguage CONFIG REQUIRED)
 
@@ -16,16 +16,13 @@ mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
 
 message(STATUS "top level CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h
-    COMMAND ./configure
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    # DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.in
-    VERBATIM
-    )
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
+    execute_process(COMMAND ${CMAKE_CURRENT_LIST_DIR}/configure)
+endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
 
-add_custom_target(config_h
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
+if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/config.h)
+    message(FATAL_ERROR "config.h is not generated")
+endif(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/config.h)
 
 ###############################################################################
 # Build options

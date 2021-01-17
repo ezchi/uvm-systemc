@@ -79,8 +79,6 @@ add_library (uvm-systemc
     uvmsc/policy/uvm_comparer.cpp
     )
 
-add_dependencies(uvm-systemc config_h)
-
 target_include_directories(
     uvm-systemc
     PUBLIC
