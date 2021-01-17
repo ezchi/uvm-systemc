@@ -63,7 +63,7 @@ class uvm_set_before_get_dap : public uvm_set_get_dap_base<T>
 
   // Group: Set/Get Interface
 
-  virtual void set( const T& value ) const;
+  virtual void set( const T& value );
   virtual bool try_set( const T& value );
   virtual T get();
   virtual bool try_get( T& value );
@@ -106,7 +106,7 @@ uvm_set_before_get_dap<T>::uvm_set_before_get_dap( const std::string& name )
 //----------------------------------------------------------------------------
 
 template <typename T>
-void uvm_set_before_get_dap<T>::set( const T& value ) const
+void uvm_set_before_get_dap<T>::set( const T& value )
 {
   m_set = true;
   m_value = value;
