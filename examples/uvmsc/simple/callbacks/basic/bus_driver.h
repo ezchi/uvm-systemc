@@ -72,7 +72,7 @@ class bus_driver : public uvm::uvm_component
 
   virtual void put( const bus_tr& t )
   {
-    uvm::uvm_report_info("bus_tr received", t.convert2string());
+    uvm_report_info("bus_tr received", t.convert2string());
     if (!trans_received(t))
     {
       uvm_report_info("bus_tr dropped",
@@ -84,7 +84,7 @@ class bus_driver : public uvm::uvm_component
 
     trans_executed(t);
 
-    uvm::uvm_report_info("bus_tr executed", t.convert2string() + "\n");
+    uvm_report_info("bus_tr executed", t.convert2string() + "\n");
   }
 
 };

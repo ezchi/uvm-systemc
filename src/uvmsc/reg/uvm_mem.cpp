@@ -714,6 +714,8 @@ void uvm_mem::write( uvm_status_e& status, // output
   do_write(rw);
 
   status = rw->status;
+
+  uvm_reg_item::type_id::destroy(rw);
 }
 
 
@@ -760,6 +762,8 @@ void uvm_mem::read( uvm_status_e& status, // output
 
   status = rw->status;
   value = rw->value[0];
+
+  uvm_reg_item::type_id::destroy(rw);
 }
 
 //----------------------------------------------------------------------
@@ -805,6 +809,8 @@ void uvm_mem::burst_write( uvm_status_e& status,
   do_write(rw);
 
   status = rw->status;
+
+  uvm_reg_item::type_id::destroy(rw);
 }
 
 
@@ -852,6 +858,8 @@ void uvm_mem::burst_read( uvm_status_e& status, // output
 
   status = rw->status;
   value  = rw->value;
+
+  uvm_reg_item::type_id::destroy(rw);
 }
 
 //----------------------------------------------------------------------
@@ -919,6 +927,8 @@ void uvm_mem::poke( uvm_status_e& status, // output
       << std::hex << value.to_uint64()
       << ".";
   UVM_INFO("RegModel", inf.str(), UVM_HIGH);
+  
+  uvm_reg_item::type_id::destroy(rw);
 }
 
 //----------------------------------------------------------------------
@@ -987,6 +997,8 @@ void uvm_mem::peek( uvm_status_e& status, // output
       << std::hex << value.to_uint64()
       << ".";
   UVM_INFO("RegModel", inf.str(), UVM_HIGH);
+  
+  uvm_reg_item::type_id::destroy(rw);
 }
 
 //----------------------------------------------------------------------

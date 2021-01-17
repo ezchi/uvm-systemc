@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/hello_world
+
 examples_FILES += \
 	$(simple_hello_world_H_FILES) \
 	$(simple_hello_world_CXX_FILES) \
@@ -29,8 +31,5 @@ simple_hello_world_H_FILES = \
 simple_hello_world_BUILD = 
 
 simple_hello_world_EXTRA = 
-
-simple_hello_world_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

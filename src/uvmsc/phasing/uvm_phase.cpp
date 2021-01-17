@@ -1,4 +1,5 @@
 //----------------------------------------------------------------------
+//   Copyright 2019 COSEDA Technologies GmbH
 //   Copyright 2014 Université Pierre et Marie Curie, Paris
 //   Copyright 2013-2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
@@ -1186,14 +1187,13 @@ void uvm_phase::execute_phase( bool proc )
             all_dropped_handle.terminated_event() |
             timeout_handle.terminated_event() );
 
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
       if (jump_handle.valid())
         jump_handle.kill(SC_INCLUDE_DESCENDANTS);
       if (all_dropped_handle.valid())
         all_dropped_handle.kill(SC_INCLUDE_DESCENDANTS);
       if (timeout_handle.valid())
         timeout_handle.kill(SC_INCLUDE_DESCENDANTS);
-#endif
+
 
       uvm_wait_for_nba_region(); // Give sequences, etc. a chance to object
 
@@ -1251,7 +1251,6 @@ void uvm_phase::execute_phase( bool proc )
       else
         m_state_ev.notify(SC_ZERO_TIME);
 
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
       if (proc && m_phase_proc.valid())
       {
         std::ostringstream str;
@@ -1261,14 +1260,12 @@ void uvm_phase::execute_phase( bool proc )
         m_phase_proc.kill(SC_INCLUDE_DESCENDANTS);
         sc_assert(m_phase_proc.terminated());
       }
-#endif
 
       if (proc)
         sc_core::wait(SC_ZERO_TIME); // LET ANY WAITERS WAKE UP
 
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
       phase_done->clear();
-#endif
+
       if(m_jump_fwd)
         clear_successors(UVM_PHASE_DONE, m_jump_phase);
 
@@ -1316,7 +1313,6 @@ void uvm_phase::execute_phase( bool proc )
     else
       m_state_ev.notify(SC_ZERO_TIME);
 
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
     if (proc && m_phase_proc.valid())
     {
       std::ostringstream str;
@@ -1326,14 +1322,11 @@ void uvm_phase::execute_phase( bool proc )
       m_phase_proc.kill(SC_INCLUDE_DESCENDANTS);
       sc_assert(m_phase_proc.terminated());
     }
-#endif
 
     if (proc)
       sc_core::wait(SC_ZERO_TIME); // LET ANY WAITERS WAKE UP
 
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
     phase_done->clear();
-#endif
   } // if m_phase_type == UVM_PHASE_NODE
 
   //------
@@ -1410,9 +1403,7 @@ void uvm_phase::m_master_phase_process( uvm_phase* process_phase )
   process_phase->traverse(top, this, UVM_PHASE_EXECUTING);
 
   UVM_INFO("PH_EXEC", "Traversal done. Wait forever...", UVM_DEBUG);
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
   sc_core::wait(_forever); // stay alive for later kill
-#endif
 }
 
 //----------------------------------------------------------------------
@@ -1440,7 +1431,6 @@ void uvm_phase::m_wait_for_jump()
 
 void uvm_phase::m_wait_for_all_dropped()
 {
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
 
   bool do_ready_to_end = false; // used for ready_to_end iterations
 
@@ -1488,7 +1478,6 @@ void uvm_phase::m_wait_for_all_dropped()
     do_ready_to_end = (m_state == UVM_PHASE_EXECUTING)
       && (m_ready_to_end_count < max_ready_to_end_iter) ; //when we don't wait in task above, we drop out of while loop
   }
-#endif
 }
 
 //----------------------------------------------------------------------
@@ -1500,7 +1489,6 @@ void uvm_phase::m_wait_for_all_dropped()
 
 void uvm_phase::m_wait_for_timeout()
 {
-#if SYSTEMC_VERSION >= 20120701 // SystemC 2.3
 
   uvm_coreservice_t* cs = uvm_coreservice_t::get();
   uvm_root* top = cs->get_root();
@@ -1586,7 +1574,6 @@ void uvm_phase::m_wait_for_timeout()
     UVM_INFO("PH_EXEC", "Wait forever for phase " + this->get_name(), UVM_DEBUG);
     sc_core::wait(_forever); // never unblock for non-run phase
   }
-#endif
 }
 
 

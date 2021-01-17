@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010 Synopsys, Inc.
@@ -72,6 +72,7 @@ class uvm_transaction : public uvm_object
   // Implementation-defined member functions below,
   // not part of UVM Class reference / LRM
   /////////////////////////////////////////////////////
+
 protected:
 
   virtual ~uvm_transaction();

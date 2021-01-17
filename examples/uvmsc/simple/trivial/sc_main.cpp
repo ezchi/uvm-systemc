@@ -1,3 +1,4 @@
+
 //----------------------------------------------------------------------
 //   Copyright 2009 Cadence Design Systems, Inc.
 //   Copyright 2012-2014 NXP B.V.
@@ -25,13 +26,15 @@
 
 int sc_main(int, char*[]) 
 {  
+  sc_core::sc_set_time_resolution( 1, sc_core::SC_FS );
+
   // instantiate UVM component via the factory
   my_component* component;
-  component = my_component::type_id::create("component", NULL);
+  component = my_component::type_id::create("Top", NULL);
 
   uvm::run_test();
 
-  delete component;
+  my_component::type_id::destroy(component);
 
   return 0;
 }

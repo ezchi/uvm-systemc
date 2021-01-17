@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2012-2016 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   Copyright 2014-2017 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
@@ -155,6 +155,9 @@ void uvm_root::run_test( const std::string& test_name )
   if ( m_finish_on_completion && (sc_core::sc_get_status() == sc_core::SC_RUNNING ||
       sc_core::sc_get_status() == sc_core::SC_PAUSED) )
     sc_core::sc_stop();
+
+  // Clean-up 
+  m_unregister_test(test_name);
 }
 
 //----------------------------------------------------------------------
@@ -551,7 +554,7 @@ void uvm_root::m_uvm_header()
         << std::endl
         << "              Version: " << UVM_VERSION << "  Date: " << UVM_RELEASE_DATE << std::endl;
     std::cerr
-        << "          Copyright (c) 2006 - 2018 by all Contributors" << std::endl
+        << "          Copyright (c) 2006 - 2020 by all Contributors" << std::endl
         << "            See NOTICE file for all Contributors"  << std::endl
         << "                    ALL RIGHTS RESERVED" << std::endl;
     std::cerr
@@ -567,7 +570,43 @@ void uvm_root::m_uvm_header()
   }
 }
 
+//----------------------------------------------------------------------
+// member function: get_phase_all_done
+//
+//! Implementation defined
+//----------------------------------------------------------------------
 
+bool uvm_root::get_phase_all_done()
+{
+  return m_phase_all_done;
+}
+
+//----------------------------------------------------------------------
+// member function: m_unregister_test
+//
+//! Implementation defined
+//----------------------------------------------------------------------
+
+void uvm_root::m_unregister_test( const std::string& test_name )
+{
+  std::vector<uvm_component*> comp_list;
+
+  if (test_name.size() != 0)
+  {
+    find_all(test_name, comp_list);
+
+    if (comp_list.size() != 0)
+    {
+      uvm_coreservice_t* cs = uvm_coreservice_t::get();
+      uvm_factory* factory = cs->get_factory();
+      for(std::vector<uvm_component*>::iterator 
+          it = comp_list.begin(); 
+          it != comp_list.end(); 
+          ++it)
+        factory->m_delete_component(*it);
+    }
+  }
+}
 
 } // namespace uvm
 

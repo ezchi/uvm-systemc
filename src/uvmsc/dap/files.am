@@ -1,0 +1,10 @@
+H_FILES += \
+	dap/uvm_dap.h \
+	dap/uvm_get_to_lock_dap.h \
+	dap/uvm_set_before_get_dap.h \
+	dap/uvm_set_get_dap_base.h \
+	dap/uvm_simple_lock_dap.h
+	
+INCDIRS += dap
+
+## Taf!

@@ -1,34 +1,36 @@
 include $(top_srcdir)/config/Make-rules
 
 SUBDIRS = \
-	uvmsc
+	uvmsc \
+	.
 
 H_FILES = \
 	uvm \
 	uvm.h
 
-NO_H_FILES = 
+nobase_include_HEADERS = $(H_FILES)
 
-noinst_HEADERS = $(H_FILES)
+libarchdir = $(libdir)$(LIB_ARCH_SUFFIX)
+libarch_LTLIBRARIES = libuvm-systemc.la
 
-CXX_FILES = 
+pkgconfigdir = $(libarchdir)/pkgconfig
+pkgconfig_DATA = uvmsc/uvm-systemc.pc
 
-NO_CXX_FILES =
+# no own sources here
+libuvm_systemc_la_SOURCES =
 
-INCLUDE_DIR = $(prefix)/include
+# dummy C++ source to cause C++ linking
+nodist_EXTRA_libuvm_systemc_la_SOURCES = uvmsc_nonexistent.cpp
 
-install-data-local:
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(INCLUDE_DIR)
-	for file in $(noinst_HEADERS); do \
-	  $(INSTALL_DATA) $(srcdir)/$$file $(DESTDIR)$(INCLUDE_DIR)/$$file; \
-	done
+# add main library
+libuvm_systemc_la_LIBADD = uvmsc/libuvm-systemc.la
 
-uninstall-local:
-	@$(NORMAL_UNINSTALL)
-	for file in $(noinst_HEADERS); do \
-	  rm -f $(DESTDIR)$(INCLUDE_DIR)/$$file; \
-	done
-	-rmdir $(DESTDIR)$(INCLUDE_DIR)
+libuvm_systemc_la_LDFLAGS = $(EXTRA_LDFLAGS) -release $(VERSION)
+
+uninstall-hook:
+	test ! -d "$(includedir)"   || rmdir --ignore-fail-on-non-empty "$(includedir)"
+	test ! -d "$(pkgconfigdir)" || rmdir --ignore-fail-on-non-empty "$(pkgconfigdir)"
+	test ! -d "$(libarchdir)"   || rmdir --ignore-fail-on-non-empty "$(libarchdir)"
+
 
 ## Taf!

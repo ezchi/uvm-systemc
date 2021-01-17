@@ -2,7 +2,7 @@
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010 Synopsys, Inc.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   Copyright 2013 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   All Rights Reserved Worldwide
@@ -75,7 +75,8 @@ class uvm_sequencer : public uvm_sequencer_param_base<REQ,RSP>,
   // Group: Sequencer interface
   //--------------------------------------------------------------------------
 
-  virtual REQ get_next_item( tlm::tlm_tag<REQ>* req = NULL );
+  //virtual REQ get_next_item( tlm::tlm_tag<REQ>* req = NULL );
+  virtual REQ get_next_item( REQ* req = NULL );
   virtual void get_next_item( REQ& req );
 
   virtual bool try_next_item( REQ& req );
@@ -87,10 +88,12 @@ class uvm_sequencer : public uvm_sequencer_param_base<REQ,RSP>,
   virtual void put_response( const RSP& rsp ); // TODO not in standard anymore? remove?
 
   virtual void get( REQ& req );
-  virtual REQ get( tlm::tlm_tag<REQ>* req = NULL );
+  virtual REQ get( REQ* req = NULL );
+  //virtual REQ get( tlm::tlm_tag<REQ>* req = NULL );
 
   virtual void peek( REQ& req );
-  virtual REQ peek( tlm::tlm_tag<REQ>* req = NULL ); // FIXME: should be const in line with SystemC TLM API?
+  virtual REQ peek( REQ* req = NULL );
+  //virtual REQ peek( tlm::tlm_tag<REQ>* req = NULL ); // FIXME: should be const in line with SystemC TLM API?
 
   virtual void stop_sequences();
 
@@ -163,7 +166,7 @@ const char* uvm_sequencer<REQ,RSP>::kind() const
 template <typename REQ, typename RSP>
 const std::string uvm_sequencer<REQ,RSP>::get_type_name() const
 {
-	return std::string(this->kind());
+  return std::string(this->kind());
 }
 
 //----------------------------------------------------------------------
@@ -206,12 +209,11 @@ void uvm_sequencer<REQ,RSP>::item_done(const RSP& item, bool use_item)
   else
   {
     this->m_wait_for_item_sequence_id = req.get_sequence_id();
-    this->m_wait_for_item_sequence_ev.notify();
     this->m_wait_for_item_transaction_id = req.get_transaction_id();
+    this->m_wait_for_item_sequence_ev.notify();
   }
 
   if (use_item)
-    //seq_item_export->put_response(item); old code
     seq_item_export->put(item);
 
   // Grant any locks as soon as possible
@@ -226,16 +228,19 @@ void uvm_sequencer<REQ,RSP>::item_done(const RSP& item, bool use_item)
 //----------------------------------------------------------------------
 
 template <typename REQ, typename RSP>
-REQ uvm_sequencer<REQ,RSP>::get(tlm::tlm_tag<REQ>* req)
+REQ uvm_sequencer<REQ,RSP>::get(REQ* req)
 {
   REQ r;
 
   if (!sequence_item_requested)
     this->m_select_sequence();
 
+  if (req!=NULL)
+    this->m_current_sequence_item = req;
+
   sequence_item_requested = true;
 
-  r = this->m_req_fifo.peek(req); //note: we peek here, as we do the get in the item_done() call
+  r = this->m_req_fifo.peek((tlm::tlm_tag<REQ>*)(req)); //note: we peek here, as we do the get in the item_done() call
   item_done();
   return r;
 }
@@ -243,6 +248,7 @@ REQ uvm_sequencer<REQ,RSP>::get(tlm::tlm_tag<REQ>* req)
 template <typename REQ, typename RSP>
 void uvm_sequencer<REQ,RSP>::get( REQ& req )
 {
+  this->m_current_sequence_item = &req;
   req = get();
 }
 
@@ -254,18 +260,21 @@ void uvm_sequencer<REQ,RSP>::get( REQ& req )
 //----------------------------------------------------------------------
 
 template <typename REQ, typename RSP>
-REQ uvm_sequencer<REQ,RSP>::peek(tlm::tlm_tag<REQ>* req)
+REQ uvm_sequencer<REQ,RSP>::peek(REQ* req)
 {
   REQ r;
 
   if (!sequence_item_requested )
     this->m_select_sequence();
 
+  if (req!=NULL)
+    this->m_current_sequence_item = req;
+
   // Set flag indicating that the item has been requested to ensure that
   // item_done() or get() is called between requests
   sequence_item_requested = true;
 
-  r = this->m_req_fifo.peek(req);
+  r = this->m_req_fifo.peek((tlm::tlm_tag<REQ>*)req);
   return r;
 }
 
@@ -274,6 +283,7 @@ template <typename REQ, typename RSP>
 void uvm_sequencer<REQ,RSP>::peek( REQ& req )
 {
   req = peek();
+  this->m_current_sequence_item = &req;
 }
 
 //----------------------------------------------------------------------
@@ -284,13 +294,16 @@ void uvm_sequencer<REQ,RSP>::peek( REQ& req )
 //----------------------------------------------------------------------
 
 template <typename REQ, typename RSP>
-REQ uvm_sequencer<REQ,RSP>::get_next_item(tlm::tlm_tag<REQ>* req)
+REQ uvm_sequencer<REQ,RSP>::get_next_item(REQ* req)
 {
   // If a sequence_item has already been requested, then get_next_item()
   // should not be called again until item_done() has been called.
   if (get_next_item_called)
     uvm_report_error(this->get_full_name(),
       "get_next_item() called twice without item_done or get in between", UVM_NONE);
+
+  if (req!=NULL)
+    this->m_current_sequence_item = req;
 
   if (!sequence_item_requested)
     this->m_select_sequence();
@@ -300,12 +313,13 @@ REQ uvm_sequencer<REQ,RSP>::get_next_item(tlm::tlm_tag<REQ>* req)
   sequence_item_requested = true;
   get_next_item_called = true;
 
-  return this->m_req_fifo.peek(req);
+  return this->m_req_fifo.peek((tlm::tlm_tag<REQ>*)req);
 }
 
 template <typename REQ, typename RSP>
 void uvm_sequencer<REQ,RSP>::get_next_item( REQ& req )
 {
+  this->m_current_sequence_item = &req;
   req = get_next_item();
 }
 
@@ -381,7 +395,10 @@ bool uvm_sequencer<REQ,RSP>::try_next_item( REQ& req )
 template <typename REQ, typename RSP>
 void uvm_sequencer<REQ,RSP>::put( const RSP& rsp )
 {
-  this->put_response_base(rsp);
+  RSP* crsp = const_cast<RSP*>(&rsp);
+  RSP* item = new RSP(rsp.get_name()+"_q");
+  *item = *crsp; // copy response in temporary item for queue
+  this->put_response_base(*item);
   sc_core::wait(sc_core::SC_ZERO_TIME); // TODO do we really need this?
 }
 
@@ -394,7 +411,10 @@ void uvm_sequencer<REQ,RSP>::put( const RSP& rsp )
 template <typename REQ, typename RSP>
 void uvm_sequencer<REQ,RSP>::put_response( const RSP& rsp )
 {
-  this->put_response_base(rsp);
+  RSP* crsp = const_cast<RSP*>(&rsp);
+  RSP* item = new RSP(rsp.get_name()+"_q");
+  *item = *crsp; // copy response in temporary item for queue
+  this->put_response_base(*item);
   sc_core::wait(sc_core::SC_ZERO_TIME);  // TODO do we really need this?
 }
 

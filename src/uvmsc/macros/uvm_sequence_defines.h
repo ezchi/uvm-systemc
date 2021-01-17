@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2012-2014 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2010 Cadence Design Systems, Inc.
 //   Copyright 2010 Synopsys, Inc.
@@ -147,7 +147,7 @@
 #define UVM_CREATE_ON(SEQ_OR_ITEM, SEQR) \
   ::uvm::uvm_object_wrapper* objw__; \
   objw__ = SEQ_OR_ITEM->get_type(); \
-  SEQ_OR_ITEM = dynamic_cast< typeof(SEQ_OR_ITEM) >(create_item(objw__, SEQR, "SEQ_OR_ITEM"));
+  SEQ_OR_ITEM = dynamic_cast< uvm_typeof(SEQ_OR_ITEM) >(create_item(objw__, SEQR, #SEQ_OR_ITEM));
 
 
 //----------------------------------------------------------------------

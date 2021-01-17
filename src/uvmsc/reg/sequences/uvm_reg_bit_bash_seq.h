@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//    Copyright 2014 NXP B.V.
+//    Copyright 2014-2020 NXP B.V.
 //    Copyright 2004-2008 Synopsys, Inc.
 //    Copyright 2010 Mentor Graphics Corporation
 //    All Rights Reserved Worldwide
@@ -286,6 +286,8 @@ class uvm_reg_bit_bash_seq
     model->reset();
 
     do_block(model);
+    
+    uvm_reg_single_bit_bash_seq::type_id::destroy(reg_seq);
   }
 
  protected:
@@ -295,7 +297,7 @@ class uvm_reg_bit_bash_seq
   //
   virtual void do_block( uvm_reg_block* blk )
   {
-	  std::vector<uvm_reg*> regs;
+    std::vector<uvm_reg*> regs;
 
     if (uvm_resource_db<bool>::get_by_name("REG::" + blk->get_full_name(),
             "NO_REG_TESTS", false) != NULL ||
@@ -324,7 +326,6 @@ class uvm_reg_bit_bash_seq
 
     for( unsigned int i = 0; i < blks.size(); i++)
       do_block(blks[i]);
-
   }
 
  public:

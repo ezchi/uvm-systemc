@@ -1,0 +1,16 @@
+H_FILES += \
+	comps/uvm_agent.h \
+	comps/uvm_comps.h \
+	comps/uvm_driver.h \
+	comps/uvm_env.h \
+	comps/uvm_monitor.h \
+	comps/uvm_scoreboard.h \
+	comps/uvm_subscriber.h \
+	comps/uvm_test.h
+
+CXX_FILES += \
+	comps/uvm_agent.cpp
+
+INCDIRS += comps
+
+## Taf!

@@ -64,8 +64,6 @@ class top : public uvm::uvm_env
   {
     uvm::uvm_env::build_phase(phase);
 
-    std::cout << "in top::build_phase" << std::endl;
-
     // Normally we should use the UVM factory to create new instances.
     // In this case we use a regular 'new', so we do not register these
     // objects to the factory for later override
@@ -98,9 +96,11 @@ class top : public uvm::uvm_env
     phase.drop_objection(this);
   }
 
-  void report_phase(uvm::uvm_phase& phase)
+  virtual ~top()
   {
-    std::cout << "in top::report_phase" << std::endl;
+    delete driver;
+    delete cb1;
+    delete cb2;
   }
 };
 

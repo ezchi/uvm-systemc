@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2013-2016 NXP B.V.
+//   Copyright 2013-2019 NXP B.V.
 //   Copyright 2004-2011 Synopsys, Inc.
 //   Copyright 2010-2011 Mentor Graphics Corporation
 //   Copyright 2010-2011 Cadence Design Systems, Inc.
@@ -98,7 +98,7 @@ public:
   // Group: Initialization
   //----------------------------------------------------------------------------
 
-  explicit uvm_reg_map( const std::string& name = "uvm_reg_map ");
+  explicit uvm_reg_map( const std::string& name = "uvm_reg_map" );
 
   void configure( uvm_reg_block* parent,
                   uvm_reg_addr_t base_addr,

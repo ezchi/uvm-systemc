@@ -20,12 +20,12 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
+#ifndef UVM_OBJECT_GLOBALS_H_
+#define UVM_OBJECT_GLOBALS_H_
+
 #include <systemc>
 #include <iostream>     // std::cout
 #include <fstream>      // std::ofstream
-
-#ifndef UVM_OBJECT_GLOBALS_H_
-#define UVM_OBJECT_GLOBALS_H_
 
 namespace uvm {
 

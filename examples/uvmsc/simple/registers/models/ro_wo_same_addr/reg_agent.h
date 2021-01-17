@@ -2,6 +2,7 @@
 //   Copyright 2010-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
 //   Copyright 2013-2014 NXP B.V.
+//   Copyright 2018 Intel Corp.
 //   All Rights Reserved Worldwide
 // 
 //   Licensed under the Apache License, Version 2.0 (the
@@ -48,7 +49,7 @@ class reg_rw : public uvm::uvm_sequence_item
    `uvm_object_utils_end
    */
 
-  std::string convert2string() const
+  std::string convert2string()
   {
     std::ostringstream str;
     str << "reg_rw: "

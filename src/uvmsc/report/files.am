@@ -1,0 +1,22 @@
+H_FILES += \
+	report/uvm_default_report_server.h \
+	report/uvm_report.h \
+	report/uvm_report_catcher.h \
+	report/uvm_report_catcher_data.h \
+	report/uvm_report_handler.h \
+	report/uvm_report_message.h \
+	report/uvm_report_object.h \
+	report/uvm_report_server.h
+
+CXX_FILES += \
+	report/uvm_default_report_server.cpp \
+	report/uvm_report_catcher.cpp \
+	report/uvm_report_catcher_data.cpp \
+	report/uvm_report_handler.cpp \
+	report/uvm_report_message.cpp \
+	report/uvm_report_object.cpp \
+	report/uvm_report_server.cpp
+
+INCDIRS += report
+
+## Taf!

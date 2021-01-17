@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-//   Copyright 2012-2017 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
@@ -132,6 +132,13 @@ public:
   // Implementation-defined member functions below,
   // not part of UVM Class reference / LRM
   /////////////////////////////////////////////////////
+
+
+  bool m_delete_object( uvm_object* obj );
+  void m_delete_all_objects();
+
+  bool m_delete_component( uvm_component* comp );
+  void m_delete_all_components();
 
  protected:
   uvm_default_factory();

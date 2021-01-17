@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/registers/models/ro_wo_same_addr
+
 examples_FILES += \
 	$(simple_registers_models_ro_wo_same_addr_H_FILES) \
 	$(simple_registers_models_ro_wo_same_addr_CXX_FILES) \
@@ -29,8 +31,5 @@ simple_registers_models_ro_wo_same_addr_H_FILES = \
 simple_registers_models_ro_wo_same_addr_BUILD = 
 
 simple_registers_models_ro_wo_same_addr_EXTRA = 
-
-simple_registers_models_ro_wo_same_addr_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

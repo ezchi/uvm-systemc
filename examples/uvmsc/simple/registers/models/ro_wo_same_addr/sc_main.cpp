@@ -34,15 +34,16 @@
 
 int sc_main(int, char*[]) 
 {  
-  uvm::uvm_coreservice_t* cs = uvm::uvm_coreservice_t::get();
-  uvm::uvm_report_server* svr = cs->get_report_server();
-  uvm::uvm_root* top = cs->get_root();
+  tb_env* env;
+  tb_test* test;
 
-  svr->set_max_quit_count(10);
-  top->set_report_verbosity_level(uvm::UVM_FULL);
+  env = new tb_env("env");
+  test = new tb_test("test");
 
-  tb_env* env = new tb_env("env");
-  tb_test* test = new tb_test("test");
+  uvm::uvm_root::get()->set_report_verbosity_level(uvm::UVM_FULL);
+  test->set_report_verbosity_level(uvm::UVM_FULL);
+  env->set_report_verbosity_level(uvm::UVM_FULL);
+  uvm::uvm_report_server::get_server()->set_max_quit_count(10);
 
   uvm::run_test();
 

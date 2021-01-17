@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
-//   Copyright 2012-2016 NXP B.V.
+//   Copyright 2012-2019 NXP B.V.
 //   Copyright 2007-2010 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010 Synopsys, Inc.
@@ -53,7 +53,7 @@ uvm_report_object::uvm_report_object( const std::string& name ) : uvm_object(nam
 //----------------------------------------------------------------------
 
 //----------------------------------------------------------------------
-// member function: uvm_report_enabled
+// member function: uvm_get_report_object
 //
 // Returns the nearest uvm_report_object when called. From inside a
 // uvm_component, the member function returns this.
