@@ -50,6 +50,8 @@ class uvm_report_message;
 
 class uvm_report_object : public uvm_object
 {
+  friend class uvm_sequence_item;
+
   //--------------------------------------------------------------------------
   // UVM Standard LRM API below
   //--------------------------------------------------------------------------

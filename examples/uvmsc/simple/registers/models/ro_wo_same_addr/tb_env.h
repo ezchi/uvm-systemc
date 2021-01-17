@@ -73,12 +73,14 @@ class tb_env : public uvm::uvm_env
   block_B* regmodel;
   reg_agent<dut>* bus;
   uvm::uvm_reg_predictor<reg_rw>* predict;
+  reg2rw_adapter* reg2rw;
 
   tb_env( uvm::uvm_component_name name = "tb_env")
   : uvm::uvm_env(name),
     regmodel(NULL),
     bus(NULL),
-    predict(NULL)
+    predict(NULL),
+    reg2rw(NULL)
   {}
 
   virtual void build_phase(uvm::uvm_phase& phase)
@@ -91,12 +93,14 @@ class tb_env : public uvm::uvm_env
     regmodel->lock_model();
 
     bus = reg_agent<dut>::type_id::create("bus", this);
+
     predict = uvm::uvm_reg_predictor<reg_rw>::type_id::create("predict", this);
+    predict->set_report_verbosity_level(uvm::UVM_FULL);
   }
 
   virtual void connect_phase(uvm::uvm_phase& phase)
   {
-    reg2rw_adapter* reg2rw  = new reg2rw_adapter("reg2rw");
+    reg2rw  = new reg2rw_adapter("reg2rw");
 
     regmodel->default_map->set_sequencer(bus->sqr, reg2rw);
 
@@ -108,6 +112,10 @@ class tb_env : public uvm::uvm_env
     regmodel->default_map->set_auto_predict(false);
   }
 
+  virtual ~tb_env()
+  {
+    delete reg2rw;
+  }
 }; // class tb_end
 
 #endif // TB_ENV_H_

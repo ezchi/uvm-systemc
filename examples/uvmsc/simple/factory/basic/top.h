@@ -68,10 +68,8 @@ class top : public uvm::uvm_env
     // instantiate environment using the factory
     e = env::type_id::create("e", this);
 
-    uvm::uvm_coreservice_t* cs = uvm::uvm_coreservice_t::get();
-    uvm::uvm_factory* factory = cs->get_factory();
     // print registered types, instance overrides, and type overrides.
-    factory->print(1);
+    uvm::uvm_factory::get()->print(1);
   }
 
   void report_phase(uvm::uvm_phase& phase)

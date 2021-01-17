@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2012-2016 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
@@ -95,6 +95,8 @@ class uvm_root : public uvm_component
   // Implementation-defined member functions below,
   // not part of UVM Class reference / LRM
   /////////////////////////////////////////////////////
+  
+  bool get_phase_all_done();
 
   ~uvm_root(); // destructor
 
@@ -126,6 +128,8 @@ class uvm_root : public uvm_component
                            uvm_component* comp = NULL );
 
   void m_register_test( const std::string& test_name );
+
+  void m_unregister_test( const std::string& test_name );
 
 
   // data members

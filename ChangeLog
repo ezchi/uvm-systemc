@@ -1,6 +1,50 @@
-2018-11-15  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+2020-07-08  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+
+    * Public review release UVM-SystemC 1.0-beta3
+
+2020-07-07  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+
+    * Public review release UVM-SystemC 1.0-beta3-rc5
+
+2020-06-25  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+
+    * Public review release UVM-SystemC 1.0-beta3-rc4
+
+2020-05-28  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+
+    * Internal review release UVM-SystemC 1.0-beta3-rc3
+
+2019-11-01  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+
+    * Internal review release UVM-SystemC 1.0-beta3-rc2
+
+2019-10-24  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+
+    * Internal review release UVM-SystemC 1.0-beta3-rc1
+
+2018-11-16  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
 
     * Public review release UVM-SystemC 1.0-beta2
+
+2018-10-24  Stephan Gerth <stephan.gerth@bosch-sensortec.com>
+
+    * Internal review release UVM-SystemC 1.0-beta2-rc5
+
+2018-10-04  Bas Arts <bas.arts@nxp.com>
+
+    * Internal review release UVM-SystemC 1.0-beta2-rc4
+
+2018-09-14  Bas Arts <bas.arts@nxp.com>
+
+    * Internal review release UVM-SystemC 1.0-beta2-rc3
+
+2018-08-30  Stephan Gerth <stephan.gerth@eas.iis.fraunhofer.de>
+
+    * Internal review release UVM-SystemC 1.0-beta2-rc2
+
+2018-08-29  Stephan Gerth <stephan.gerth@eas.iis.fraunhofer.de>
+
+    * Internal review release UVM-SystemC 1.0-beta2-rc1
 
 2017-12-07  Stephan Gerth <stephan.gerth@eas.iis.fraunhofer.de>
 

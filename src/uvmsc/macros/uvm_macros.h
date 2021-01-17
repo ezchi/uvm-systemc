@@ -20,6 +20,7 @@
 #ifndef UVM_MACROS_H_
 #define UVM_MACROS_H_
 
+#include "uvmsc/macros/uvm_defines.h"
 #include "uvmsc/macros/uvm_object_defines.h"
 #include "uvmsc/macros/uvm_component_defines.h"
 #include "uvmsc/macros/uvm_sequence_defines.h"

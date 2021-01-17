@@ -2,7 +2,7 @@
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -89,8 +89,22 @@ class uvm_sequencer_param_base : public uvm_sequencer_base
   virtual const std::string get_type_name() const;
 
   void put_response_base( const RSP& rsp );
-  void m_last_req_push_front( REQ& item );
-  void m_last_rsp_push_front( const RSP* item );
+
+  void m_last_req_push_front( const REQ& item );
+
+  void set_num_last_reqs(unsigned int max);
+
+  unsigned int get_num_last_reqs();
+
+  REQ* last_req(unsigned int n = 0);
+
+  void m_last_rsp_push_front( const RSP& item );
+
+  void set_num_last_rsps(unsigned int max);
+
+  unsigned int get_num_last_rsps();
+
+  RSP* last_rsp(unsigned int n = 0);
 
  private:
   // class data members
@@ -104,7 +118,7 @@ class uvm_sequencer_param_base : public uvm_sequencer_base
   typedef typename m_last_req_buffer_listT::iterator m_last_req_buffer_list_ItT;
   m_last_req_buffer_listT m_last_req_buffer;
 
-  typedef std::list<const RSP*> m_last_rsp_buffer_listT;
+  typedef std::list<RSP*> m_last_rsp_buffer_listT;
   typedef typename m_last_rsp_buffer_listT::iterator m_last_rsp_buffer_list_ItT;
   m_last_rsp_buffer_listT m_last_rsp_buffer;
 };
@@ -195,13 +209,13 @@ void uvm_sequencer_param_base<REQ,RSP>::send_request( uvm_sequence_base* sequenc
 
     if (param_t.get_transaction_id() == -1)
       param_t.set_transaction_id(sequence_ptr->m_next_transaction_id++);
+    
+    param_t.set_sequence_id(sequence_ptr->m_get_sqr_sequence_id(m_sequencer_id, 1)); //TODO no direct access to m_get_sqr_sequence_id
 
     m_last_req_push_front(param_t);
   }
   else
     uvm_report_fatal(name(),"Send_request failed to cast sequence item", UVM_NONE);
-
-  param_t.set_sequence_id(sequence_ptr->m_get_sqr_sequence_id(m_sequencer_id, 1)); //TODO no direct access to m_get_sqr_sequence_id
 
   seq_item->set_sequencer(this);
 
@@ -255,7 +269,7 @@ void uvm_sequencer_param_base<REQ,RSP>::put_response_base(const RSP& rsp)
 {
   uvm_sequence_base* sequence_ptr;
 
-  m_last_rsp_push_front(&rsp);
+  m_last_rsp_push_front(rsp);
   m_num_rsps_received++;
 
   // Check that set_id_info() was called
@@ -291,15 +305,20 @@ void uvm_sequencer_param_base<REQ,RSP>::put_response_base(const RSP& rsp)
 //----------------------------------------------------------------------
 
 template <typename REQ, typename RSP>
-void uvm_sequencer_param_base<REQ,RSP>::m_last_rsp_push_front(const RSP* item)
+void uvm_sequencer_param_base<REQ,RSP>::m_last_rsp_push_front(const RSP& item)
 {
   if(!m_num_last_rsps)
     return;
 
   if(m_last_rsp_buffer.size() == m_num_last_rsps)
+  {
+    delete m_last_rsp_buffer.back();
     m_last_rsp_buffer.pop_back();
+  }
 
-  m_last_rsp_buffer.push_front(item);
+  RSP* rsp = new RSP(item.get_name());
+  *rsp = item;
+  m_last_rsp_buffer.push_front(rsp);
 }
 
 
@@ -310,15 +329,20 @@ void uvm_sequencer_param_base<REQ,RSP>::m_last_rsp_push_front(const RSP* item)
 //----------------------------------------------------------------------
 
 template <typename REQ, typename RSP>
-void uvm_sequencer_param_base<REQ,RSP>::m_last_req_push_front(REQ& item)
+void uvm_sequencer_param_base<REQ,RSP>::m_last_req_push_front(const REQ& item)
 {
   if(!m_num_last_reqs)
     return;
 
   if(m_last_req_buffer.size() == m_num_last_reqs)
+  {
+    delete m_last_req_buffer.back();
     m_last_req_buffer.pop_back();
+  }
 
-  m_last_req_buffer.push_front(&item);
+  REQ* req = new REQ(item.get_name());
+  *req = item;
+  m_last_req_buffer.push_front(req);
 }
 
 //----------------------------------------------------------------------
@@ -343,6 +367,140 @@ template <typename REQ, typename RSP>
 const std::string uvm_sequencer_param_base<REQ,RSP>::get_type_name() const
 {
   return std::string(this->kind());
+}
+
+//----------------------------------------------------------------------
+// member function: set_num_last_reqs
+//
+// Implementation-defined member function
+//----------------------------------------------------------------------
+
+template <typename REQ, typename RSP>
+void uvm_sequencer_param_base<REQ,RSP>::set_num_last_reqs(unsigned int max)
+{
+  if(max > 1024) 
+  {
+    std::ostringstream msg;
+    msg << "Invalid last size; 1024 is the maximum and will be used";
+    uvm_report_warning("HSTOB", msg.str(), UVM_NONE);
+    max = 1024;
+  }
+
+  // shrink the buffer
+  while((m_last_req_buffer.size() != 0) && (m_last_req_buffer.size() > max))
+  {
+    delete m_last_req_buffer.back();
+    m_last_req_buffer.pop_back();
+  }
+
+  m_num_last_reqs = max;
+}
+
+//----------------------------------------------------------------------
+// member function: get_num_last_reqs
+//
+// Implementation-defined member function
+//----------------------------------------------------------------------
+
+template <typename REQ, typename RSP>
+unsigned int uvm_sequencer_param_base<REQ,RSP>::get_num_last_reqs()
+{
+  return m_num_last_reqs;
+}
+
+//----------------------------------------------------------------------
+// member function: last_req
+//
+// Implementation-defined member function
+//----------------------------------------------------------------------
+
+template <typename REQ, typename RSP>
+REQ* uvm_sequencer_param_base<REQ,RSP>::last_req(unsigned int n)
+{
+  if(n > m_num_last_reqs) 
+  {
+    std::ostringstream msg;
+    msg << "Invalid last access " << n
+        << ", the max history is " << m_num_last_reqs;
+    uvm_report_warning("HSTOB", msg.str(), UVM_NONE);
+    return NULL;
+  }
+
+  if(n >= m_last_req_buffer.size()) 
+  {
+    return NULL;
+  }
+  
+  m_last_req_buffer_list_ItT it = m_last_req_buffer.begin();
+  std::advance(it, n);
+  return *it;
+}
+
+//----------------------------------------------------------------------
+// member function: set_num_last_rsps
+//
+// Implementation-defined member function
+//----------------------------------------------------------------------
+
+template <typename REQ, typename RSP>
+void uvm_sequencer_param_base<REQ,RSP>::set_num_last_rsps(unsigned int max)
+{
+  if(max > 1024) 
+  {
+    std::ostringstream msg;
+    msg << "Invalid last size; 1024 is the maximum and will be used";
+    uvm_report_warning("HSTOB", msg.str(), UVM_NONE);
+    max = 1024;
+  }
+
+  // shrink the buffer
+  while((m_last_rsp_buffer.size() != 0) && (m_last_rsp_buffer.size() > max))
+  {
+    delete m_last_rsp_buffer.back();
+    m_last_rsp_buffer.pop_back();
+  }
+
+  m_num_last_rsps = max;
+}
+
+//----------------------------------------------------------------------
+// member function: get_num_last_rsps
+//
+// Implementation-defined member function
+//----------------------------------------------------------------------
+
+template <typename REQ, typename RSP>
+unsigned int uvm_sequencer_param_base<REQ,RSP>::get_num_last_rsps()
+{
+  return m_num_last_rsps;
+}
+
+//----------------------------------------------------------------------
+// member function: last_rsp
+//
+// Implementation-defined member function
+//----------------------------------------------------------------------
+
+template <typename REQ, typename RSP>
+RSP* uvm_sequencer_param_base<REQ,RSP>::last_rsp(unsigned int n)
+{
+  if(n > m_num_last_rsps) 
+  {
+    std::ostringstream msg;
+    msg << "Invalid last access " << n
+        << ", the max history is " << m_num_last_rsps;
+    uvm_report_warning("HSTOB", msg.str(), UVM_NONE);
+    return NULL;
+  }
+
+  if(n >= m_last_rsp_buffer.size()) 
+  {
+    return NULL;
+  }
+  
+  m_last_rsp_buffer_list_ItT it = m_last_rsp_buffer.begin();
+  std::advance(it, n);
+  return *it;
 }
 
 } /* namespace uvm */

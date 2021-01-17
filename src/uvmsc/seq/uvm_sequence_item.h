@@ -2,7 +2,7 @@
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2010 Cadence Design Systems, Inc.
 //   Copyright 2010 Synopsys, Inc.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2019 NXP B.V.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -30,6 +30,8 @@ namespace uvm {
 // forward declaration of necessary classes.
 class uvm_sequence_base;
 class uvm_sequencer_base;
+class uvm_report_object;
+class uvm_report_message;
 
 //------------------------------------------------------------------------------
 // CLASS: uvm_sequence_item
@@ -90,19 +92,70 @@ class uvm_sequence_item: public uvm_transaction
   const std::string get_sequence_path() const;
 
   //--------------------------------------------------------------------------
-  // Recording interface
+  // Reporting interface
   //--------------------------------------------------------------------------
 
-  // not implemented yet
+  virtual void uvm_report( uvm_severity severity,
+                           const std::string& id,
+                           const std::string& message,
+                           int verbosity = -1,
+                           const std::string& filename="",
+                           int line = 0,
+                           const std::string& context_name = "",
+                           bool report_enabled_checked = false ) const;
+
+  virtual void uvm_report_info( const std::string& id,
+                                const std::string& message,
+                                int verbosity = UVM_MEDIUM,
+                                const std::string& filename = "",
+                                int line = 0,
+                                const std::string& context_name = "",
+                                bool report_enabled_checked = false ) const;
+
+  virtual void uvm_report_warning( const std::string& id,
+                                   const std::string& message,
+                                   int verbosity = UVM_MEDIUM,
+                                   const std::string& filename = "",
+                                   int line = 0,
+                                   const std::string& context_name = "",
+                                   bool report_enabled_checked = false ) const;
+
+
+  virtual void uvm_report_error( const std::string& id,
+                                 const std::string& message,
+                                 int verbosity = UVM_LOW,
+                                 const std::string& filename = "",
+                                 int line = 0,
+                                 const std::string& context_name = "",
+                                 bool report_enabled_checked = false ) const;
+
+  virtual void uvm_report_fatal( const std::string& id,
+                                 const std::string& message,
+                                 int verbosity = UVM_NONE,
+                                 const std::string& filename = "",
+                                 int line = 0,
+                                 const std::string& context_name = "",
+                                 bool report_enabled_checked = false ) const;
 
   /////////////////////////////////////////////////////
   // Implementation-defined member functions below,
   // not part of UVM Class reference / LRM
   /////////////////////////////////////////////////////
 
+  virtual void uvm_process_report_message( uvm_report_message* report_message ) const;
+
+  virtual const uvm_report_object* m_get_report_object() const;
+
+  bool uvm_report_enabled( int verbosity,
+                           uvm_severity severity = UVM_INFO,
+                           std::string id = "" ) const;
+
+  virtual const std::string get_full_name() const;
+
   virtual const std::string get_type_name() const { return "uvm::uvm_sequence_item"; }
 
   virtual void do_print( const uvm_printer& printer ) const;
+
 
 protected:
 

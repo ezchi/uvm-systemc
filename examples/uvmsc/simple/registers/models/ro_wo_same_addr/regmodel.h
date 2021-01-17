@@ -118,13 +118,13 @@ class block_B : public uvm::uvm_reg_block
     uvm::uvm_reg_addr_t base_addr = 0x0000;
     unsigned int n_bytes = 4;
 
-    default_map = create_map("default_map", base_addr, n_bytes, uvm::UVM_BIG_ENDIAN);
+    default_map = create_map("", base_addr, n_bytes, uvm::UVM_BIG_ENDIAN);
 
-    R = reg_RO::type_id::create("RO");
+    R = reg_RO::type_id::create("R");
     R->configure(this, NULL, "RO_reg");
     R->build();
 
-    W = reg_WO::type_id::create("WO");
+    W = reg_WO::type_id::create("W");
     W->configure(this, NULL, "WO_reg");
     W->build();
 

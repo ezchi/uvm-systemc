@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-//   Copyright 2012-2014 NXP B.V.
+//   Copyright 2012-2020 NXP B.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
@@ -24,6 +24,7 @@
 #define UVM_FACTORY_H_
 
 #include <string>
+#include <list>
 
 #include "uvmsc/base/uvm_coreservice_t.h"
 #include "uvmsc/base/uvm_default_coreservice_t.h"
@@ -152,10 +153,25 @@ class uvm_factory
 
   virtual void print( int all_types = 1 ) = 0;
 
+  // implementation defined methods
+
+  virtual bool m_delete_object( uvm_object* obj ) = 0;
+  virtual void m_delete_all_objects() = 0;
+
+  virtual bool m_delete_component( uvm_component* comp ) = 0;
+  virtual void m_delete_all_components() = 0;
+
  protected:
   uvm_factory(){};
   virtual ~uvm_factory(){};
 
+  typedef std::list<uvm_object* > m_obj_listT;
+  typedef m_obj_listT::iterator m_obj_listItT;
+  m_obj_listT m_obj_list;
+
+  typedef std::list<uvm_component* > m_comp_listT;
+  typedef m_comp_listT::iterator m_comp_listItT;
+  m_comp_listT m_comp_list;
 }; // class uvm_factory
 
 } // namespace uvm

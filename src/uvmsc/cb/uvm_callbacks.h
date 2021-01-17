@@ -278,7 +278,7 @@ void uvm_callbacks<T,CB>::add( T* obj, uvm_callback* cb, uvm_apprepend ordering 
 
   if (!m_base_inst->check_registration(obj, cb))
   {
-    std::cout << "not registered obj/cb" << std::endl;
+    //std::cout << "not registered obj/cb" << std::endl;
     if (obj == NULL)
       nm = "(*)";
     else

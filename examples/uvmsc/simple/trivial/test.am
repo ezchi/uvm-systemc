@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/trivial
+
 examples_FILES += \
 	$(simple_trivial_H_FILES) \
 	$(simple_trivial_CXX_FILES) \
@@ -26,8 +28,5 @@ simple_trivial_H_FILES = \
 simple_trivial_BUILD = 
 
 simple_trivial_EXTRA = 
-
-simple_trivial_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/tlm1/hierarchy
+
 examples_FILES += \
 	$(simple_tlm1_hierarchy_H_FILES) \
 	$(simple_tlm1_hierarchy_CXX_FILES) \
@@ -26,8 +28,5 @@ simple_tlm1_hierarchy_H_FILES = \
 simple_tlm1_hierarchy_BUILD = 
 
 simple_tlm1_hierarchy_EXTRA = 
-
-simple_tlm1_hierarchy_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

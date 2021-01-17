@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/phases/basic
+
 examples_FILES += \
 	$(simple_phases_basic_H_FILES) \
 	$(simple_phases_basic_CXX_FILES) \
@@ -25,8 +27,5 @@ simple_phases_basic_H_FILES =
 simple_phases_basic_BUILD = 
 
 simple_phases_basic_EXTRA = 
-
-simple_phases_basic_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

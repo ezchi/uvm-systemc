@@ -1,0 +1,18 @@
+H_FILES += \
+	seq/uvm_seq.h \
+	seq/uvm_sequence.h \
+	seq/uvm_sequence_base.h \
+	seq/uvm_sequence_item.h \
+	seq/uvm_sequencer.h \
+	seq/uvm_sequencer_base.h \
+	seq/uvm_sequencer_ifs.h \
+	seq/uvm_sequencer_param_base.h
+
+CXX_FILES += \
+	seq/uvm_sequence_base.cpp \
+	seq/uvm_sequence_item.cpp \
+	seq/uvm_sequencer_base.cpp 
+
+INCDIRS += seq
+
+## Taf!

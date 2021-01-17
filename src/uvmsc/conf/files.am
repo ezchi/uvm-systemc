@@ -1,0 +1,25 @@
+H_FILES += \
+	conf/uvm_conf.h \
+	conf/uvm_config_db.h \
+	conf/uvm_config_db_options.h \
+	conf/uvm_object_string_pool.h \
+	conf/uvm_queue.h \
+	conf/uvm_resource.h \
+	conf/uvm_resource_base.h \
+	conf/uvm_resource_converter.h \
+	conf/uvm_resource_db.h \
+	conf/uvm_resource_db_options.h \
+	conf/uvm_resource_options.h \
+	conf/uvm_resource_pool.h \
+	conf/uvm_resource_types.h
+
+CXX_FILES += \
+	conf/uvm_config_db_options.cpp \
+	conf/uvm_resource_base.cpp \
+	conf/uvm_resource_db_options.cpp \
+	conf/uvm_resource_options.cpp \
+	conf/uvm_resource_pool.cpp
+
+INCDIRS += conf
+
+## Taf!

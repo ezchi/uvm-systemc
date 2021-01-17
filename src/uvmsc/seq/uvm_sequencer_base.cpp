@@ -4,8 +4,9 @@
 //					der angewandten Forschung e.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
-//   Copyright 2010-2011 Synopsys, Inc.
+//   Copyright 2010-2020 Synopsys, Inc.
 //   Copyright 2012-2015 NXP B.V.
+//   Copyright 2018 Intel Corp.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -77,6 +78,8 @@ uvm_sequencer_base::uvm_sequencer_base( uvm_component_name name_ )
   m_arb_size = -1;
 
   srand(25); // TODO make global function to specify seed for RNG
+
+  m_current_sequence_item = NULL;
 }
 
 //----------------------------------------------------------------------
@@ -234,8 +237,8 @@ void uvm_sequencer_base::start_phase_sequence( uvm_phase& phase )
 
   seq->print_sequence_info = true;
   seq->set_sequencer(this);
-  //seq.reseed();
-  seq->starting_phase = &phase;
+  //seq.reseed(); // TODO: randomization
+  seq->set_starting_phase(&phase); //NEW!
 
   /* TODO randomize
   if (!seq->do_not_randomize && !seq->randomize())
@@ -251,7 +254,6 @@ void uvm_sequencer_base::start_phase_sequence( uvm_phase& phase )
 
   // launch default sequence as new process
   sc_core::sc_spawn(sc_bind(&uvm_sequencer_base::m_start_default_seq_proc, this, seq));
-
 }
 
 //----------------------------------------------------------------------
@@ -803,7 +805,6 @@ void uvm_sequencer_base::remove_sequence_from_queues(uvm_sequence_base* sequence
 
 void uvm_sequencer_base::m_unregister_sequence(int sequence_id)
 {
-
   if (reg_sequences.find(sequence_id) == reg_sequences.end()) // not exists
     return;
 
@@ -1113,7 +1114,8 @@ void uvm_sequencer_base::m_wait_for_available_sequence()
 
   // TODO - selection in case not all queued entries are relevant...
 
-  std::cout << "FATAL: PROGRAM INCOMPLETE AND SHOULD NOT GET HERE - report to development team !!" << std::endl;
+  std::cout << "UVM-SystemC FATAL ERROR Occurred" << std::endl;
+  std::cout << "Please contact uvm-systemc-feedback@lists.accellera.org" << std::endl;
   exit(-1);
 }
 
