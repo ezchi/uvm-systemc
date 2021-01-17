@@ -2,82 +2,12 @@
 # Build rules for UVM-SystemC library
 ###############################################################################
 
-add_library (uvm-systemc
-    uvmsc/misc/uvm_scope_stack.cpp
-    uvmsc/misc/uvm_status_container.cpp
-    uvmsc/misc/uvm_misc.cpp
-    uvmsc/reg/uvm_reg_map.cpp
-    uvmsc/reg/uvm_reg_item.cpp
-    uvmsc/reg/uvm_reg_model.cpp
-    uvmsc/reg/uvm_reg_field.cpp
-    uvmsc/reg/uvm_mem_region.cpp
-    uvmsc/reg/uvm_reg_backdoor.cpp
-    uvmsc/reg/uvm_vreg_field.cpp
-    uvmsc/reg/uvm_reg_fifo.cpp
-    uvmsc/reg/uvm_reg_read_only_cbs.cpp
-    uvmsc/reg/uvm_reg.cpp
-    uvmsc/reg/uvm_reg_indirect_data.cpp
-    uvmsc/reg/uvm_reg_write_only_cbs.cpp
-    uvmsc/reg/uvm_mem.cpp
-    uvmsc/reg/uvm_vreg_field_cbs.cpp
-    uvmsc/reg/uvm_reg_tlm_adapter.cpp
-    uvmsc/reg/uvm_vreg.cpp
-    uvmsc/reg/uvm_reg_indirect_ftdr_seq.cpp
-    uvmsc/reg/uvm_reg_adapter.cpp
-    uvmsc/reg/uvm_mem_mam.cpp
-    uvmsc/reg/uvm_reg_file.cpp
-    uvmsc/reg/uvm_reg_block.cpp
-    uvmsc/seq/uvm_sequencer_base.cpp
-    uvmsc/seq/uvm_sequence_base.cpp
-    uvmsc/seq/uvm_sequence_item.cpp
-    uvmsc/phasing/uvm_bottomup_phase.cpp
-    uvmsc/phasing/uvm_phase.cpp
-    uvmsc/phasing/uvm_domain.cpp
-    uvmsc/phasing/uvm_runtime_phases.cpp
-    uvmsc/phasing/uvm_objection.cpp
-    uvmsc/phasing/uvm_topdown_phase.cpp
-    uvmsc/phasing/uvm_common_phases.cpp
-    uvmsc/phasing/uvm_process_phase.cpp
-    uvmsc/dpi/uvm_hdl.cpp
-    uvmsc/print/uvm_tree_printer.cpp
-    uvmsc/print/uvm_printer_globals.cpp
-    uvmsc/print/uvm_printer.cpp
-    uvmsc/print/uvm_table_printer.cpp
-    uvmsc/report/uvm_report_handler.cpp
-    uvmsc/report/uvm_report_catcher_data.cpp
-    uvmsc/report/uvm_report_catcher.cpp
-    uvmsc/report/uvm_report_object.cpp
-    uvmsc/report/uvm_default_report_server.cpp
-    uvmsc/report/uvm_report_server.cpp
-    uvmsc/report/uvm_report_message.cpp
-    uvmsc/comps/uvm_agent.cpp
-    uvmsc/cb/uvm_callbacks_base.cpp
-    uvmsc/cb/uvm_callback.cpp
-    uvmsc/cb/uvm_typeid.cpp
-    uvmsc/conf/uvm_resource_base.cpp
-    uvmsc/conf/uvm_config_db_options.cpp
-    uvmsc/conf/uvm_resource_options.cpp
-    uvmsc/conf/uvm_resource_pool.cpp
-    uvmsc/conf/uvm_resource_db_options.cpp
-    uvmsc/factory/uvm_factory_override.cpp
-    uvmsc/factory/uvm_default_factory.cpp
-    uvmsc/base/uvm_object_globals.cpp
-    uvmsc/base/uvm_event_callback.cpp
-    uvmsc/base/uvm_component.cpp
-    uvmsc/base/uvm_component_name.cpp
-    uvmsc/base/uvm_root.cpp
-    uvmsc/base/uvm_coreservice_t.cpp
-    uvmsc/base/uvm_object.cpp
-    uvmsc/base/uvm_mutex.cpp
-    uvmsc/base/uvm_transaction.cpp
-    uvmsc/base/uvm_globals.cpp
-    uvmsc/base/uvm_default_coreservice_t.cpp
-    uvmsc/base/uvm_event.cpp
-    uvmsc/base/uvm_version.cpp
-    uvmsc/policy/uvm_recorder.cpp
-    uvmsc/policy/uvm_packer.cpp
-    uvmsc/policy/uvm_comparer.cpp
-    )
+file(GLOB_RECURSE cpp_files
+  LIST_DIRECTORIES false
+  *.cpp
+  )
+
+add_library (uvm-systemc ${cpp_files})
 
 target_include_directories(
     uvm-systemc

@@ -1,11 +1,12 @@
 //----------------------------------------------------------------------
-//   Copyright 2013-2015 NXP B.V.
+//   Copyright 2013-2020 NXP B.V.
 //   Copyright 2004-2009 Synopsys, Inc.
 //   Copyright 2010-2011 Mentor Graphics Corporation
 //   Copyright 2010-2011 Cadence Design Systems, Inc.
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2014 Université Pierre et Marie Curie, Paris
+//   Copyright 2018 Intel Corp.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -790,6 +791,8 @@ void uvm_reg_field::write( uvm_status_e& status,
    do_write(rw);
 
    status = rw->status;
+
+   uvm_reg_item::type_id::destroy(rw);
 }
 
 //----------------------------------------------------------------------
@@ -851,6 +854,8 @@ void uvm_reg_field::read( uvm_status_e& status, // output
 
   value = rw->value[0];
   status = rw->status;
+  
+  uvm_reg_item::type_id::destroy(rw);
 }
 
 
@@ -1184,6 +1189,7 @@ bool uvm_reg_field::predict( uvm_reg_data_t value,
   rw->map = map;
   rw->fname = fname;
   rw->lineno = lineno;
+  rw->status = UVM_NOT_OK;
 
   do_predict(rw, kind, be);
 

@@ -1,0 +1,26 @@
+H_FILES += \
+	phasing/uvm_bottomup_phase.h \
+	phasing/uvm_common_phases.h \
+	phasing/uvm_domain.h \
+	phasing/uvm_objection.h \
+	phasing/uvm_phase.h \
+	phasing/uvm_phase_queue.h \
+	phasing/uvm_phasing.h \
+	phasing/uvm_process.h \
+	phasing/uvm_process_phase.h \
+	phasing/uvm_runtime_phases.h \
+	phasing/uvm_topdown_phase.h
+
+CXX_FILES += \
+	phasing/uvm_bottomup_phase.cpp \
+	phasing/uvm_common_phases.cpp \
+	phasing/uvm_domain.cpp \
+	phasing/uvm_objection.cpp \
+	phasing/uvm_phase.cpp \
+	phasing/uvm_process_phase.cpp \
+	phasing/uvm_runtime_phases.cpp \
+	phasing/uvm_topdown_phase.cpp
+
+INCDIRS += phasing
+
+## Taf!

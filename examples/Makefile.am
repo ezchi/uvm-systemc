@@ -3,16 +3,13 @@ include $(top_srcdir)/config/Make-rules.examples
 SUBDIRS = \
 	uvmsc
 
-install-data-local:
-	@$(NORMAL_INSTALL)
-	if test "$(realpath $(srcdir))" != "$(realpath $(DESTDIR)$(examplesdir))"; then \
-	  $(mkinstalldirs) $(DESTDIR)$(examplesdir); \
-	fi
+# install examples?
+if SEPARATE_INSTALL_TREE
+buildexamplesdir = $(examplesdir)
 
-uninstall-local:
-	@$(NORMAL_UNINSTALL)
-	if test "$(realpath $(srcdir))" != "$(realpath $(DESTDIR)$(examplesdir))"; then \
-	  rmdir $(DESTDIR)$(examplesdir); \
-	fi
+uninstall-hook:
+	test ! -d "$(buildexamplesdir)" || ( set -e ; rmdir --ignore-fail-on-non-empty "$(buildexamplesdir)" )
+
+endif # SEPARATE_INSTALL_TREE
 
 ## Taf!

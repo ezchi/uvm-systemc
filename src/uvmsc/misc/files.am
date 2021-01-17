@@ -1,0 +1,14 @@
+H_FILES += \
+	misc/uvm_copy_map.h \
+	misc/uvm_misc.h \
+	misc/uvm_scope_stack.h \
+	misc/uvm_status_container.h
+
+CXX_FILES += \
+	misc/uvm_misc.cpp \
+	misc/uvm_scope_stack.cpp \
+	misc/uvm_status_container.cpp
+
+INCDIRS += misc
+
+## Taf!

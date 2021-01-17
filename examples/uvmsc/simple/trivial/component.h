@@ -35,7 +35,7 @@ class my_component : public uvm::uvm_component
   void run_phase(uvm::uvm_phase& phase)
   {
     phase.raise_objection(this);
-    uvm::uvm_report_info("component", "hello out there!", uvm::UVM_MEDIUM);
+    UVM_INFO("component", "hello out there!", uvm::UVM_MEDIUM);
     phase.drop_objection(this);
   }
 };

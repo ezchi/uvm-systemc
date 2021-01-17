@@ -59,6 +59,8 @@ class sequenceA : public uvm::uvm_sequence<REQ,RSP>
       this->send_request(req);
       this->get_response(rsp);
 
+      delete req;
+
       req = new REQ();
       req->addr = (my_id * NUM_LOOPS) + i;
       req->data = 0;
@@ -67,6 +69,8 @@ class sequenceA : public uvm::uvm_sequence<REQ,RSP>
       this->wait_for_grant();
       this->send_request(req);
       this->get_response(rsp);
+
+      delete req;
 
       if (rsp->data != my_id + i + 55 )
       {
@@ -77,18 +81,18 @@ class sequenceA : public uvm::uvm_sequence<REQ,RSP>
         UVM_ERROR(this->get_name(), str.str());
       }
     }
+    delete rsp;
 
     UVM_INFO(this->get_name(), "Finishing sequence", uvm::UVM_MEDIUM);
   }
 
  private:
-  // TODO: check types with UVM/SV original
-  static unsigned int g_my_id;
-  unsigned int my_id;
+  static int g_my_id;
+  int my_id;
 };
 
 template <typename REQ, typename RSP>
-unsigned int sequenceA<REQ,RSP>::g_my_id = 1;
+int sequenceA<REQ,RSP>::g_my_id = 1;
 
 
 #endif /* SEQUENCEA_H_ */

@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/configuration/manual
+
 examples_FILES += \
 	$(simple_configuration_manual_H_FILES) \
 	$(simple_configuration_manual_CXX_FILES) \
@@ -30,8 +32,5 @@ simple_configuration_manual_H_FILES = \
 simple_configuration_manual_BUILD = 
 
 simple_configuration_manual_EXTRA = 
-
-simple_configuration_manual_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

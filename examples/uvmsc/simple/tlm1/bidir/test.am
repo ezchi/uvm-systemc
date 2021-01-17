@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/tlm1/bidir
+
 examples_FILES += \
 	$(simple_tlm1_bidir_H_FILES) \
 	$(simple_tlm1_bidir_CXX_FILES) \
@@ -26,8 +28,5 @@ simple_tlm1_bidir_H_FILES = \
 simple_tlm1_bidir_BUILD = 
 
 simple_tlm1_bidir_EXTRA = 
-
-simple_tlm1_bidir_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

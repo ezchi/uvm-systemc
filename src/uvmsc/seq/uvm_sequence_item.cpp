@@ -2,7 +2,7 @@
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2010 Cadence Design Systems, Inc.
 //   Copyright 2010 Synopsys, Inc.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2019 NXP B.V.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -26,6 +26,8 @@
 #include "uvmsc/seq/uvm_sequence_base.h"
 #include "uvmsc/seq/uvm_sequencer_base.h"
 #include "uvmsc/report/uvm_report_object.h"
+#include "uvmsc/report/uvm_report_handler.h"
+#include "uvmsc/report/uvm_report_message.h"
 #include "uvmsc/print/uvm_printer.h"
 
 namespace uvm {
@@ -67,7 +69,6 @@ uvm_sequence_item::uvm_sequence_item( uvm_object_name name_ )
 uvm_sequence_item::~uvm_sequence_item()
 {
   // TODO - cleanup
-  //std::cout << "destructor of uvm_sequence_item: " << get_full_name() << std::endl;
 }
 
 //----------------------------------------------------------------------
@@ -319,10 +320,191 @@ const std::string uvm_sequence_item::get_sequence_path() const
   return "";
 }
 
+//----------------------------------------------------------------------
+// Reporting interface
+//----------------------------------------------------------------------
+
+//----------------------------------------------------------------------
+// member function: uvm_report (virtual)
+//----------------------------------------------------------------------
+
+void uvm_sequence_item::uvm_report( uvm_severity severity,
+                                    const std::string& id,
+                                    const std::string& message,
+                                    int verbosity,
+                                    const std::string& filename,
+                                    int line,
+                                    const std::string& context_name,
+                                    bool report_enabled_checked ) const
+{
+  uvm_report_message* l_report_message;
+
+  if (verbosity == -1)
+    verbosity = (severity == UVM_ERROR) ? UVM_LOW :
+                (severity == UVM_FATAL) ? UVM_NONE : UVM_MEDIUM;
+
+  if (report_enabled_checked == 0)
+  {
+    if (!uvm_report_enabled(verbosity, severity, id))
+      return;
+  }
+
+  l_report_message = uvm_report_message::new_report_message();
+  l_report_message->set_report_message(severity, id, message,
+                                      verbosity, filename, line, context_name);
+
+  uvm_process_report_message(l_report_message);
+}
+
+//----------------------------------------------------------------------
+// member function: uvm_report_info (virtual)
+//----------------------------------------------------------------------
+
+void uvm_sequence_item::uvm_report_info( const std::string& id,
+                              const std::string& message,
+                              int verbosity,
+                              const std::string& filename,
+                              int line,
+                              const std::string& context_name,
+                              bool report_enabled_checked ) const
+{
+  this->uvm_report(UVM_INFO, id, message, verbosity, filename, line,
+                   context_name, report_enabled_checked);
+}
+
+//----------------------------------------------------------------------
+// member function: uvm_report_warning (virtual)
+//----------------------------------------------------------------------
+
+void uvm_sequence_item::uvm_report_warning( const std::string& id,
+                                            const std::string& message,
+                                             int verbosity,
+                                             const std::string& filename,
+                                             int line,
+                                             const std::string& context_name,
+                                             bool report_enabled_checked ) const
+{
+  this->uvm_report(UVM_WARNING, id, message, verbosity, filename, line,
+                   context_name, report_enabled_checked);
+}
+
+//----------------------------------------------------------------------
+// member function: uvm_report_error (virtual)
+//----------------------------------------------------------------------
+
+void uvm_sequence_item::uvm_report_error( const std::string& id,
+                                          const std::string& message,
+                                          int verbosity,
+                                          const std::string& filename,
+                                          int line,
+                                          const std::string& context_name,
+                                          bool report_enabled_checked ) const
+{
+  this->uvm_report(UVM_ERROR, id, message, verbosity, filename, line,
+                   context_name, report_enabled_checked);
+}
+
+
+//----------------------------------------------------------------------
+// member function: uvm_report_fatal (virtual)
+//----------------------------------------------------------------------
+
+void uvm_sequence_item::uvm_report_fatal( const std::string& id,
+                                          const std::string& message,
+                                          int verbosity,
+                                          const std::string& filename,
+                                          int line,
+                                          const std::string& context_name,
+                                          bool report_enabled_checked ) const
+{
+  this->uvm_report(UVM_FATAL, id, message, verbosity, filename, line,
+                   context_name, report_enabled_checked);
+}
+
+//----------------------------------------------------------------------
+// member function: uvm_process_report_message (virtual)
+//
+// Implementation defined
+//----------------------------------------------------------------------
+
+void uvm_sequence_item::uvm_process_report_message( uvm_report_message* report_message ) const
+{
+  //TODO avoid const_cast!
+  uvm_report_object* l_report_object = const_cast<uvm_report_object*>(m_get_report_object());
+  report_message->set_report_object(l_report_object);
+
+  if (report_message->get_context() == "")
+    report_message->set_context(get_sequence_path());
+
+  l_report_object->m_rh->process_report_message(report_message);
+}
+
+//----------------------------------------------------------------------
+// member function: m_get_report_object (virtual)
+//
+// Implementation defined
+//----------------------------------------------------------------------
+
+const uvm_report_object* uvm_sequence_item::m_get_report_object() const
+{
+  if(m_sequencer == NULL)
+  {
+    uvm_coreservice_t* cs = uvm_coreservice_t::get();
+    return cs->get_root();
+  }
+  else
+    return m_sequencer;
+
+}
+
+
+//----------------------------------------------------------------------
+// member function: uvm_report_enabled
+//
+// Implementation defined
+//----------------------------------------------------------------------
+
+bool uvm_sequence_item::uvm_report_enabled( int verbosity,
+                                            uvm_severity severity,
+                                            std::string id ) const
+{
+  const uvm_report_object* l_report_object = m_get_report_object();
+
+  if (l_report_object->get_report_verbosity_level(severity, id) < verbosity)
+    return false;
+
+  return true;
+}
 
 ////////////////////////////////////////////////////////////////////////
 //////// Implementation-defined member functions start here ////////////
 ////////////////////////////////////////////////////////////////////////
+
+//----------------------------------------------------------------------
+// member function: get_full_name
+//
+// Implementation-defined member function
+// overrides must follow same naming convention
+//----------------------------------------------------------------------
+
+const std::string uvm_sequence_item::get_full_name() const
+{
+  std::string s;
+
+  if(m_parent_sequence != NULL)
+    s = m_parent_sequence->get_full_name()+ ".";
+  else
+    if(m_sequencer!=NULL)
+      s = m_sequencer->get_full_name()+ ".";
+
+  if(!get_name().empty())
+    s += get_name();
+  else
+    s += "_item";
+
+  return s;
+}
+
 
 //----------------------------------------------------------------------
 // member function: get_sequence_id

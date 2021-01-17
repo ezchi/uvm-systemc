@@ -51,6 +51,7 @@
 #include <uvm>
 #include <tlm>
 
+#include "global.h"
 
 //----------------------------------------------------------------------
 // class transaction
@@ -95,8 +96,8 @@ class transaction : public uvm::uvm_transaction
   // temporary helper function for randomization
   bool randomize()
   {
-    data = rand() % 100;
-    addr = rand() % 100;
+    data = pseudo_rand() % 100;
+    addr = pseudo_rand() % 100;
     return true;
   }
 
@@ -263,14 +264,12 @@ class consumer : public uvm::uvm_component
     put_export("put_export"),
     b("bfm"),
     f("fifo")
-  {
-    put_export.connect(f); // note: there is no f.blocking_put_export
-    b.get_port.connect(f); // note: there is no f.blocking_get_export
-  }
+  {}
 
   void connect_phase( uvm::uvm_phase& phase )
   {
-    // TODO: immediate export bindings moved to constructor.
+    put_export.connect(f); // note: there is no f.blocking_put_export
+    b.get_port.connect(f); // note: there is no f.blocking_get_export
   }
 
 }; // class consumer

@@ -1,25 +1,25 @@
 //----------------------------------------------------------------------
-//!  Copyright 2012-2015 NXP B.V.
-//!  Copyright 2013-2014 Fraunhofer-Gesellschaft zur Foerderung
+//   Copyright 2012-2019 NXP B.V.
+//   Copyright 2013-2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
-//!  Copyright 2007-2011 Mentor Graphics Corporation
-//!  Copyright 2007-2011 Cadence Design Systems, Inc.
-//!  Copyright 2010-2011 Synopsys, Inc.
-//!  All Rights Reserved Worldwide
+//   Copyright 2007-2011 Mentor Graphics Corporation
+//   Copyright 2007-2011 Cadence Design Systems, Inc.
+//   Copyright 2010-2011 Synopsys, Inc.
+//   All Rights Reserved Worldwide
 //
-//!  Licensed under the Apache License, Version 2.0 (the
-//!  "License"); you may not use this file except in
-//!  compliance with the License.  You may obtain a copy of
-//!  the License at
+//   Licensed under the Apache License, Version 2.0 (the
+//   "License"); you may not use this file except in
+//   compliance with the License.  You may obtain a copy of
+//   the License at
 //
-//!      http://www.apache.org/licenses/LICENSE-2.0
+//       http://www.apache.org/licenses/LICENSE-2.0
 //
-//!  Unless required by applicable law or agreed to in
-//!  writing, software distributed under the License is
-//!  distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-//!  CONDITIONS OF ANY KIND, either express or implied.  See
-//!  the License for the specific language governing
-//!  permissions and limitations under the License.
+//   Unless required by applicable law or agreed to in
+//   writing, software distributed under the License is
+//   distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+//   CONDITIONS OF ANY KIND, either express or implied.  See
+//   the License for the specific language governing
+//   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
 #include <iostream>
@@ -96,6 +96,8 @@ uvm_component::uvm_component( uvm_component_name nm )
     }
     else
       m_comp_parent = uvm_parent;
+
+    set_report_verbosity_level(m_comp_parent->get_report_verbosity_level());
 
     if (!m_comp_parent->m_add_child(this))
     {
@@ -1691,8 +1693,8 @@ void uvm_component::m_extract_name( const std::string& name,
     return;
   }
 
-  leaf = name.substr( 0 , i - 1 );
-  remainder = name.substr( i + 1 , len - 1 );
+  leaf = name.substr( 0 , i );
+  remainder = name.substr( i + 1 , len - i );
 
   return;
 }

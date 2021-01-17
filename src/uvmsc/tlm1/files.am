@@ -1,0 +1,14 @@
+H_FILES += \
+	tlm1/uvm_analysis_export.h \
+	tlm1/uvm_analysis_imp.h \
+	tlm1/uvm_analysis_port.h \
+	tlm1/uvm_exports.h \
+	tlm1/uvm_imps.h \
+	tlm1/uvm_ports.h \
+	tlm1/uvm_sqr_connections.h \
+	tlm1/uvm_tlm_req_rsp_channel.h \
+	tlm1/uvm_tlm1.h 
+
+INCDIRS += tlm1
+
+## Taf!

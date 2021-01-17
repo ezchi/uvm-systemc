@@ -50,9 +50,8 @@ class tb_test : public uvm::uvm_test
 
   void run_phase(uvm::uvm_phase& phase)
   {
- /* TODO
     uvm::uvm_status_e status;
- */
+    uvm::uvm_reg_data_t data;
 
     phase.raise_objection(this);
 

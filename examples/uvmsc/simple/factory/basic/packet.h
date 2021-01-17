@@ -1,6 +1,7 @@
 //----------------------------------------------------------------------
 //   Copyright 2012-2014 NXP B.V.
 //   Copyright 2009 Cadence Design Systems, Inc.
+//   Copyright 2018 Intel Corp.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -49,12 +50,9 @@ class packet : public uvm::uvm_object
     data = drhs->data;
   }
 
-  bool do_compare(const uvm::uvm_object& rhs, const uvm::uvm_comparer* ) const
+  bool do_compare(const uvm::uvm_object& rhs) const
   {
     const packet* drhs = dynamic_cast<const packet*>(&rhs);
-
-    if (!drhs)
-      return false;
 
     if (!(addr == drhs->addr))
       return false;

@@ -2,7 +2,7 @@
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2019 NXP B.V.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -31,6 +31,7 @@
 #include "uvmsc/base/uvm_object_globals.h"
 #include "uvmsc/factory/uvm_factory.h"
 #include "uvmsc/phasing/uvm_phase.h"
+#include "uvmsc/dap/uvm_get_to_lock_dap.h"
 
 namespace uvm {
 
@@ -81,6 +82,15 @@ class uvm_sequence_base: public uvm_sequence_item
   virtual void post_do( uvm_sequence_item* this_item );
   virtual void post_body();
   virtual void post_start();
+
+  //--------------------------------------------------------------------------
+  // Group: Run-time phasing
+  //--------------------------------------------------------------------------
+
+  uvm_phase* get_starting_phase() const;
+  void set_starting_phase( uvm_phase* phase );
+  bool get_automatic_phase_objection() const;
+  void set_automatic_phase_objection( bool value );
 
   //--------------------------------------------------------------------------
   // Group: Sequence control
@@ -143,8 +153,9 @@ class uvm_sequence_base: public uvm_sequence_item
 protected:
 
   virtual void put_response ( const uvm_sequence_item& response );
-  virtual void put_base_response( const uvm_sequence_item& response);
-  virtual void get_base_response( const uvm_sequence_item*&, int transaction_id = -1);
+  virtual void put_base_response( const uvm_sequence_item& response );
+  virtual uvm_sequence_item* get_base_response( int transaction_id = -1 );
+  virtual void del_base_response( uvm_sequence_item* response );
 
 private:
   void m_start_core( uvm_sequence_base* parent_sequence, bool call_pre_post );
@@ -156,6 +167,14 @@ private:
   void m_kill();
   //  void m_copy(); // TODO
 
+  void m_safe_raise_starting_phase( std::string description = "",
+                                    int count = 1 );
+  void m_safe_drop_starting_phase( std::string description = "",
+                                    int count = 1 );
+  void m_init_phase_daps( bool create );
+
+  void m_clear_phase_daps();
+
   // TODO do we need our own constructor?
   //uvm_sequence_base& uvm_sequence_base( const uvm_sequence_base& obj );
 
@@ -164,7 +183,7 @@ private:
   // data members
 public:
   sc_core::sc_event response_queue_event;
-  uvm_phase* starting_phase;
+  //uvm_phase* starting_phase; //OLD-remove
 
 private:
   int m_wait_for_grant_semaphore;
@@ -188,7 +207,7 @@ private:
   int response_queue_depth;
   bool response_queue_error_report_disabled;
 
-  typedef std::list<const uvm_sequence_item*> response_queue_listT;
+  typedef std::list<uvm_sequence_item*> response_queue_listT;
 
   response_queue_listT response_queue;
 
@@ -196,6 +215,19 @@ private:
 
   mutable bool is_rel_default;
   mutable bool wait_rel_default;
+
+  // Value set via set_starting_phase
+  mutable uvm_phase* m_set_starting_phase;
+  // Ensures we only warn once per sequence
+  mutable bool m_warn_deprecated_set;
+
+  // Automatic Phase Objection DAP
+  uvm_get_to_lock_dap<bool>* m_automatic_phase_objection_dap;
+  // Starting Phase DAP
+  uvm_get_to_lock_dap<uvm_phase*>* m_starting_phase_dap;
+
+  bool old_automatic_phase_objection;
+
 };
 
 } /* namespace uvm */

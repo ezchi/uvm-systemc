@@ -1,0 +1,16 @@
+H_FILES += \
+	factory/uvm_component_registry.h \
+	factory/uvm_default_factory.h \
+	factory/uvm_fact_reg.h \
+	factory/uvm_factory.h \
+	factory/uvm_factory_override.h \
+	factory/uvm_object_registry.h \
+	factory/uvm_object_wrapper.h
+
+CXX_FILES += \
+	factory/uvm_default_factory.cpp \
+	factory/uvm_factory_override.cpp
+
+INCDIRS += factory
+
+## Taf!

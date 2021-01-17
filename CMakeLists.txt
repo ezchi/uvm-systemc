@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-project (UVMSystemC VERSION 0.1.2 LANGUAGES CXX)
+project (UVMSystemC VERSION 0.1.3 LANGUAGES CXX)
 
 set(SYSTEMC_HOME $ENV{SYSTEMC_HOME})
 
@@ -17,7 +17,7 @@ mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
 message(STATUS "top level CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
 
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
-    execute_process(COMMAND env SYSTEMC_HOME=${SYSTEMC_HOME} ${CMAKE_CURRENT_LIST_DIR}/configure)
+    execute_process(COMMAND env SYSTEMC_HOME=${SYSTEMC_HOME} ${CMAKE_CURRENT_LIST_DIR}/configure --without-arch-suffix)
 endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
 
 if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/config.h)

@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/sequence/basic_read_write_sequence
+
 examples_FILES += \
 	$(simple_sequence_basic_read_write_sequence_H_FILES) \
 	$(simple_sequence_basic_read_write_sequence_CXX_FILES) \
@@ -31,8 +33,5 @@ simple_sequence_basic_read_write_sequence_H_FILES = \
 simple_sequence_basic_read_write_sequence_BUILD = 
 
 simple_sequence_basic_read_write_sequence_EXTRA = 
-
-simple_sequence_basic_read_write_sequence_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

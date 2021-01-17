@@ -7,6 +7,8 @@ examples_BUILD += \
 
 examples_CLEAN += 
 
+examples_DIRS += simple/factory/basic
+
 examples_FILES += \
 	$(simple_factory_basic_H_FILES) \
 	$(simple_factory_basic_CXX_FILES) \
@@ -30,8 +32,5 @@ simple_factory_basic_H_FILES = \
 simple_factory_basic_BUILD = 
 
 simple_factory_basic_EXTRA = 
-
-simple_factory_basic_test_LDADD = $(top_builddir)/src/uvmsc/libuvm-systemc.la
-
 
 ## Taf!

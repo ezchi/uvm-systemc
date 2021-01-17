@@ -89,6 +89,13 @@ class env: public uvm::uvm_env
     sequence_a[n]->start(sqr, NULL);
   }
 
+  virtual ~env()
+  {
+    for (int i = 0; i < NUM_SEQS; i++)
+    {
+      delete sequence_a[i];
+    }
+  }
 };
 
 #endif /* ENV_H_ */

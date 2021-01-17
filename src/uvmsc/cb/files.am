@@ -1,0 +1,18 @@
+H_FILES += \
+	cb/uvm_callback.h \
+	cb/uvm_callback_iter.h \
+	cb/uvm_callbacks.h \
+	cb/uvm_callbacks_base.h \
+	cb/uvm_cbs.h \
+	cb/uvm_derived_callbacks.h \
+	cb/uvm_typed_callbacks.h \
+	cb/uvm_typeid.h
+
+CXX_FILES += \
+	cb/uvm_callback.cpp \
+	cb/uvm_callbacks_base.cpp \
+	cb/uvm_typeid.cpp
+
+INCDIRS += cb
+
+## Taf!

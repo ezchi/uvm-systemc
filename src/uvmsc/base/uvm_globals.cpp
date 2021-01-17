@@ -1,12 +1,13 @@
 //----------------------------------------------------------------------
-//   Copyright 2018 COSEDA Technologies GmbH
+//   Copyright 2018-2019 COSEDA Technologies GmbH
 //   Copyright 2014 Universit� Pierre et Marie Curie, Paris
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2011 Synopsys, Inc.
-//   Copyright 2012-2014 NXP B.V.
+//   Copyright 2012-2018 NXP B.V.
+//   Copyright 2017 Intel Corp.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -383,11 +384,6 @@ const char* uvm_glob_to_re_char(const char *glob)
       case '[':
         uvm_re[len++] = '\\';
         uvm_re[len++] = '[';
-        break;
-
-      case ']':
-        uvm_re[len++] = '\\';
-        uvm_re[len++] = ']';
         break;
 
       case '(':
