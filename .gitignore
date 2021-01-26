@@ -1,1 +1,12 @@
-/build/**
+*
+!/**/
+!/**/*.h
+!/**/*.hpp
+!/**/*.cpp
+!/**/CMakeLists.txt
+!/**/.ccls
+!/**/.clang-format
+
+/**/.ccls-cache/
+/**/build
+/src/config.h
