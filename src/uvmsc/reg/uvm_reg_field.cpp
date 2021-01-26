@@ -541,10 +541,7 @@ void uvm_reg_field::set( uvm_reg_data_t value,
         "' is being accessed may result in loss of desired field value. A race condition between threads concurrently accessing the register model is the likely cause of the problem.");
   }
 
-  if( m_access == "RO" )    m_desired = m_desired; // TODO original UVM-SV code! remove?
   if( m_access == "RW" )    m_desired = value;
-  if( m_access == "RC" )    m_desired = m_desired; // TODO original UVM-SV code! remove?
-  if( m_access == "RS" )    m_desired = m_desired; // TODO original UVM-SV code! remove?
   if( m_access == "WC" )    m_desired = 0;
   if( m_access == "WS" )    m_desired = mask;
   if( m_access == "WRC" )   m_desired = value;
