@@ -392,8 +392,6 @@ std::string uvm_hdl_concat2string( uvm_hdl_path_concat concat );
 // some other utilities functions not defined in UVM-SV
 /////////////////////////////////////////////////////////////////
 
-int uvm_pow(unsigned int x, unsigned int p);
-
 uvm_reg_data_t uvm_mask_size(unsigned int size);
 
 

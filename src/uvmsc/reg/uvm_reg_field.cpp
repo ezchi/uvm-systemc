@@ -1548,7 +1548,7 @@ void uvm_reg_field::do_write( uvm_reg_item* rw )
         (acc == "W0SRC") || (acc == "W0CRS") )
     {
       // Use all 1's
-      value_adjust |= ((1 << fields[i]->get_n_bits())-1) << fields[i]->get_lsb_pos();
+      value_adjust |= uvm_mask_size(fields[i]->get_n_bits()) << fields[i]->get_lsb_pos();
     }
 
     if( (acc == "WC") || (acc == "WS") || (acc == "WCRS") ||

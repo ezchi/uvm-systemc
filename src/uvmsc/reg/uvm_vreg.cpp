@@ -878,7 +878,7 @@ void uvm_vreg::write( unsigned long idx,
     uvm_vreg_field* f = m_fields[i];
 
     lsb = f->get_lsb_pos_in_register();
-    msk = ((1<<f->get_n_bits())-1) << lsb;
+    msk = uvm_mask_size(f->get_n_bits()) << lsb;
     tmp = (value & msk) >> lsb;
 
     f->pre_write(idx, tmp, path, map);
@@ -938,7 +938,7 @@ void uvm_vreg::write( unsigned long idx,
     uvm_vreg_field* f = m_fields[i];
 
     lsb = f->get_lsb_pos_in_register();
-    msk = ((1<<f->get_n_bits())-1) << lsb;
+    msk = uvm_mask_size(f->get_n_bits()) << lsb;
     tmp = (value & msk) >> lsb;
 
     for (uvm_vreg_field_cbs* cb = cbsf->first(); cb != NULL;
@@ -1094,7 +1094,7 @@ void uvm_vreg::read( unsigned long idx,
 
     lsb = f->get_lsb_pos_in_register();
 
-    msk = ((1<<f->get_n_bits())-1) << lsb;
+    msk = uvm_mask_size(f->get_n_bits()) << lsb;
     tmp = (value & msk) >> lsb;
 
     for (uvm_vreg_field_cbs* cb = cbsf->first(); cb != NULL;
@@ -1472,7 +1472,7 @@ void uvm_vreg::add_field( uvm_vreg_field* field )
   if (idx >= m_fields.size())
   {
     m_fields.push_back(field);
-    idx = m_fields.size()-1;
+    idx = (int)m_fields.size()-1;
   }
 
   m_n_used_bits += field->get_n_bits();

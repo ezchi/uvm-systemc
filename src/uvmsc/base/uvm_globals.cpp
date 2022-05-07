@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------
 //   Copyright 2018-2019 COSEDA Technologies GmbH
-//   Copyright 2014 Universit� Pierre et Marie Curie, Paris
+//   Copyright 2014 Université Pierre et Marie Curie, Paris
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
@@ -318,7 +318,7 @@ const char* uvm_glob_to_re_char(const char *glob)
   if(glob == NULL)
     return NULL;
 
-  len = std::strlen(glob);
+  len = (int)std::strlen(glob);
 
   if (len > 2040) {
     std::ostringstream msg;

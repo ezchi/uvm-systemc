@@ -118,7 +118,7 @@ public:
   : ubus_example_base_test(name)
   {}
 
-  virtual void build_phase(uvm::uvm_phase phase)
+  virtual void build_phase(uvm::uvm_phase& phase)
   {
     uvm::uvm_config_db<uvm::uvm_object_wrapper*>::set(this,
       "ubus_example_tb0.ubus0.masters[0].sequencer.run_phase",

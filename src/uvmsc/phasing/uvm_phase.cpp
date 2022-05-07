@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------
 //   Copyright 2019 COSEDA Technologies GmbH
-//   Copyright 2014 Université Pierre et Marie Curie, Paris
+//   Copyright 2014 UniversitÃ© Pierre et Marie Curie, Paris
 //   Copyright 2013-2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2012-2014 NXP B.V.

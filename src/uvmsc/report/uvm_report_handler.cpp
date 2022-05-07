@@ -84,7 +84,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
   // print id verbosity
   if(id_verbosities.size() != 0)
   {
-    printer.print_array_header("id_verbosities", id_verbosities.size(), "uvm_pool");
+    printer.print_array_header("id_verbosities", (int)id_verbosities.size(), "uvm_pool");
     for (id_verbosities_mapcitt it = id_verbosities.begin(); it != id_verbosities.end(); ++it)
     {
       l_int = it->second;
@@ -114,7 +114,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
          it != severity_id_verbosities.end(); ++it) // iterate over full map
     {
       l_severity = it->first;
-      _total_cnt += severity_id_verbosities.find(l_severity)->second.size();
+      _total_cnt += (int)severity_id_verbosities.find(l_severity)->second.size();
     }
 
     printer.print_array_header("severity_id_verbosities", _total_cnt, "array");
@@ -157,7 +157,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
   // print id actions
   if(id_actions.size() != 0)
   {
-    printer.print_array_header("id_actions", id_actions.size(), "uvm_pool");
+    printer.print_array_header("id_actions", (int)id_actions.size(), "uvm_pool");
 
     for( id_actions_mapcitt it = id_actions.begin();
          it != id_actions.end(); ++it )
@@ -197,7 +197,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
          it != severity_id_actions.end(); ++it)
     {
       l_severity = it->first;
-      _total_cnt += severity_id_actions.find(l_severity)->second.size();
+      _total_cnt += (int)severity_id_actions.find(l_severity)->second.size();
     }
 
     printer.print_array_header("severity_id_actions", _total_cnt, "array");
@@ -225,7 +225,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
   // print sev overrides
   if(sev_overrides.size() != 0 )
   {
-    printer.print_array_header("sev_overrides", sev_overrides.size(), "uvm_pool");
+    printer.print_array_header("sev_overrides", (int)sev_overrides.size(), "uvm_pool");
 
     for( sev_overrides_mapcitt it = sev_overrides.begin();
       it != sev_overrides.end(); ++it)
@@ -250,7 +250,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
         it != sev_id_overrides.end(); ++it )
     {
       idx = it->first;
-      _total_cnt += sev_id_overrides.find(idx)->second.size();
+      _total_cnt += (int)sev_id_overrides.find(idx)->second.size();
     }
 
     printer.print_array_header("sev_id_overrides", _total_cnt, "array");
@@ -284,7 +284,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
   // print id files
   if(id_file_handles.size()!=0)
   {
-    printer.print_array_header("id_file_handles", id_file_handles.size(),
+    printer.print_array_header("id_file_handles", (int)id_file_handles.size(),
         "uvm_pool");
 
     for( id_file_handles_mapcitt it = id_file_handles.begin();
@@ -325,7 +325,7 @@ void uvm_report_handler::do_print( const uvm_printer& printer ) const
         it != severity_id_file_handles.end(); ++it)
     {
       l_severity = it->first;
-      _total_cnt += severity_id_file_handles.find(l_severity)->second.size();
+      _total_cnt += (int)severity_id_file_handles.find(l_severity)->second.size();
     }
     printer.print_array_header("severity_id_file_handles", _total_cnt, "array");
 

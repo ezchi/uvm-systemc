@@ -130,7 +130,7 @@ void uvm_packer::pack_field_int( const uvm_integral_t& value, int size )
 
 void uvm_packer::pack_string( const std::string& value )
 {
-  int nchars = value.length();
+  int nchars = (int)value.length();
 
   for (int i = 0; i < nchars; i++)
   {
@@ -736,7 +736,7 @@ void uvm_packer::get_ints( std::vector<unsigned int>& ints ) const
 void uvm_packer::put_bits( const std::vector<bool>& bitstream )
 {
   reset();
-  int bit_size = bitstream.size();
+  int bit_size = (int)bitstream.size();
   m_set_size(bit_size);
 
   if(!big_endian)
@@ -763,7 +763,7 @@ void uvm_packer::put_bits( const std::vector<bool>& bitstream )
 void uvm_packer::put_bytes( const std::vector<unsigned char>& bytestream )
 {
   reset();
-  int byte_size = bytestream.size();
+  int byte_size = (int)bytestream.size();
   m_set_size(byte_size*8);
 
   for (int i = 0; i < byte_size; i++)
@@ -790,7 +790,7 @@ void uvm_packer::put_bytes( const std::vector<unsigned char>& bytestream )
 void uvm_packer::put_ints( const std::vector<unsigned int>& intstream )
 {
   reset();
-  int int_size = intstream.size();
+  int int_size = (int)intstream.size();
   m_set_size(int_size*32);
 
   for (int i = 0; i < int_size; i++)

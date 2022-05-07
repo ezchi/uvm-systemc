@@ -1,0 +1,54 @@
+examples_TESTS += simple/registers/models/fifo_reg/test
+
+examples_XFAIL_TESTS +=
+
+examples_BUILD += \
+	$(simple_registers_models_fifo_reg_BUILD)
+
+examples_CLEAN += 
+
+examples_DIRS += simple/registers/models/fifo_reg
+
+examples_FILES += \
+	$(simple_registers_models_fifo_reg_H_FILES) \
+	$(simple_registers_models_fifo_reg_CXX_FILES) \
+	$(simple_registers_models_fifo_reg_BUILD) \
+	$(simple_registers_models_fifo_reg_EXTRA)
+
+simple_registers_models_fifo_reg_test_SOURCES = \
+	$(simple_registers_models_fifo_reg_H_FILES) \
+	$(simple_registers_models_fifo_reg_CXX_FILES)
+
+simple_registers_models_fifo_reg_CXX_FILES = \
+	simple/registers/models/fifo_reg/src/dut_reset_seq.cpp \
+	simple/registers/models/fifo_reg/src/dut_top.cpp \
+	simple/registers/models/fifo_reg/src/main.cpp \
+	simple/registers/models/fifo_reg/src/reg_model.cpp \
+	simple/registers/models/fifo_reg/src/tb_env.cpp \
+	integrated/apb/src/apb_agent.cpp \
+	integrated/apb/src/apb_master.cpp \
+	integrated/apb/src/apb_monitor.cpp \
+	integrated/apb/src/apb_rw.cpp \
+	integrated/apb/src/reg2apb_adapter.cpp
+
+simple_registers_models_fifo_reg_H_FILES = \
+	simple/registers/models/fifo_reg/inc/dut.h \
+	simple/registers/models/fifo_reg/inc/dut_reset_seq.h \
+	simple/registers/models/fifo_reg/inc/dut_top.h \
+	simple/registers/models/fifo_reg/inc/reg_model.h \
+	simple/registers/models/fifo_reg/inc/tb_env.h \
+	integrated/apb/inc/apb.h \
+	integrated/apb/inc/apb_agent.h \
+	integrated/apb/inc/apb_config.h \
+	integrated/apb/inc/apb_if.h \
+	integrated/apb/inc/apb_master.h \
+	integrated/apb/inc/apb_monitor.h \
+	integrated/apb/inc/apb_rw.h \
+	integrated/apb/inc/apb_sequencer.h \
+	integrated/apb/inc/reg2apb_adapter.h
+
+simple_registers_models_fifo_reg_BUILD =
+
+simple_registers_models_fifo_reg_EXTRA = 
+
+## Taf!

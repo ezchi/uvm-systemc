@@ -5,7 +5,7 @@
 //   Copyright 2010-2011 Cadence Design Systems, Inc.
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
-//   Copyright 2014 Université Pierre et Marie Curie, Paris
+//   Copyright 2014 UniversitÃ© Pierre et Marie Curie, Paris
 //   Copyright 2018 Intel Corp.
 //   All Rights Reserved Worldwide
 //
@@ -915,7 +915,7 @@ int uvm_reg_map::get_physical_addresses( uvm_reg_addr_t base_addr,
 
     for( unsigned int i = 0; i < local_addr.size(); i++ )
     {
-      int n = addr.size();
+      int n = (int)addr.size();
 
       w = up_map->get_physical_addresses(base_addr + local_addr[i] * k,
           0,

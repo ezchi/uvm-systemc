@@ -86,7 +86,7 @@ void uvm_default_report_server::do_print( const uvm_printer& printer ) const
 
   if (m_severity_count.size() != 0)
   {
-    printer.print_array_header("severity_count", m_severity_count.size(), "severity counts");
+    printer.print_array_header("severity_count", (int)m_severity_count.size(), "severity counts");
 
     for( severity_count_citt it = m_severity_count.begin();
          it != m_severity_count.end(); ++it)
@@ -102,7 +102,7 @@ void uvm_default_report_server::do_print( const uvm_printer& printer ) const
 
   if( m_id_count.size() != 0 )
   {
-    printer.print_array_header("id_count",m_id_count.size(),"id counts");
+    printer.print_array_header("id_count", (int)m_id_count.size(), "id counts");
 
     for( id_count_itt it = m_id_count.begin();
          it != m_id_count.end(); ++it)

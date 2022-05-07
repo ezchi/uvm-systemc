@@ -365,7 +365,7 @@ uvm_report_message_element_container::uvm_report_message_element_container(const
 
 unsigned int uvm_report_message_element_container::size() const
 {
-  return m_elements.size();
+  return (unsigned int)m_elements.size();
 }
 
 //----------------------------------------------------------------------

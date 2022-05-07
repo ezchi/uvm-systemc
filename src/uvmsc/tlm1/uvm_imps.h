@@ -47,28 +47,28 @@ namespace uvm {
   T peek( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->peek(); }
 
 #define UVM_NONBLOCKING_PUT_IMP_METHODS \
-  bool try_put(const T& val) { return m_imp->imp->nb_put(val); } \
-  bool can_put() { return m_imp->nb_can_put(); } \
-  bool nb_put(const T& val) { return m_imp->imp->nb_put(val); } \
-  bool nb_can_put() { return m_imp->nb_can_put(); } \
-  bool nb_can_put( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->nb_can_put(); } \
-  const sc_core::sc_event& ok_to_put( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->ok_to_put(); }
+  bool try_put(const T& val) { return m_imp->try_put(val); } \
+  bool can_put() { return m_imp->can_put(); } \
+  bool nb_put(const T& val) { return m_imp->try_put(val); } \
+  bool nb_can_put() { return m_imp->can_put(); } \
+  bool nb_can_put( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->can_put(); } \
+  const sc_core::sc_event& ok_to_put( tlm::tlm_tag<T> *t = 0 ) const { return this->e; /* non-functional in uvmsc */ }
 
 #define UVM_NONBLOCKING_GET_IMP_METHODS \
-  bool try_get( T& val ) { return m_imp->nb_get(val); } \
-  bool can_get() { return m_imp->nb_can_get(); } \
-  bool nb_get( T& val ) { return m_imp->nb_get(val); } \
-  bool nb_can_get() { return m_imp->nb_can_get(); } \
-  bool nb_can_get( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->nb_can_get(); } \
-  const sc_core::sc_event& ok_to_get( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->ok_to_get(); }
+  bool try_get( T& val ) { return m_imp->try_get(val); } \
+  bool can_get() { return m_imp->can_get(); } \
+  bool nb_get( T& val ) { return m_imp->try_get(val); } \
+  bool nb_can_get() { return m_imp->can_get(); } \
+  bool nb_can_get( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->can_get(); } \
+  const sc_core::sc_event& ok_to_get( tlm::tlm_tag<T> *t = 0 ) const { return this->e; /* non-functional in uvmsc */ }
 
 #define UVM_NONBLOCKING_PEEK_IMP_METHODS \
-  bool try_peek( T& val ) const { return m_imp->nb_peek(val); } \
-  bool can_peek() const { return m_imp->nb_can_peek(); } \
-  bool nb_peek( T& val ) const { return m_imp->nb_peek(val); } \
-  bool nb_can_peek() const { return m_imp->nb_can_peek(); } \
-  bool nb_can_peek( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->nb_can_peek(); } \
-  const sc_core::sc_event& ok_to_peek( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->ok_to_peek(); }
+  bool try_peek( T& val ) const { return m_imp->try_peek(val); } \
+  bool can_peek() const { return m_imp->can_peek(); } \
+  bool nb_peek( T& val ) const { return m_imp->try_peek(val); } \
+  bool nb_can_peek() const { return m_imp->can_peek(); } \
+  bool nb_can_peek( tlm::tlm_tag<T> *t = 0 ) const { return m_imp->can_peek(); } \
+  const sc_core::sc_event& ok_to_peek( tlm::tlm_tag<T> *t = 0 ) const { return this->e; /* non-functional in uvmsc */ }
 
 #define UVM_BIND_TO_INTERFACE(IF) \
   IF* interface = dynamic_cast< IF* >(this); \
@@ -232,7 +232,8 @@ class uvm_blocking_get_peek_imp
 
 template <typename T = int, typename IMP = int>
 class uvm_nonblocking_put_imp
-: public uvm_export_base< tlm::tlm_nonblocking_put_if<T> >
+: public uvm_export_base< tlm::tlm_nonblocking_put_if<T> >,
+  public virtual tlm::tlm_nonblocking_put_if<T>
 {
  public:
   uvm_nonblocking_put_imp( IMP* imp ) :
@@ -260,12 +261,14 @@ class uvm_nonblocking_put_imp
 
  private:
   IMP* m_imp;
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 
 template <typename T = int, typename IMP = int>
 class uvm_nonblocking_get_imp
-: public uvm_export_base< tlm::tlm_nonblocking_get_if<T> >
+: public uvm_export_base< tlm::tlm_nonblocking_get_if<T> >,
+  public virtual tlm::tlm_nonblocking_get_if<T>
 {
  public:
   uvm_nonblocking_get_imp( IMP* imp ) :
@@ -293,11 +296,13 @@ class uvm_nonblocking_get_imp
 
  private:
   IMP* m_imp;
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 template <typename T = int, typename IMP = int>
 class uvm_nonblocking_peek_imp
-: public uvm_export_base< tlm::tlm_nonblocking_peek_if<T> >
+: public uvm_export_base< tlm::tlm_nonblocking_peek_if<T> >,
+  public virtual tlm::tlm_nonblocking_peek_if<T>
 {
  public:
   uvm_nonblocking_peek_imp( IMP* imp ) :
@@ -325,11 +330,13 @@ class uvm_nonblocking_peek_imp
 
  private:
   IMP* m_imp;
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 template <typename T = int, typename IMP = int>
 class uvm_nonblocking_get_peek_imp
-: public uvm_export_base< tlm::tlm_nonblocking_get_peek_if<T> >
+: public uvm_export_base< tlm::tlm_nonblocking_get_peek_if<T> >,
+  public virtual tlm::tlm_nonblocking_get_peek_if<T>
 {
  public:
   uvm_nonblocking_get_peek_imp( IMP* imp ) :
@@ -358,6 +365,7 @@ class uvm_nonblocking_get_peek_imp
 
  private:
   IMP* m_imp;
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 //---------------------------------------------------------------------------
@@ -366,7 +374,9 @@ class uvm_nonblocking_get_peek_imp
 
 template <typename T = int, typename IMP = int>
 class uvm_put_imp
-: public uvm_export_base< tlm::tlm_put_if<T> >
+: public uvm_export_base< tlm::tlm_put_if<T> >,
+  public virtual tlm::tlm_blocking_put_if<T>,
+  public virtual tlm::tlm_nonblocking_put_if<T>
 {
  public:
   uvm_put_imp( IMP* imp ) :
@@ -395,11 +405,14 @@ class uvm_put_imp
 
  private:
   IMP* m_imp;
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 template <typename T = int, typename IMP = int>
 class uvm_get_imp
-: public uvm_export_base< tlm::tlm_get_if<T> >
+: public uvm_export_base< tlm::tlm_get_if<T> >,
+  public virtual tlm::tlm_blocking_get_if<T>,
+  public virtual tlm::tlm_nonblocking_get_if<T>
 {
  public:
   uvm_get_imp( IMP* imp ) :
@@ -428,12 +441,14 @@ class uvm_get_imp
 
  private:
   IMP* m_imp;
-
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 template <typename T = int, typename IMP = int>
 class uvm_peek_imp
-: public uvm_export_base< tlm::tlm_peek_if<T> >
+: public uvm_export_base< tlm::tlm_peek_if<T> >,
+  public virtual tlm::tlm_blocking_peek_if<T>,
+  public virtual tlm::tlm_nonblocking_peek_if<T>
 {
  public:
   uvm_peek_imp( IMP* imp ) :
@@ -462,11 +477,14 @@ class uvm_peek_imp
 
  private:
   IMP* m_imp;
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 template <typename T = int, typename IMP = int>
 class uvm_get_peek_imp
-: public uvm_export_base< tlm::tlm_get_peek_if<T> >
+: public uvm_export_base< tlm::tlm_get_peek_if<T> >,
+  public virtual tlm::tlm_blocking_get_peek_if<T>,
+  public virtual tlm::tlm_nonblocking_get_peek_if<T>
 {
  public:
   uvm_get_peek_imp( IMP* imp ) :
@@ -497,6 +515,7 @@ class uvm_get_peek_imp
 
  private:
   IMP* m_imp;
+  sc_core::sc_event e; /* non-functional in uvmsc */
 };
 
 

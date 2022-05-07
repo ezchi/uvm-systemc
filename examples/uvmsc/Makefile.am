@@ -24,6 +24,8 @@ include $(srcdir)/simple/phases/basic/test.am
 include $(srcdir)/simple/phases/timeout/test.am
 include $(srcdir)/simple/registers/models/aliasing/test.am
 include $(srcdir)/simple/registers/models/ro_wo_same_addr/test.am
+include $(srcdir)/simple/registers/models/fifo_reg/test.am
+include $(srcdir)/simple/registers/models/reg_without_field/test.am
 include $(srcdir)/simple/sequence/basic_read_write_sequence/test.am
 include $(srcdir)/simple/tlm1/bidir/test.am
 include $(srcdir)/simple/tlm1/hierarchy/test.am

@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2013-2016 NXP B.V.
+//   Copyright 2013-2021 NXP B.V.
 //   Copyright 2004-2009 Synopsys, Inc.
 //   Copyright 2010-2011 Mentor Graphics Corporation
 //   Copyright 2010-2011 Cadence Design Systems, Inc.
@@ -227,7 +227,7 @@ uvm_reg_block* uvm_mem::get_parent() const
 
 int uvm_mem::get_n_maps() const
 {
-   return m_maps.size();
+   return (int)m_maps.size();
 }
 
 //----------------------------------------------------------------------
@@ -238,7 +238,7 @@ int uvm_mem::get_n_maps() const
 
 bool uvm_mem::is_in_map( uvm_reg_map* map ) const
 {
-   if (m_maps.find(map) == m_maps.end() ) // exists
+   if (m_maps.find(map) != m_maps.end() ) // exists
      return true;
 
    for( m_maps_itt it = m_maps.begin();
@@ -702,7 +702,7 @@ void uvm_mem::write( uvm_status_e& status, // output
   rw->element_kind = UVM_MEM;
   rw->access_kind  = UVM_WRITE;
   rw->offset       = offset;
-  rw->value[0]     = value[0]; // only first bit set
+  rw->value[0]     = value;
   rw->path         = path;
   rw->map          = map;
   rw->parent       = parent;
@@ -1411,7 +1411,6 @@ void uvm_mem::backdoor_write( uvm_reg_item* rw )
     {
       uvm_hdl_path_concat hdl_concat = paths[i];
 
-      // TODO implement slices
       for ( unsigned int j = 0; j < hdl_concat.slices.size(); j++)
       {
         std::ostringstream str;
@@ -1422,7 +1421,6 @@ void uvm_mem::backdoor_write( uvm_reg_item* rw )
 
         if (hdl_concat.slices[j].offset < 0)
         {
-          // TODO hdl deposit?
           ok &= uvm_hdl_deposit(hdl_concat.slices[j].path + "[" + idx.str() + "]",rw->value[mem_idx]);
           continue;
         }
@@ -1430,13 +1428,12 @@ void uvm_mem::backdoor_write( uvm_reg_item* rw )
         uvm_reg_data_t slice;
         slice = rw->value[mem_idx] >> hdl_concat.slices[j].offset;
         slice &= (1 << hdl_concat.slices[j].size)-1; // TODO check
-
-        // TODO hdl deposit?
         ok &= uvm_hdl_deposit( hdl_concat.slices[j].path + "[" + idx.str() + "]", slice);
       }
     }
   }
-  rw->status = ((ok ? UVM_IS_OK : UVM_NOT_OK));
+
+  rw->status = (ok ? UVM_IS_OK : UVM_NOT_OK);
 }
 
 //----------------------------------------------------------------------
@@ -1450,77 +1447,71 @@ void uvm_mem::backdoor_write( uvm_reg_item* rw )
 
 uvm_status_e uvm_mem::backdoor_read_func( uvm_reg_item* rw )
 {
-  /* TODO backdoor read func
-
   std::vector<uvm_hdl_path_concat> paths;
   uvm_hdl_data_t val;
   bool ok = true;
 
   get_full_hdl_path(paths, rw->bd_kind);
 
-  for( unsigned int mem_idx = 0; mem_idx < rw->value.length(); mem_idx++ )
+  for( unsigned int mem_idx = 0; mem_idx < rw->value.size(); mem_idx++ )
   {
-     std::ostringstream idx;
-     idx << (rw->offset + mem_idx);
+    std::ostringstream idx;
+    idx << (rw->offset + mem_idx);
 
-     for( unsigned int i = 0; i < paths.size(); i++ )
-     {
-        uvm_hdl_path_concat hdl_concat = paths[i];
-        val = 0;
-        for ( unsigned int j = 0; j < hdl_concat.slices.size(); j++)
+    for( unsigned int i = 0; i < paths.size(); i++ )
+    {
+      uvm_hdl_path_concat hdl_concat = paths[i];
+      val = 0;
+      for ( unsigned int j = 0; j < hdl_concat.slices.size(); j++)
+      {
+        std::string hdl_path = hdl_concat.slices[j].path + "[" + idx.str() + "]";
+
+        UVM_INFO("RegModel", "backdoor_read from " + hdl_path + ".", UVM_DEBUG);
+
+        if (hdl_concat.slices[j].offset < 0)
         {
-           std::string hdl_path = hdl_concat.slices[j].path + "[" + idx.str() + "]";
-
-           UVM_INFO("RegModel", "backdoor_read from " + hdl_path + ".", UVM_DEBUG);
-
-           if (hdl_concat.slices[j].offset < 0)
-           {
-              ok &= uvm_hdl_read(hdl_path, val);
-              continue;
-           }
-
-              uvm_reg_data_t slice;
-              int k = hdl_concat.slices[j].offset;
-              ok &= uvm_hdl_read(hdl_path, slice);
-              for ( int r = 0; r < hdl_concat.slices[j].size(); r++)
-              {
-                 val[k++] = slice[0];
-                 slice >>= 1;
-              }
-
-        } // for
-
-        val &= (1 << m_n_bits)-1;
-
-        if (i == 0)
-           rw->value[mem_idx] = val;
-
-        if (val != rw->value[mem_idx])
-        {
-          std::ostringstream str;
-          str << "Backdoor read of register "
-              << get_full_name()
-              << " with multiple HDL copies: values are not the same: 0x"
-              << std::hex << rw->value[mem_idx].to_uint64()
-              << " at path '"
-              << uvm_hdl_concat2string(paths[0])
-              << "', and 0x"
-              << std::hex << val.to_uint64()
-              << " at path '"
-              << uvm_hdl_concat2string(paths[i])
-              << "'. Returning first value.";
-           UVM_ERROR("RegModel", str.str() );
-           return UVM_NOT_OK;
+          ok &= uvm_hdl_read(hdl_path, val);
+          continue;
         }
-     }
+
+        uvm_reg_data_t slice;
+        int k = hdl_concat.slices[j].offset;
+        ok &= uvm_hdl_read(hdl_path, slice);
+        for ( int r = 0; r < hdl_concat.slices[j].size; r++)
+        {
+          val[k++] = slice[0];
+          slice >>= 1;
+        }
+
+      } // for
+
+      val &= (1 << m_n_bits)-1;
+
+      if (i == 0) rw->value[mem_idx] = val;
+
+      if (val != rw->value[mem_idx])
+      {
+        std::ostringstream str;
+        str << "Backdoor read of register "
+            << get_full_name()
+            << " with multiple HDL copies: values are not the same: 0x"
+            << std::hex << rw->value[mem_idx].to_uint64()
+            << " at path '"
+            << uvm_hdl_concat2string(paths[0])
+            << "', and 0x"
+            << std::hex << val.to_uint64()
+            << " at path '"
+            << uvm_hdl_concat2string(paths[i])
+            << "'. Returning first value.";
+        UVM_ERROR("RegModel", str.str() );
+        return UVM_NOT_OK;
+      }
+    }
   }
 
-  rw->status = ((ok) ? UVM_IS_OK : UVM_NOT_OK);
+  rw->status = (ok ? UVM_IS_OK : UVM_NOT_OK);
 
   return rw->status;
-
-  */
-  return UVM_NOT_OK; // dummy only
 }
 
 //----------------------------------------------------------------------
@@ -1826,7 +1817,7 @@ uvm_reg_map* uvm_mem::get_local_map( const uvm_reg_map* map,
   if (lmap == NULL)
     return get_default_map();
 
-  if (m_maps.find(lmap) == m_maps.end() ) // exists
+  if (m_maps.find(lmap) != m_maps.end() ) // exists
     return lmap;
 
   for( m_maps_itt it = m_maps.begin();

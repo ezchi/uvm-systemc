@@ -174,7 +174,7 @@ uvm_reg_map* uvm_reg_block::create_map( const std::string& name,
 
 bool uvm_reg_block::check_data_width( unsigned int width )
 {
-  if (width <= UVM_REG_DATA_WIDTH) // was $bits(uvm_reg_data_t)
+  if (width <= UVM_REG_DATA_WIDTH)
     return true;
 
   std::ostringstream str;
@@ -420,7 +420,7 @@ int uvm_reg_block::find_blocks( std::string name,
     blks.push_back(blk->read(accessor));
   }
 
-  return blks.size();
+  return (int)blks.size();
 }
 
 //----------------------------------------------------------------------
