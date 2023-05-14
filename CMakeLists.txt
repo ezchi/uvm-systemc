@@ -13,7 +13,7 @@ mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
 message(STATUS "top level CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
 
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
-    execute_process(COMMAND env SYSTEMC_HOME=${SYSTEMC_HOME} ${CMAKE_CURRENT_LIST_DIR}/configure --without-arch-suffix)
+    execute_process(COMMAND ${CMAKE_CURRENT_LIST_DIR}/configure --without-arch-suffix)
 endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
 
 if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/src/config.h)
