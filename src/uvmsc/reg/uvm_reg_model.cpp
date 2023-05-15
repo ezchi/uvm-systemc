@@ -119,21 +119,6 @@ std::string uvm_hdl_concat2string( uvm_hdl_path_concat concat )
 }
 
 //----------------------------------------------------------------------
-// Global function: uvm_pow
-//
-// Implementation defined
-//
-// Return power (x^y) for integers
-//----------------------------------------------------------------------
-
-int uvm_pow(unsigned int x, unsigned int p)
-{
-  if (p == 0) return 1;
-  if (p == 1) return x;
-  return x * uvm_pow(x, p-1);
-}
-
-//----------------------------------------------------------------------
 // Global function: uvm_mask
 //
 // Implementation defined
@@ -143,8 +128,10 @@ int uvm_pow(unsigned int x, unsigned int p)
 
 uvm_reg_data_t uvm_mask_size(unsigned int size)
 {
-  uvm_reg_data_t mask;
-  mask = uvm_pow(2, size)-1;
+  uvm_reg_data_t mask { 0 };
+  for (unsigned i = 0; i < size; ++i) {
+    mask = (mask << 1) + 1;
+  }
   return mask;
 }
 

@@ -243,7 +243,7 @@ uvm_reg_file* uvm_reg::get_regfile() const
 
 int uvm_reg::get_n_maps() const
 {
-  return m_maps.size();
+  return (int)m_maps.size();
 }
 
 //----------------------------------------------------------------------
@@ -557,7 +557,7 @@ void uvm_reg::set( uvm_reg_data_t value,
   for( unsigned int i = 0; i < m_fields.size(); i++ )
   {
     uvm_reg_data_t val = (value >> m_fields[i]->get_lsb_pos()) &
-      ((1 << m_fields[i]->get_n_bits()) - 1);
+      uvm_mask_size(m_fields[i]->get_n_bits());
     m_fields[i]->set(val);
   }
 }
@@ -2099,7 +2099,7 @@ void uvm_reg::add_field( uvm_reg_field* field )
   if (idx < 0)
   {
     m_fields.push_back(field);
-    idx = m_fields.size()-1;
+    idx = (int)m_fields.size()-1;
   }
 
   m_n_used_bits += field->get_n_bits();
@@ -2495,7 +2495,7 @@ bool uvm_reg::do_check( uvm_reg_data_t expected,
     if (m_fields[i]->get_compare() == UVM_NO_CHECK ||
         acc == "WO")
     {
-      dc |= ((1 << m_fields[i]->get_n_bits())-1)
+      dc |= uvm_mask_size(m_fields[i]->get_n_bits())
                 << m_fields[i]->get_lsb_pos();
     }
   }
@@ -2519,7 +2519,7 @@ bool uvm_reg::do_check( uvm_reg_data_t expected,
     acc = acc.substr(0, 1);
     if (!(m_fields[i]->get_compare() == UVM_NO_CHECK || acc == "WO"))
     {
-      uvm_reg_data_t mask = ((1 << m_fields[i]->get_n_bits())-1);
+      uvm_reg_data_t mask = uvm_mask_size(m_fields[i]->get_n_bits());
       uvm_reg_data_t val  = actual   >> m_fields[i]->get_lsb_pos() & mask;
       uvm_reg_data_t exp  = expected >> m_fields[i]->get_lsb_pos() & mask;
 
@@ -2590,7 +2590,7 @@ void uvm_reg::do_write( uvm_reg_item* rw )
       uvm_reg_field* f = m_fields[i];
       lsb = f->get_lsb_pos();
 
-      msk_init = (1<<f->get_n_bits())-1;
+      msk_init = uvm_mask_size(f->get_n_bits());
       msk = msk_init << lsb;
 
       rw->value[0] = (value & msk) >> lsb;
@@ -2727,7 +2727,7 @@ void uvm_reg::do_write( uvm_reg_item* rw )
 
     rw->element = f;
     rw->element_kind = UVM_FIELD;
-    rw->value[0] = (value >> f->get_lsb_pos()) & ((1<<f->get_n_bits())-1);
+    rw->value[0] = (value >> f->get_lsb_pos()) & uvm_mask_size(f->get_n_bits());
 
     for( uvm_reg_cbs* cb = cbsf->first(); cb != NULL; cb = cbsf->next() )
       cb->post_write(rw);
@@ -2857,7 +2857,7 @@ void uvm_reg::do_read( uvm_reg_item* rw )
               acc == "W1SRC" ||
               acc == "W0SRC")
           {
-            value &= ~(((1<<m_fields[i]->get_n_bits())-1)
+            value &= ~(uvm_mask_size(m_fields[i]->get_n_bits())
                 << m_fields[i]->get_lsb_pos());
           }
           else
@@ -2867,7 +2867,7 @@ void uvm_reg::do_read( uvm_reg_item* rw )
                 acc == "W1CRS" ||
                 acc == "W0CRS")
           {
-            value |= (((1<<m_fields[i]->get_n_bits())-1)
+            value |= (uvm_mask_size(m_fields[i]->get_n_bits())
                 << m_fields[i]->get_lsb_pos());
           }
           else
@@ -2876,7 +2876,7 @@ void uvm_reg::do_read( uvm_reg_item* rw )
                 acc == "WOS" ||
                 acc == "WO1")
             {
-              wo_mask |= ((1<<m_fields[i]->get_n_bits())-1)
+              wo_mask |= uvm_mask_size(m_fields[i]->get_n_bits())
                 << m_fields[i]->get_lsb_pos();
             }
         }
@@ -2974,7 +2974,7 @@ void uvm_reg::do_read( uvm_reg_item* rw )
 
     rw->element = f;
     rw->element_kind = UVM_FIELD;
-    rw->value[0] = (value >> f->get_lsb_pos()) & ((1<<f->get_n_bits())-1);
+    rw->value[0] = (value >> f->get_lsb_pos()) & uvm_mask_size(f->get_n_bits());
 
     for( uvm_reg_cbs* cb = cbsf->first(); cb != NULL; cb = cbsf->next() )
       cb->post_read(rw);
@@ -3044,7 +3044,7 @@ void uvm_reg::do_predict( uvm_reg_item* rw,
    for( unsigned int i = 0; i < m_fields.size(); i++ )
    {
       rw->value[0] = (reg_value >> m_fields[i]->get_lsb_pos()) &
-                                 ((1 << m_fields[i]->get_n_bits())-1);
+                                 uvm_mask_size(m_fields[i]->get_n_bits());
       m_fields[i]->do_predict(rw, kind, be>>(m_fields[i]->get_lsb_pos()/8));
    }
 

@@ -342,7 +342,7 @@ void uvm_reg_backdoor::start_update_thread_core( uvm_object* element, uvm_reg* r
         if (this->is_auto_updated(fields[i]))
         {
            r_item->value[0] = (val >> fields[i]->get_lsb_pos()) &
-                             ((1 << fields[i]->get_n_bits())-1);
+             uvm_mask_size(fields[i]->get_n_bits());
            fields[i]->do_predict(r_item);
         }
      }

@@ -1,7 +1,7 @@
 UVM-SystemC Release Notes
 =========================
 
-July 08, 2020
+March 15, 2023
 
 License
 -------
@@ -37,8 +37,6 @@ can be found here:
 
    http://cordis.europa.eu/fp7
 
-   http://www.verdi-fp7.eu
-
 Special thanks to the Accellera Systems Initiative to grant authorization to 
 use portions of its Universal Verification Methodology Reference Implementation
 (UVM version 1.1d, March 2013) in this document.
@@ -50,13 +48,19 @@ and further enhanced and extended to make it compatible with the UVM 1.1
 standard.
 
 What's new in this release?
-===========================
+---------------------------
 
-Compared to the 1.0-beta2 release, this release has the following new items and bug fixes:
-  - Register API
-  - Bugfixes & SystemC 2.3.3 support
-  - Ubus example
-  - Automatic objection mechanism
+Compared to the 1.0-beta4 release, this release adds:
+  - Bugfixes
+
+Known bugs
+----------
+The simple/registers/models/aliasing test is failing in case the TODO section
+from its source file tb_test.h is uncommented. This test has been literally
+copied from UVM-SystemVerilog. We doubt whether this test case passes in the
+UVM-SystemVerilog environment, and if it does, whether it should. See [1].
+
+[1]: https://forums.accellera.org/topic/7400-clarification-needed-on-mix-between-bit-bash-sequence-and-single-register-write/
 
 Bugs and Suggestions
 --------------------
@@ -69,7 +73,7 @@ Please report bugs and suggestions about this library to:
 Library status
 --------------
 
-This library is in alpha status, which means not all UVM functions are implemented
+This library is in beta status, which means not all UVM functions are implemented
 nor tested. The list below gives an overview of the UVM functionality and their 
 status (T=testing, X=missing, I=incomplete). 
 

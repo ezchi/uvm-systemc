@@ -88,7 +88,7 @@ class write_also_to_F : public uvm::uvm_reg_cbs
 
   virtual void post_predict( uvm::uvm_reg_field*  fld,
                              uvm::uvm_reg_data_t  previous,
-                             uvm::uvm_reg_data_t& value,
+                             uvm::uvm_reg_data_t  value,
                              uvm::uvm_predict_e   kind,
                              uvm::uvm_path_e      path,
                              uvm::uvm_reg_map*    map )

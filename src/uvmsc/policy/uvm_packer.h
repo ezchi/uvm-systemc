@@ -184,7 +184,7 @@ class uvm_packer
   uvm_packer& operator<< ( const std::vector<T>& a )
   {
     // first pack the size of the vector before packing its elements
-    int n = a.size();
+    int n = (int)a.size();
     (*this) << n;
     for (int i = 0; i < n; i++) {
       (*this) << a[i];
@@ -195,7 +195,7 @@ class uvm_packer
   virtual uvm_packer& operator<< ( const std::vector<bool>& a )
   {
     // first pack the size of the vector before packing its elements
-    int n = a.size();
+    int n = (int)a.size();
     (*this) << n;
     for (int i = 0; i < n; i++) {
       (*this) << a[i];

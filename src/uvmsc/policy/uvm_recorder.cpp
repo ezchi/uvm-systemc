@@ -172,7 +172,7 @@ void uvm_recorder::record_string( const std::string& name, const std::string& va
                  scope->get(),
                  value,
                  UVM_STRING,
-                 8*value.length());
+                 8*(int)value.length());
 }
 
 
@@ -209,7 +209,7 @@ void uvm_recorder::record_generic( const std::string& name, const std::string& v
                  scope->get(),
                  value,
                  UVM_STRING,
-                 8*value.length());
+                 8*(int)value.length());
 }
 
 

@@ -97,7 +97,7 @@ void uvm_reg_fifo::set_compare( uvm_check_e check )
 
 unsigned int uvm_reg_fifo::size()
 {
-  return fifo.size();
+  return (int)fifo.size();
 }
 
 
@@ -156,11 +156,12 @@ void uvm_reg_fifo::set( uvm_reg_data_t value,
                         int            lineno )
 {
   // emulate write, with intention of update
-  value &= ((1 << get_n_bits())-1);
+  value &= uvm_mask_size(get_n_bits());
+
   if (fifo.size() == m_size)
     return;
 
-  this->set(value, fname, lineno);
+  uvm_reg::set(value, fname, lineno);
   m_set_cnt++;
   fifo.push_back(m_value->m_value);
 }
@@ -190,7 +191,7 @@ void uvm_reg_fifo::update( uvm_status_e&      status,
 
   m_update_in_progress = true;
 
-  for( int i = fifo.size() - m_set_cnt;
+  for( int i = (int)fifo.size() - m_set_cnt;
        m_set_cnt > 0;
        i++, m_set_cnt--)
   {

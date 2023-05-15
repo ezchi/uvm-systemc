@@ -149,19 +149,19 @@ void uvm_table_printer::calculate_max_widths()
 
     uvm_printer_row_info row = (*it);
 
-    name_len = knobs.indent * row.level + row.name.length();
+    name_len = knobs.indent * row.level + (int)row.name.length();
 
     if (name_len > m_max_name)
       m_max_name = name_len;
 
     if (row.type_name.length() > m_max_type)
-      m_max_type = row.type_name.length();
+      m_max_type = (int)row.type_name.length();
 
     if (row.size.length() > m_max_size)
-      m_max_size = row.size.length();
+      m_max_size = (int)row.size.length();
 
     if (row.val.length() > m_max_value)
-      m_max_value = row.val.length();
+      m_max_value = (int)row.val.length();
   }
 
   if (m_max_name < 4) m_max_name = 4;

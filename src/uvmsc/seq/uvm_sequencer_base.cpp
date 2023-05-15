@@ -1,11 +1,11 @@
 //----------------------------------------------------------------------
-//   Copyright 2014 Université Pierre et Marie Curie, Paris
+//   Copyright 2014 UniversitÃ© Pierre et Marie Curie, Paris
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010-2020 Synopsys, Inc.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2022 NXP B.V.
 //   Copyright 2018 Intel Corp.
 //   All Rights Reserved Worldwide
 //
@@ -606,6 +606,15 @@ void uvm_sequencer_base::send_request(uvm_sequence_base* sequence_ptr,
   // virtual member function, will be overloaded
 }
 
+//----------------------------------------------------------------------
+// member function: build_phase
+//----------------------------------------------------------------------
+
+void uvm_sequencer_base::build_phase(uvm_phase& phase)
+{
+  uvm_component::build_phase(phase);
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 //////// Implementation-defined member functions start here ////////////
@@ -1016,7 +1025,7 @@ int uvm_sequencer_base::m_choose_next_request()
   //  Random Distribution
   if (m_arbitration == SEQ_ARB_RANDOM)
   {
-    i = urandom_range(avail_sequences.size()-1, 0);
+    i = urandom_range((unsigned int)avail_sequences.size()-1, 0);
     return avail_sequences[i];
   }
 
@@ -1044,7 +1053,7 @@ int uvm_sequencer_base::m_choose_next_request()
     if (m_arbitration == SEQ_ARB_STRICT_FIFO)
       return(highest_sequences[0]);
 
-    i = urandom_range(highest_sequences.size()-1, 0); // TODO improve random function (see above)
+    i = urandom_range((unsigned int)highest_sequences.size()-1, 0); // TODO improve random function (see above)
     return highest_sequences[i];
   }
 
@@ -1176,7 +1185,7 @@ void uvm_sequencer_base::m_kill_sequence( uvm_sequence_base* sequence_ptr )
 void uvm_sequencer_base::do_print( const uvm_printer& printer ) const
 {
   uvm_component::do_print(printer);
-  printer.print_array_header("arbitration_queue", arb_sequence_q.size());
+  printer.print_array_header("arbitration_queue", (int)arb_sequence_q.size());
 
   unsigned int i = 0;
 
@@ -1188,9 +1197,9 @@ void uvm_sequencer_base::do_print( const uvm_printer& printer ) const
          << arb_sequence_q[i]->sequence_id << "[";
     printer.print_string(str1.str(), str2.str());
   }
-  printer.print_array_footer(arb_sequence_q.size());
+  printer.print_array_footer( (int)arb_sequence_q.size() );
 
-  printer.print_array_header("lock_queue", lock_list.size());
+  printer.print_array_header("lock_queue", (int)lock_list.size());
 
   for (i = 0; i < lock_list.size(); i++)
   {
@@ -1200,7 +1209,19 @@ void uvm_sequencer_base::do_print( const uvm_printer& printer ) const
          << lock_list[i]->get_sequence_id() << "[";
     printer.print_string(str1.str(), str2.str());
   }
-  printer.print_array_footer(lock_list.size());
+  printer.print_array_footer( (int)lock_list.size() );
+}
+
+
+//----------------------------------------------------------------------
+// member function: analysis_write
+//
+// Implementation defined.
+//----------------------------------------------------------------------
+
+void uvm_sequencer_base::analysis_write(uvm_sequence_item t)
+{
+  return;
 }
 
 //----------------------------------------------------------------------
@@ -1293,5 +1314,6 @@ void uvm_sequencer_base::m_start_default_seq_proc(uvm_sequence_base* seq)
 {
   seq->start(this, NULL);
 }
+
 
 } /* namespace uvm */

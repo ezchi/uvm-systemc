@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2012-2014 NXP B.V.
+//   Copyright 2012-2022 NXP B.V.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -28,17 +28,17 @@ namespace uvm {
 
 /* UVM SystemC Release Date */
 #ifndef UVM_RELEASE_DATE
-#define UVM_RELEASE_DATE "2020-07-08"
+#define UVM_RELEASE_DATE "2023-03-15"
 #endif
 
 /* UVM SystemC Version */
 #ifndef UVM_VERSION
-#define UVM_VERSION "1.0-beta3"
+#define UVM_VERSION "1.0-beta5"
 #endif
 
 // compatible with UVM 1.1.d
 #ifndef UVM_VERSION_STRING
-#define UVM_VERSION_STRING "1.0-beta3"
+#define UVM_VERSION_STRING "1.0-beta5"
 #endif
 
 extern const std::string uvm_revision;

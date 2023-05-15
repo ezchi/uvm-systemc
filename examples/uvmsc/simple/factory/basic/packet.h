@@ -50,7 +50,7 @@ class packet : public uvm::uvm_object
     data = drhs->data;
   }
 
-  bool do_compare(const uvm::uvm_object& rhs) const
+  bool do_compare(const uvm::uvm_object& rhs, const uvm::uvm_comparer* comparer = NULL) const
   {
     const packet* drhs = dynamic_cast<const packet*>(&rhs);
 

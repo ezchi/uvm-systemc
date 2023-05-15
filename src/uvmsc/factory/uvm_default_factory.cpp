@@ -306,7 +306,7 @@ void uvm_default_factory::set_type_override_by_type( uvm_object_wrapper* origina
 //----------------------------------------------------------------------------
 // member function: set_type_override_by_name
 //
-//! Configures the factory to create an object of the overrides type whenever
+//! Configures the factory to create an object of the override's type whenever
 //! a request is made to create an object of the original type, provided no
 //! instance override applies. The original type is typically a super class of
 //! the override type.
@@ -1081,11 +1081,11 @@ void uvm_default_factory::print( int all_types )
               lit++)
         {
           if ((*lit)->orig_type_name.length() > max1)
-            max1 = (*lit)->orig_type_name.length();
+            max1 = (unsigned int)(*lit)->orig_type_name.length();
           if ((*lit)->full_inst_path.length() > max2)
-            max2=(*lit)->full_inst_path.length();
+            max2 = (unsigned int)(*lit)->full_inst_path.length();
           if ((*lit)->ovrd_type_name.length() > max3)
-            max3=(*lit)->ovrd_type_name.length();
+            max3 = (unsigned int)(*lit)->ovrd_type_name.length();
         }
       }
       if (max1 < 14) max1 = 14;
@@ -1138,9 +1138,9 @@ void uvm_default_factory::print( int all_types )
            it++ )
       {
         if ((*it)->orig_type_name.length() > max1)
-          max1 = (*it)->orig_type_name.length();
+          max1 = (unsigned int)(*it)->orig_type_name.length();
         if ((*it)->ovrd_type_name.length() > max2)
-          max2=(*it)->ovrd_type_name.length();
+          max2 = (unsigned int)(*it)->ovrd_type_name.length();
       }
       if (max1 < 14) max1 = 14;
       if (max2 < 13) max2 = 13;
@@ -1362,13 +1362,13 @@ void uvm_default_factory::m_debug_display( const std::string& requested_type_nam
          it++ )
     {
       if ( (*it)->orig_type_name.length() > max1)
-        max1 = (*it)->orig_type_name.length();
+        max1 = (unsigned int)(*it)->orig_type_name.length();
 
       if ( (*it)->full_inst_path.length() > max2)
-        max2 = (*it)->full_inst_path.length();
+        max2 = (unsigned int)(*it)->full_inst_path.length();
 
       if ( (*it)->ovrd_type_name.length() > max3)
-        max3 = (*it)->ovrd_type_name.length();
+        max3 = (unsigned int)(*it)->ovrd_type_name.length();
     }
 
     if (max1 < 13) max1 = 13;

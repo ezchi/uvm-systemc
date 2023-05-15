@@ -513,7 +513,7 @@ void uvm_vreg_field::read( unsigned long idx,
   value = value >> lsb;
 
   // Any bits on the MSB side we need to get rid of?
-  value &= (1<< get_n_bits()) - 1;
+  value &= uvm_mask_size(get_n_bits());
 
   post_read(idx, value, path, map, status);
 
@@ -786,7 +786,7 @@ void uvm_vreg_field::peek( unsigned long idx,
    value = value >> lsb;
 
    // Any bits on the MSB side we need to get rid of?
-   value &= (1<<get_n_bits()) - 1;
+   value &= uvm_mask_size(get_n_bits());
 
    m_parent->m_atomic_check(false);
 

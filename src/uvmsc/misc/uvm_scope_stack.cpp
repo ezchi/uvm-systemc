@@ -43,7 +43,7 @@ uvm_scope_stack::~uvm_scope_stack()
 
 int uvm_scope_stack::depth() const
 {
-  return m_stack.size();
+  return (int)m_stack.size();
 }
 
 std::string uvm_scope_stack::get() const

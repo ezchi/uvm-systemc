@@ -19,33 +19,26 @@ Contents:
 System Requirements
 ===================
 
-UVM-SystemC was tested on the following Linux 64-bit platforms:
+UVM-SystemC was tested on the following Linux 64-bit platforms against SystemC 2.3.3:
 
-             | RHEL  | CentOS    | Debian | Ubuntu LTS
-             | 6 | 7 | 6 | 7 | 8 | 9 | 10 | 16 | 18
- ------------+-------+-----------+--------+------------
- GCC 4.8.5   |     X |           |        |
- GCC 4.9.4   | x     | x   x     |        |
- GCC 5.4.0   |       |           |        |  X
- GCC 6.3.0   | x   x |           | X      |
- GCC 7.4.0   |       |           |      x |
- GCC 7.5.0   |       |           |        |       X
- GCC 8.3.0   |       |           |      X |
- GCC 8.3.1   |       |         X |        |
- GCC 9.1.0   | x   x |           |        |
- ------------+-------+-----------+--------+------------
- Clang 3.7.0 |     x |           |        |
- Clang 4.0.1 |     x |           |        |
- Clang 8.0.1 |       |         x |        |
+              | RHEL  | Ubuntu LTS
+              | 7 | 8 | 18 | 20 | 22
+ -------------+-------+--------------
+ GCC 4.8.5    | X     |
+ GCC 7.5.0    |       |  X
+ GCC 8.5.0    |     X |
+ GCC 9.3.0    | x     |       X
+ GCC 11.3     |       |            X
+ GCC 12.1     |     x |            
+ -------------+-------+--------------
+ Clang 14.0.0 |     x |
 
  x = successfully ran "make check" and regression tests
  X = same as 'x' but denotes that this is the default system compiler
 
-SystemC 2.3.2 or later is required for GCC 6.* or later releases.
 An installation of UVM-SystemC on other, related platforms and not explictly
-tested compiler combinations may be possible. Please note that while the
-library still builds with non-C++11 compilers no further effort is spend to
-avoid C++11 constructs.
+tested compiler combinations may be possible. Please note that C++11
+compatibility is required to build UVM-SystemC.
 
 
 Sources for Compilers and Related Tools
@@ -54,13 +47,12 @@ Sources for Compilers and Related Tools
 To build, install, and use UVM-SystemC on UNIX platforms, you need
 the following tools:
 
-  1. GNU C++ compiler, version 4.8.5 (other versions may work as well as documented
-     above) or Clang compiler, version 3.7.0
+  1. GNU C++ compiler or Clang compiler with C++11 support.
 
   2. GNU Make (gmake)
 
   3. Accellera Systems Initiative SystemC reference implementation
-     version 2.3.0a or later (formerly known as OSCI reference implementation)
+     version 2.3.1, 2.3.2 or 2.3.3
 
 GCC, Clang, and gmake are free software that you can
 obtain from the following sources:
@@ -74,7 +66,7 @@ obtain from the following sources:
 The SystemC reference implementations are available under Apache License
 Version 2.0 and can be obtained from the following location:
 
-  SystemC 2.3.0a or later   http://www.accellera.org/downloads/standards/systemc
+  SystemC       https://www.accellera.org/downloads/standards/systemc
 
 Note: Various EDA vendors natively support SystemC. Please consult your EDA vendors
       to make use of the build-in SystemC capabilities of their simulation
@@ -179,6 +171,18 @@ To install UVM-SystemC on a Linux system, do the following steps:
         To uninstall the package, enter:
 
             > gmake uninstall
+
+
+Known issues
+============
+
+In case automake gets called during gmake and you end up with an
+error message complaining about automake incompatibilities: Please reset the
+timestamps of relevant files before step 5 of the basic installation steps
+above:
+
+    > touch aclocal.m4 configure
+    > find . -name Makefile.in -exec touch {} \;
 
 
 Running the Examples
@@ -337,18 +341,12 @@ Use the `--help' option to print a list.
 System Requirements
 ===================
 
-UVM-SystemC was tested on the following Windows platforms:
+UVM-SystemC was tested on the following Windows platforms against SystemC 2.3.3:
 
-            | VS    | GCC   | GCC   | GCC
- Platform   | 2015  | 4.9.4 | 7.4.0 | 10.1
- -------------------------------------------
- Windows 10 |   x   |       |       |
- Cygwin     |       |       |   x   |
- MinGW-w64  |       |   x   |       |  x
-
-SystemC 2.3.2 or later is required for GCC 6.* or later releases. An
-installation of UVM-SystemC on other, related platforms may be possible as
-well.
+            | VS   | VS   | MinGW64
+ Platform   | 2015 | 2019 | GCC 8.4
+ -----------------------------------
+ Windows 10 |   x  |   x  |    x
 
 Set the following environment variable(s) under Windows:
 
@@ -422,7 +420,7 @@ Creating UVM-SystemC Applications in Microsoft Visual Studio C++
 10. From the C/C++ tab, select the Command Line properties and add /vmg
     to the 'Additional Options:' box.
 
-11. From the Linjer tab, select the General properties and add to 
+11. From the Linker tab, select the General properties and add to 
     'Additional Library Directories' the path 
     '$(SYSTEMC)\SystemC\Release;$(UVMSYSTEMC)\uvmsc\Release;'
     

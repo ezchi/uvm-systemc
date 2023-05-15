@@ -57,9 +57,9 @@ namespace uvm {
   T peek( tlm::tlm_tag<T> *t = 0 ) const { return get_imp()->peek(); }
 
 #define UVM_NONBLOCKING_PUT_PORT_METHODS \
-  bool try_put(const T& val) { return get_imp()->imp->nb_put(val); } \
+  bool try_put(const T& val) { return get_imp()->nb_put(val); } \
   bool can_put() const { return get_imp()->nb_can_put(); } \
-  bool nb_put(const T& val) { return get_imp()->imp->nb_put(val); } \
+  bool nb_put(const T& val) { return get_imp()->nb_put(val); } \
   bool nb_can_put() const { return get_imp()->nb_can_put(); } \
   bool nb_can_put( tlm::tlm_tag<T> *t = 0 ) const { return get_imp()->nb_can_put(); } \
   const sc_core::sc_event& ok_to_put( tlm::tlm_tag<T> *t = 0 ) const { return get_imp()->ok_to_put(); }
