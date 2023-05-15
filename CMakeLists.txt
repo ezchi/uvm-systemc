@@ -219,7 +219,7 @@ add_subdirectory (src)
 
 
 ###############################################################################
-# Install README files
+# Install files
 ###############################################################################
 
 install (FILES AUTHORS
@@ -228,7 +228,7 @@ install (FILES AUTHORS
                LICENSE
                NEWS
                NOTICE
-               README
+               README.md
                RELEASENOTES
          DESTINATION ${CMAKE_INSTALL_DOCDIR}
          COMPONENT doc)
