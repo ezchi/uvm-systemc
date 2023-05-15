@@ -112,6 +112,11 @@ case "$target" in
                 TARGET_ARCH="macosxppc64"
                 CPU_ARCH="ppc64"
                 ;;
+            arm)
+                TARGET_ARCH="${TARGET_ARCH}arm"
+                CPU_ARCH="arm64"
+                QT_ARCH="pthreads"
+                ;;
             *)
                 AC_MSG_ERROR("sorry... architecture not supported.")
                 ;;
