@@ -65,7 +65,7 @@ public:
   }
 
   // added mandatory field functions
-  virtual void do_print(uvm::uvm_printer& printer)
+  virtual void do_print(const uvm::uvm_printer& printer) const
   {
     printer.print_field_int("min_addr", min_addr);
     printer.print_field_int("max_addr", max_addr);
@@ -96,7 +96,7 @@ public:
         && (max_addr == rhs_->max_addr));
   }
 
-  std::string convert2string()
+  std::string convert2string() const
   {
     std::ostringstream str;
     str << "min_addr=" << min_addr

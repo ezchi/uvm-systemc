@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------
 //   Copyright 2019 COSEDA Technologies GmbH
-//   Copyright 2012-2016 NXP B.V.
+//   Copyright 2012-2021 NXP B.V.
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
@@ -60,7 +60,7 @@ std::string uvm_vector_to_string(const uvm_integral_t& val,
                              const std::string& radix_str )
 {
   sc_dt::sc_uint_base reduced_value (val, size);
-  int value = reduced_value;
+  long value = reduced_value;
   std::ostringstream rstr;
   switch(radix) {
     case UVM_BIN:      // format "%0s%0b"
@@ -202,7 +202,7 @@ std::string uvm_leaf_scope( const std::string& full_name, const char* scope_sepa
   if( (bracket_match != '\0') && (bracket_match != full_name[full_name.length()-1]) )
     bracket_match = '\0';
 
-  for( pos = full_name.length()-1; pos != 0; --pos)
+  for( pos = (int)full_name.length()-1; pos != 0; --pos)
   {
     if( bracket_match == full_name[pos] )
       bmatches++;
@@ -269,7 +269,7 @@ const std::string uvm_string_queue_join( const std::vector<std::string>& q )
 std::string uvm_toupper( const std::string& str )
 {
   std::string s = str;
-  std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return std::toupper(c);});
+  std::transform(s.begin(), s.end(), s.begin(), [](const unsigned char c) { return std::toupper(c); });
   return s;
 }
 

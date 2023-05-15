@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2013 NXP B.V.
+//   Copyright 2013-2021 NXP B.V.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -55,7 +55,7 @@
 #include "uvmsc/reg/sequences/uvm_reg_bit_bash_seq.h"
 #include "uvmsc/reg/sequences/uvm_reg_mem_hdl_paths_seq.h"
 
-// dummy sc register
-#include "uvmsc/reg/uvm_sc_reg.h"
+// SystemC inspection interface
+#include "uvmsc/reg/uvm_sc_if.h"
 
 #endif /* UVM_REG_LAYER_H_ */

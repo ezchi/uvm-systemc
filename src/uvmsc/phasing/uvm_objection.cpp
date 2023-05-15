@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-//   Copyright 2014 Université Pierre et Marie Curie, Paris
+//   Copyright 2014 UniversitÃ© Pierre et Marie Curie, Paris
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
 //   Copyright 2012-2014 NXP B.V.
@@ -970,7 +970,7 @@ void uvm_objection::m_report( uvm_object* obj,
     std::string sname = source_obj->get_full_name();
     std::string nm = obj->get_full_name();
 
-    int max = sname.length() > nm.length() ? nm.length() : sname.length();
+    int max = sname.length() > nm.length() ? (int)nm.length() : (int)sname.length();
 
     // For readability, only print the part of the source obj hierarchy underneath
     // the current object.
@@ -1157,7 +1157,7 @@ std::string uvm_objection::m_display_objections( uvm_object* obj,
 
     // determine leaf name
     name = lit->first;
-    for (int i = lit->first.length()-1; i >= 0; i--)
+    for (int i = (int)lit->first.length()-1; i >= 0; i--)
       if (lit->first[i] == '.')
       {
          name = lit->first.substr(i+1, lit->first.length()-1);

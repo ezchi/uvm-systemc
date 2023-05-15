@@ -27,7 +27,7 @@ H_FILES += \
 	reg/uvm_reg_sequence.h \
 	reg/uvm_reg_tlm_adapter.h \
 	reg/uvm_reg_write_only_cbs.h \
-	reg/uvm_sc_reg.h \
+	reg/uvm_sc_if.h \
 	reg/uvm_vreg.h \
 	reg/uvm_vreg_cbs.h \
 	reg/uvm_vreg_field.h \

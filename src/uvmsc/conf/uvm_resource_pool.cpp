@@ -317,7 +317,7 @@ uvm_resource_types::rsrc_q_t* uvm_resource_pool::lookup_name(
 
   rq = rtab.find(name)->second; // rq = rtab[name];
 
-  for(int i = 0; i < rq->size(); i++)
+  for(int i = 0; i < (int)rq->size(); i++)
   {
     r = rq->get(i);
     // does the scope and type match?

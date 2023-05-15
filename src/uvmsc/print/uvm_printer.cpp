@@ -2,7 +2,7 @@
 //   Copyright 2019 COSEDA Technologies GmbH
 //   Copyright 2014 Fraunhofer-Gesellschaft zur Foerderung
 //					der angewandten Forschung e.V.
-//   Copyright 2012-2015 NXP B.V.
+//   Copyright 2012-2021 NXP B.V.
 //   Copyright 2007-2011 Mentor Graphics Corporation
 //   Copyright 2007-2011 Cadence Design Systems, Inc.
 //   Copyright 2010 Synopsys, Inc.
@@ -234,7 +234,7 @@ void uvm_printer::print_object( const std::string& name,
   print_object_header(name, obj, scope_separator);
 
   if( (knobs.depth == -1 || (knobs.depth > m_scope.depth())) &&
-        (objp->__m_uvm_status_container->cycle_check.find(objp) == objp->__m_uvm_status_container->cycle_check.end())
+        (objp->__m_uvm_status_container->cycle_check.find(objp) == objp->__m_uvm_status_container->cycle_check.end()) // not exists
     )
   {
     objp->__m_uvm_status_container->cycle_check[objp] = true;

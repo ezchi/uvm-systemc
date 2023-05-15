@@ -199,7 +199,7 @@ T uvm_queue<T>::get( int index )
 template <typename T>
 int uvm_queue<T>::size() const
 {
-  return queue.size();
+  return (int)queue.size();
 }
 
 
