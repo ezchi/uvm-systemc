@@ -4,8 +4,9 @@ project (UVMSystemC VERSION 0.1.3 LANGUAGES CXX)
 
 find_package(SystemCLanguage CONFIG REQUIRED)
 
-set (CMAKE_CXX_STANDARD ${SystemC_CXX_STANDARD} CACHE STRING
-  "C++ standard to build all targets. Supported values are 98, 11, and 14.")
+# set (CMAKE_CXX_STANDARD ${SystemC_CXX_STANDARD} CACHE STRING
+#  "C++ standard to build all targets. Supported values are 98, 11, and 14.")
+set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ${SystemC_CXX_STANDARD_REQUIRED} CACHE BOOL
     "The with CMAKE_CXX_STANDARD selected C++ standard is a requirement.")
 mark_as_advanced(CMAKE_CXX_STANDARD_REQUIRED)
